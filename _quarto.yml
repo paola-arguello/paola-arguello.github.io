@@ -1,0 +1,22 @@
+project:
+  type: website
+  output-dir: docs
+
+website:
+  title: "Paola Arguello"
+  navbar:
+    left:
+      - href: index.qmd
+        text: Home
+      - href: project.qmd
+        text: Clinical Genomics Workflow
+      - href: about.qmd
+        text: About
+    right:
+      - icon: github
+        href: https://github.com/YOURUSERNAME
+
+format:
+  html:
+    theme: cosmo
+    toc: true

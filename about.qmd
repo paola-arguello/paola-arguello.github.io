@@ -1,0 +1,21 @@
+---
+title: "About"
+---
+
+# About
+
+I recently completed an MSc in Medical Genetics at the University of British Columbia. My background combines genomics, statistical analysis, scientific communication, and collaborative research.
+
+## Skills
+
+- R
+- Python
+- Bash
+- SQL
+- HTML/CSS
+- Genomics data analysis
+- Research tool development
+
+## Interests
+
+I am interested in bioinformatics, biostatistics, reproducible workflows, and building tools that make complex analyses easier to interpret and use.

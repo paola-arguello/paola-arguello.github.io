@@ -1,0 +1,72 @@
+[
+  {
+    "objectID": "project.html",
+    "href": "project.html",
+    "title": "From Genomic Data to Clinical Insight",
+    "section": "",
+    "text": "This project outlines how I approach the design of a reproducible analysis workflow that connects genomic data processing, statistical analysis, and interpretable reporting.\n\n\nRaw Data → Quality Control → Processing → Statistical Analysis → Interpretation → Reporting\n\n\n\nClinical and research workflows need more than analysis alone. They also require data validation, reproducibility, and outputs that can be understood by collaborators with different backgrounds.\n\n\n\n\n\nChecking data quality, missingness, and consistency before downstream analysis.\n\n\n\nUsing statistical methods appropriate to the study design and research question.\n\n\n\nPlacing findings in context, including limitations and practical relevance.\n\n\n\nPresenting outputs in a form that supports communication, review, and reuse."
+  },
+  {
+    "objectID": "project.html#workflow-overview",
+    "href": "project.html#workflow-overview",
+    "title": "From Genomic Data to Clinical Insight",
+    "section": "",
+    "text": "Raw Data → Quality Control → Processing → Statistical Analysis → Interpretation → Reporting"
+  },
+  {
+    "objectID": "project.html#why-this-matters",
+    "href": "project.html#why-this-matters",
+    "title": "From Genomic Data to Clinical Insight",
+    "section": "",
+    "text": "Clinical and research workflows need more than analysis alone. They also require data validation, reproducibility, and outputs that can be understood by collaborators with different backgrounds."
+  },
+  {
+    "objectID": "project.html#key-components",
+    "href": "project.html#key-components",
+    "title": "From Genomic Data to Clinical Insight",
+    "section": "",
+    "text": "Checking data quality, missingness, and consistency before downstream analysis.\n\n\n\nUsing statistical methods appropriate to the study design and research question.\n\n\n\nPlacing findings in context, including limitations and practical relevance.\n\n\n\nPresenting outputs in a form that supports communication, review, and reuse."
+  },
+  {
+    "objectID": "about.html",
+    "href": "about.html",
+    "title": "About",
+    "section": "",
+    "text": "I recently completed an MSc in Medical Genetics at the University of British Columbia. My background combines genomics, statistical analysis, scientific communication, and collaborative research.\n\n\n\nR\nPython\nBash\nSQL\nHTML/CSS\nGenomics data analysis\nResearch tool development\n\n\n\n\nI am interested in bioinformatics, biostatistics, reproducible workflows, and building tools that make complex analyses easier to interpret and use."
+  },
+  {
+    "objectID": "about.html#skills",
+    "href": "about.html#skills",
+    "title": "About",
+    "section": "",
+    "text": "R\nPython\nBash\nSQL\nHTML/CSS\nGenomics data analysis\nResearch tool development"
+  },
+  {
+    "objectID": "about.html#interests",
+    "href": "about.html#interests",
+    "title": "About",
+    "section": "",
+    "text": "I am interested in bioinformatics, biostatistics, reproducible workflows, and building tools that make complex analyses easier to interpret and use."
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Home",
+    "section": "",
+    "text": "I am an MSc graduate in Medical Genetics with experience in genomics, statistical analysis, and research tool development.\nMy work sits at the intersection of bioinformatics, biostatistics, and scientific communication. I am especially interested in building reproducible analytical workflows, translating complex datasets into interpretable results, and creating tools that support research and clinical decision-making.\n\n\nFrom Genomic Data to Clinical Insight\n\n\n\n\nGenomics and health data analysis\nStatistical reasoning and interpretation\nResearch tool and workflow design\nClear communication for technical and non-technical audiences"
+  },
+  {
+    "objectID": "index.html#featured-project",
+    "href": "index.html#featured-project",
+    "title": "Home",
+    "section": "",
+    "text": "From Genomic Data to Clinical Insight"
+  },
+  {
+    "objectID": "index.html#what-this-site-shows",
+    "href": "index.html#what-this-site-shows",
+    "title": "Home",
+    "section": "",
+    "text": "Genomics and health data analysis\nStatistical reasoning and interpretation\nResearch tool and workflow design\nClear communication for technical and non-technical audiences"
+  }
+]
