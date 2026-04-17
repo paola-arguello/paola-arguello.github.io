@@ -1,72 +1,114 @@
 [
   {
-    "objectID": "project.html",
-    "href": "project.html",
-    "title": "From Genomic Data to Clinical Insight",
-    "section": "",
-    "text": "This project outlines how I approach the design of a reproducible analysis workflow that connects genomic data processing, statistical analysis, and interpretable reporting.\n\n\nRaw Data → Quality Control → Processing → Statistical Analysis → Interpretation → Reporting\n\n\n\nClinical and research workflows need more than analysis alone. They also require data validation, reproducibility, and outputs that can be understood by collaborators with different backgrounds.\n\n\n\n\n\nChecking data quality, missingness, and consistency before downstream analysis.\n\n\n\nUsing statistical methods appropriate to the study design and research question.\n\n\n\nPlacing findings in context, including limitations and practical relevance.\n\n\n\nPresenting outputs in a form that supports communication, review, and reuse."
-  },
-  {
-    "objectID": "project.html#workflow-overview",
-    "href": "project.html#workflow-overview",
-    "title": "From Genomic Data to Clinical Insight",
-    "section": "",
-    "text": "Raw Data → Quality Control → Processing → Statistical Analysis → Interpretation → Reporting"
-  },
-  {
-    "objectID": "project.html#why-this-matters",
-    "href": "project.html#why-this-matters",
-    "title": "From Genomic Data to Clinical Insight",
-    "section": "",
-    "text": "Clinical and research workflows need more than analysis alone. They also require data validation, reproducibility, and outputs that can be understood by collaborators with different backgrounds."
-  },
-  {
-    "objectID": "project.html#key-components",
-    "href": "project.html#key-components",
-    "title": "From Genomic Data to Clinical Insight",
-    "section": "",
-    "text": "Checking data quality, missingness, and consistency before downstream analysis.\n\n\n\nUsing statistical methods appropriate to the study design and research question.\n\n\n\nPlacing findings in context, including limitations and practical relevance.\n\n\n\nPresenting outputs in a form that supports communication, review, and reuse."
-  },
-  {
-    "objectID": "about.html",
-    "href": "about.html",
-    "title": "About",
-    "section": "",
-    "text": "I recently completed an MSc in Medical Genetics at the University of British Columbia. My background combines genomics, statistical analysis, scientific communication, and collaborative research.\n\n\n\nR\nPython\nBash\nSQL\nHTML/CSS\nGenomics data analysis\nResearch tool development\n\n\n\n\nI am interested in bioinformatics, biostatistics, reproducible workflows, and building tools that make complex analyses easier to interpret and use."
-  },
-  {
-    "objectID": "about.html#skills",
-    "href": "about.html#skills",
-    "title": "About",
-    "section": "",
-    "text": "R\nPython\nBash\nSQL\nHTML/CSS\nGenomics data analysis\nResearch tool development"
-  },
-  {
-    "objectID": "about.html#interests",
-    "href": "about.html#interests",
-    "title": "About",
-    "section": "",
-    "text": "I am interested in bioinformatics, biostatistics, reproducible workflows, and building tools that make complex analyses easier to interpret and use."
-  },
-  {
     "objectID": "index.html",
     "href": "index.html",
     "title": "Home",
     "section": "",
-    "text": "I am an MSc graduate in Medical Genetics with experience in genomics, statistical analysis, and research tool development.\nMy work sits at the intersection of bioinformatics, biostatistics, and scientific communication. I am especially interested in building reproducible analytical workflows, translating complex datasets into interpretable results, and creating tools that support research and clinical decision-making.\n\n\nFrom Genomic Data to Clinical Insight\n\n\n\n\nGenomics and health data analysis\nStatistical reasoning and interpretation\nResearch tool and workflow design\nClear communication for technical and non-technical audiences"
+    "text": "I build analytical workflows that connect data processing, statistical analysis, and interpretation. My portfolio focuses on reproducible bioinformatics and clear reasoning about what results do and do not support.\n\n\n\n\nThis project combines a lightweight RNA-seq workflow demo with an interactive Shiny app on odds ratios, uncertainty, and sample size. Together, they show how raw data become structured outputs and how those outputs become interpretable evidence.\nView the project\n\n\n\n\n\nRNA-seq\nNextflow-style workflow design\nR and Shiny\nDESeq2\nQuarto\nReproducible analysis\nStatistical interpretation"
   },
   {
     "objectID": "index.html#featured-project",
     "href": "index.html#featured-project",
     "title": "Home",
     "section": "",
-    "text": "From Genomic Data to Clinical Insight"
+    "text": "This project combines a lightweight RNA-seq workflow demo with an interactive Shiny app on odds ratios, uncertainty, and sample size. Together, they show how raw data become structured outputs and how those outputs become interpretable evidence.\nView the project"
   },
   {
-    "objectID": "index.html#what-this-site-shows",
-    "href": "index.html#what-this-site-shows",
+    "objectID": "index.html#tools-and-themes",
+    "href": "index.html#tools-and-themes",
     "title": "Home",
     "section": "",
-    "text": "Genomics and health data analysis\nStatistical reasoning and interpretation\nResearch tool and workflow design\nClear communication for technical and non-technical audiences"
+    "text": "RNA-seq\nNextflow-style workflow design\nR and Shiny\nDESeq2\nQuarto\nReproducible analysis\nStatistical interpretation"
+  },
+  {
+    "objectID": "about.html",
+    "href": "about.html",
+    "title": "About",
+    "section": "",
+    "text": "I am a genomics and data analysis researcher with training in bioinformatics, statistical analysis, and reproducible workflow design. My work sits at the intersection of biological data, computation, and interpretation.\nI am especially interested in roles where technical analysis needs to be both rigorous and understandable, including bioinformatics, applied genomics, and biostatistical analysis. I enjoy building systems that make complex data easier to process, interpret, and communicate clearly.\nThis portfolio highlights a practical theme that runs across much of my work: turning complex data into reliable, interpretable outputs.\n\n\n\nGitHub\nLinkedIn"
+  },
+  {
+    "objectID": "about.html#links",
+    "href": "about.html#links",
+    "title": "About",
+    "section": "",
+    "text": "GitHub\nLinkedIn"
+  },
+  {
+    "objectID": "projects/genomics-to-insight.html",
+    "href": "projects/genomics-to-insight.html",
+    "title": "From genomic data to statistical interpretation",
+    "section": "",
+    "text": "This project was built as a compact portfolio demonstration of an idea that sits at the center of modern bioinformatics and biostatistics: data alone are not enough. To generate meaningful insight, we need both a reliable computational workflow to process raw data and a statistical framework to evaluate what the results actually mean.\nThis page brings together two connected components:\n\nA lightweight RNA-seq workflow demo showing how raw sequencing reads move through quality control, processing, and quantification\n\nAn interactive Shiny app showing how statistical evidence is interpreted through effect sizes, confidence intervals, and sample size\n\nTogether, they illustrate a full analytical story: from data generation to interpretation."
+  },
+  {
+    "objectID": "projects/genomics-to-insight.html#overview",
+    "href": "projects/genomics-to-insight.html#overview",
+    "title": "From genomic data to statistical interpretation",
+    "section": "",
+    "text": "This project was built as a compact portfolio demonstration of an idea that sits at the center of modern bioinformatics and biostatistics: data alone are not enough. To generate meaningful insight, we need both a reliable computational workflow to process raw data and a statistical framework to evaluate what the results actually mean.\nThis page brings together two connected components:\n\nA lightweight RNA-seq workflow demo showing how raw sequencing reads move through quality control, processing, and quantification\n\nAn interactive Shiny app showing how statistical evidence is interpreted through effect sizes, confidence intervals, and sample size\n\nTogether, they illustrate a full analytical story: from data generation to interpretation."
+  },
+  {
+    "objectID": "projects/genomics-to-insight.html#problem",
+    "href": "projects/genomics-to-insight.html#problem",
+    "title": "From genomic data to statistical interpretation",
+    "section": "1. Problem",
+    "text": "1. Problem\nGenomic datasets are complex, high dimensional, and sensitive to processing choices. Before any biological or clinical conclusion can be made, raw data must first be transformed into structured, analyzable outputs through a reproducible pipeline. Even then, the work is not finished. Statistical analysis is needed to evaluate whether an observed pattern is meaningful, how uncertain it is, and how strongly it should inform a decision.\nThis matters because strong-looking results are not always reliable, and statistically significant results are not always important in practice. In both research and applied genomics settings, good analysis depends on two things working together:\n\na transparent and reproducible data-processing workflow\na clear statistical interpretation framework\n\nThis portfolio project was designed to show both."
+  },
+  {
+    "objectID": "projects/genomics-to-insight.html#workflow-overview",
+    "href": "projects/genomics-to-insight.html#workflow-overview",
+    "title": "From genomic data to statistical interpretation",
+    "section": "2. Workflow overview",
+    "text": "2. Workflow overview\nAt a high level, the analytical process looks like this:\nRaw sequencing data → quality control → read processing → alignment / quantification → structured outputs → statistical analysis → interpretation\n\n\n\nWorkflow diagram\n\n\nThe first half of this process focuses on computational reproducibility: making sure that data are processed consistently, with clear inputs, outputs, and assumptions.\nThe second half focuses on statistical reasoning: understanding effect size, uncertainty, and the practical meaning of the result."
+  },
+  {
+    "objectID": "projects/genomics-to-insight.html#rna-seq-pipeline-section",
+    "href": "projects/genomics-to-insight.html#rna-seq-pipeline-section",
+    "title": "From genomic data to statistical interpretation",
+    "section": "3. RNA-seq pipeline section",
+    "text": "3. RNA-seq pipeline section\n\nPurpose\nThe RNA-seq component demonstrates how raw sequencing reads can be organized into a lightweight but realistic workflow for differential expression analysis. The goal was not to build a production-scale pipeline, but to show sound workflow design, reproducibility, and clear data flow.\n\n\nIncluded steps\nThe pipeline structure includes the core stages commonly used in RNA-seq analysis:\n\nQuality control with FastQC\nRead trimming\nAlignment with STAR\nCounting with featureCounts\nDifferential expression analysis with DESeq2\n\n\n\nWhy this matters\nIn bioinformatics work, the value of a pipeline is not only in whether it runs, but in whether it is understandable, reproducible, and easy to extend. For that reason, this demo emphasizes:\n\nmodular workflow structure\nexplicit inputs and outputs\nparameterization\nenvironment specification\nrealistic organization of files and steps\n\nThese choices make it easier to inspect how data move through the system and how results were generated.\n\n\nReproducibility signals\nThe workflow is intentionally structured to highlight reproducibility practices, including:\n\na Nextflow-style organization\na central workflow file\nconfigurable parameters\nenvironment definition\ndocumented execution steps\nclear folder structure for inputs, outputs, and intermediate results\n\n\n\nExample output\n\n\n\nRNA-seq workflow output\n\n\n\n\nRepository\nThe code for the RNA-seq demo is available here:\nView the RNA-seq workflow repository"
+  },
+  {
+    "objectID": "projects/genomics-to-insight.html#statistical-analysis-section",
+    "href": "projects/genomics-to-insight.html#statistical-analysis-section",
+    "title": "From genomic data to statistical interpretation",
+    "section": "4. Statistical analysis section",
+    "text": "4. Statistical analysis section\n\nPurpose\nOnce processed data have been transformed into analyzable outputs, the next challenge is interpretation. The statistical component of this portfolio focuses on a simple but important question:\nWhen does an observed association represent meaningful evidence?\nTo explore that question, I built an interactive Shiny app around a case-control genetics scenario. The app allows users to vary the number of cases, controls, and variant carriers, and then observe how the estimated association changes.\n\n\nCore concepts\nThe app focuses on a small number of high-value concepts:\n\nodds ratios as measures of association\nconfidence intervals as measures of uncertainty\nthe role of sample size in shaping precision\nthe difference between apparent signal and interpretable evidence\n\nThis section was designed to make statistical reasoning more visible and accessible rather than treating model output as self-explanatory.\n\n\nWhy this matters\nIn genomics and health data analysis, interpretation often fails when numerical results are presented without context. A point estimate by itself can be misleading. A statistically significant result may still be unstable, small in magnitude, or difficult to interpret in practice. Conversely, a potentially important effect may appear inconclusive if the sample size is too limited.\nThis is why I wanted the statistical component of the portfolio to center not only on calculation, but on interpretation.\n\n\nApp preview\n\n\n\nShiny app screenshot\n\n\n\n\nLive app / repository\nOpen the Shiny app\nView the app source code"
+  },
+  {
+    "objectID": "projects/genomics-to-insight.html#interpretation-section",
+    "href": "projects/genomics-to-insight.html#interpretation-section",
+    "title": "From genomic data to statistical interpretation",
+    "section": "5. Interpretation section",
+    "text": "5. Interpretation section\nThis project is ultimately about how analytical outputs become useful evidence.\nA well-structured pipeline can produce clean counts, summary tables, and differential expression results. A statistical app can calculate odds ratios and confidence intervals. But the key step is understanding what those outputs support and what they do not.\nThere are three ideas I wanted to make especially clear in this portfolio:\n\nEffect size matters\nA result is more informative when we understand the magnitude of the observed effect, not only whether it crosses a significance threshold. In practice, the size of an effect often matters more than the binary label of “significant” or “not significant.”\n\n\nUncertainty matters\nConfidence intervals provide context that a single estimate cannot. They show how precise the estimate is and whether multiple plausible interpretations remain compatible with the data.\n\n\nContext matters\nResults do not exist in isolation. Their meaning depends on study design, sample size, data quality, assumptions, and the specific question being asked. Analytical outputs should support judgment, not replace it.\nIn research and clinical-adjacent settings, this kind of interpretation is essential. Decisions are rarely based on one number alone. They rely on a combination of workflow quality, statistical evidence, and domain context."
+  },
+  {
+    "objectID": "projects/genomics-to-insight.html#data-and-context",
+    "href": "projects/genomics-to-insight.html#data-and-context",
+    "title": "From genomic data to statistical interpretation",
+    "section": "6. Data and context",
+    "text": "6. Data and context\nThis portfolio project uses public, example, or simulated data for demonstration purposes.\nThe goal is not to reproduce a specific biological finding or clinical result, but to illustrate the structure of an end-to-end analytical workflow and the reasoning used to interpret outputs responsibly.\nAlthough simplified, the components reflect the kinds of practices used in research and applied genomics settings:\n\ntransforming raw data into structured outputs\nmaintaining reproducibility and transparency\nevaluating statistical evidence with attention to uncertainty\npresenting results in a way that supports interpretation\n\nThis makes the project suitable as a compact demonstration of workflow thinking rather than as a production or diagnostic system."
+  },
+  {
+    "objectID": "projects/genomics-to-insight.html#design-decisions",
+    "href": "projects/genomics-to-insight.html#design-decisions",
+    "title": "From genomic data to statistical interpretation",
+    "section": "7. Design decisions",
+    "text": "7. Design decisions\nThis site was intentionally designed to be minimal.\n\nWhy only one main project page?\nBecause the strongest version of this portfolio is not a list of disconnected tools. It is a single analytical narrative. The RNA-seq workflow and the Shiny app are presented together because they address different parts of the same problem.\n\n\nWhy keep the examples lightweight?\nGiven the time constraint, the priority was clarity over scale. A smaller, well-explained project is more convincing than a larger project with weak framing or incomplete documentation.\n\n\nWhy emphasize interpretation?\nMany technical portfolios stop at computation. I wanted this one to show the next step: how outputs are evaluated, communicated, and connected back to the original question.\n\n\nTrade-offs and assumptions\nThis project makes several simplifying choices:\n\nthe RNA-seq workflow is a compact demonstration rather than a production pipeline\nthe statistical app focuses on one concept deeply rather than covering many methods superficially\nexamples are chosen for interpretability and communication value\npublic or simulated data are used to avoid privacy concerns and keep the project shareable\n\nThese trade-offs were deliberate. The goal was to build a portfolio piece that is realistic, focused, and easy to understand."
+  },
+  {
+    "objectID": "projects/genomics-to-insight.html#what-this-project-demonstrates",
+    "href": "projects/genomics-to-insight.html#what-this-project-demonstrates",
+    "title": "From genomic data to statistical interpretation",
+    "section": "What this project demonstrates",
+    "text": "What this project demonstrates\nAcross both components, this portfolio highlights the following strengths:\n\nworkflow design and reproducibility\nclear input-to-output reasoning\nstatistical interpretation beyond surface-level computation\ncommunication across technical and non-technical audiences\npractical awareness of assumptions and limitations"
+  },
+  {
+    "objectID": "projects/genomics-to-insight.html#next-steps",
+    "href": "projects/genomics-to-insight.html#next-steps",
+    "title": "From genomic data to statistical interpretation",
+    "section": "Next steps",
+    "text": "Next steps\nPotential future extensions include:\n\nadding a more detailed workflow diagram\nexpanding the RNA-seq demo with richer summary outputs\nintegrating example downstream plots from differential expression analysis\nadding a short methods appendix for technically interested readers\n\nFor now, the site is intentionally scoped to present one clear idea well: how raw genomic data become interpretable statistical evidence."
   }
 ]

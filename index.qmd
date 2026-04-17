@@ -1,20 +1,26 @@
 ---
 title: "Home"
+format: html
 ---
 
-# Hi, I’m Paola Arguello
+# From genomic data to interpretable evidence
 
-I am an MSc graduate in Medical Genetics with experience in genomics, statistical analysis, and research tool development.
-
-My work sits at the intersection of bioinformatics, biostatistics, and scientific communication. I am especially interested in building reproducible analytical workflows, translating complex datasets into interpretable results, and creating tools that support research and clinical decision-making.
+I build analytical workflows that connect **data processing, statistical analysis, and interpretation**. My portfolio focuses on reproducible bioinformatics and clear reasoning about what results do and do not support.
 
 ## Featured project
 
-[From Genomic Data to Clinical Insight](project.qmd)
+### From genomic data to statistical interpretation
 
-## What this site shows
+This project combines a lightweight RNA-seq workflow demo with an interactive Shiny app on odds ratios, uncertainty, and sample size. Together, they show how raw data become structured outputs and how those outputs become interpretable evidence.
 
--   Genomics and health data analysis
--   Statistical reasoning and interpretation
--   Research tool and workflow design
--   Clear communication for technical and non-technical audiences
+[View the project](projects/genomics-to-insight.qmd)
+
+## Tools and themes
+
+- RNA-seq
+- Nextflow-style workflow design
+- R and Shiny
+- DESeq2
+- Quarto
+- Reproducible analysis
+- Statistical interpretation

@@ -8,7 +8,7 @@ website:
     left:
       - href: index.qmd
         text: Home
-      - href: project.qmd
+      - href: projects/genomics-to-insight.qmd
         text: Clinical Genomics Workflow
       - href: about.qmd
         text: About
