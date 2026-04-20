@@ -14,7 +14,7 @@ website:
         text: About
     right:
       - icon: github
-        href: https://github.com/YOURUSERNAME
+        href: https://github.com/paola-arguello
 
 format:
   html:

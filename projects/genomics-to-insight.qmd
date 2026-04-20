@@ -84,7 +84,10 @@ The workflow is intentionally structured to highlight reproducibility practices,
 
 ### Example output
 
-![RNA-seq workflow output](../images/rnaseq-screenshot.png)
+![PCA plot](../images/pca_plot.png)
+
+
+![Volcano plot](../images/volcano_plot.png)
 
 ### Repository
 
@@ -127,8 +130,8 @@ This is why I wanted the statistical component of the portfolio to center not on
 
 ### Live app / repository
 
-[Open the Shiny app](https://your-shiny-app-link-here)  
-[View the app source code](https://github.com/paola-arguello/YOUR-SHINY-REPO)
+[Open the Shiny app](https://paola-arguello-pascualli.shinyapps.io/genetic-association-shiny/)  
+[View the app source code](https://github.com/paola-arguello/genetic-association-shiny)
 
 ---
 
