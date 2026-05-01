@@ -1,31 +1,220 @@
 [
   {
+    "objectID": "crosswalk/index.html",
+    "href": "crosswalk/index.html",
+    "title": "The Crosswalk",
+    "section": "",
+    "text": "The Crosswalk is the thinking layer of Lunaland.\nThese short posts connect technical work to interpretation, uncertainty and communication."
+  },
+  {
+    "objectID": "crosswalk/index.html#posts",
+    "href": "crosswalk/index.html#posts",
+    "title": "The Crosswalk",
+    "section": "Posts",
+    "text": "Posts\n\nExample Post\nA short field note about how small data decisions can shape biological interpretation.\nRelated concepts: uncertainty, interpretation, reproducibility\nRelated projects: RNA-seq Workflow Demo\nRelated pitfalls: Wrong Genome Build"
+  },
+  {
+    "objectID": "crosswalk/index.html#categories",
+    "href": "crosswalk/index.html#categories",
+    "title": "The Crosswalk",
+    "section": "Categories",
+    "text": "Categories\n\nEvidence & Uncertainty\nBioinformatics Pitfalls\nVisual Statistics\nCross-Discipline Curiosity\nScientific Communication"
+  },
+  {
     "objectID": "index.html",
     "href": "index.html",
-    "title": "Home",
+    "title": "Lunaland",
     "section": "",
-    "text": "I build analytical workflows that connect data processing, statistical analysis, and interpretation. My portfolio focuses on reproducible bioinformatics and clear reasoning about what results do and do not support.\n\n\n\n\nThis project combines a lightweight RNA-seq workflow demo with an interactive Shiny app on odds ratios, uncertainty, and sample size. Together, they show how raw data become structured outputs and how those outputs become interpretable evidence.\nView the project\n\n\n\n\n\nRNA-seq\nNextflow-style workflow design\nR and Shiny\nDESeq2\nQuarto\nReproducible analysis\nStatistical interpretation"
+    "text": "Lunaland is a portfolio ecosystem about turning complex biological data into interpretable, usable insight.\nIt connects workflow development, statistical interpretation, bioinformatics judgment and science communication into one coherent story."
   },
   {
-    "objectID": "index.html#featured-project",
-    "href": "index.html#featured-project",
-    "title": "Home",
-    "section": "",
-    "text": "This project combines a lightweight RNA-seq workflow demo with an interactive Shiny app on odds ratios, uncertainty, and sample size. Together, they show how raw data become structured outputs and how those outputs become interpretable evidence.\nView the project"
+    "objectID": "index.html#explore",
+    "href": "index.html#explore",
+    "title": "Lunaland",
+    "section": "Explore",
+    "text": "Explore\n\n\nProjects\nReproducible workflows, Shiny apps and practical data interpretation tools.\nProjects show what I can build.\n\n\nBioinformatics Pitfalls Lab\nSmall practical modules about common mistakes in bioinformatics analysis.\nThe Pitfalls Lab shows my judgment.\n\n\nThe Crosswalk\nShort field notes from the intersections of biology, data, statistics and curiosity.\nField Notes show how I think.\n\n\nConcept Atlas\nA lightweight map of recurring concepts across the portfolio.\nThe Atlas shows how ideas connect."
   },
   {
-    "objectID": "index.html#tools-and-themes",
-    "href": "index.html#tools-and-themes",
-    "title": "Home",
+    "objectID": "index.html#the-organizing-idea",
+    "href": "index.html#the-organizing-idea",
+    "title": "Lunaland",
+    "section": "The organizing idea",
+    "text": "The organizing idea\nBiological data rarely moves cleanly from experiment to conclusion. It passes through quality control, assumptions, metadata, uncertainty, statistical modeling and communication.\nThis site documents that path."
+  },
+  {
+    "objectID": "projects/index.html",
+    "href": "projects/index.html",
+    "title": "Projects",
     "section": "",
-    "text": "RNA-seq\nNextflow-style workflow design\nR and Shiny\nDESeq2\nQuarto\nReproducible analysis\nStatistical interpretation"
+    "text": "Projects are the build layer of Lunaland: reproducible workflows, statistical explainers and interactive tools."
+  },
+  {
+    "objectID": "projects/index.html#featured-projects",
+    "href": "projects/index.html#featured-projects",
+    "title": "Projects",
+    "section": "Featured projects",
+    "text": "Featured projects\n\nRNA-seq Workflow Demo\nA compact reproducible RNA-seq workflow showing how raw sequencing data moves through quality control, alignment, quantification and interpretation.\nRelated concepts: reproducibility, quality control, differential expression, workflow design\nRelated pitfalls: mismatched annotation file, low counts and overinterpretation\nRelated Crosswalk posts: interpreting uncertainty in genomic analysis\n\n\n\nShiny Statistical Explainer\nAn interactive app explaining odds ratios, confidence intervals and sample size in genetic association studies.\nRelated concepts: uncertainty, confidence intervals, effect size, statistical significance\nRelated pitfalls: low counts and overinterpretation\nRelated Crosswalk posts: when is a result meaningful?"
+  },
+  {
+    "objectID": "pitfalls/batch-effects.html",
+    "href": "pitfalls/batch-effects.html",
+    "title": "Batch Effects",
+    "section": "",
+    "text": "Treating technical structure in the data as biological signal.\nThe classic version: samples cluster cleanly, groups separate nicely, and the result looks convincing.\nBut the separation is driven by when, where or how the samples were processed, not by biology."
+  },
+  {
+    "objectID": "pitfalls/batch-effects.html#the-mistake",
+    "href": "pitfalls/batch-effects.html#the-mistake",
+    "title": "Batch Effects",
+    "section": "",
+    "text": "Treating technical structure in the data as biological signal.\nThe classic version: samples cluster cleanly, groups separate nicely, and the result looks convincing.\nBut the separation is driven by when, where or how the samples were processed, not by biology."
+  },
+  {
+    "objectID": "pitfalls/batch-effects.html#why-it-happens",
+    "href": "pitfalls/batch-effects.html#why-it-happens",
+    "title": "Batch Effects",
+    "section": "Why it happens",
+    "text": "Why it happens\nMost datasets are not generated under perfectly controlled conditions.\nCommon sources:\n\nsamples processed on different days\nsequencing runs split across lanes\nlibrary prep done in batches\ndifferent technicians or centers\ncase and control groups handled at different times\n\nThe critical failure is not the presence of batch effects.\nIt is when batch and biological condition overlap.\nAt that point, the data cannot tell you which is which."
+  },
+  {
+    "objectID": "pitfalls/batch-effects.html#what-breaks",
+    "href": "pitfalls/batch-effects.html#what-breaks",
+    "title": "Batch Effects",
+    "section": "What breaks",
+    "text": "What breaks\nBatch effects don’t just add noise. They add structure.\nThat structure can:\n\ncreate artificial separation between groups\ninflate differential expression results\nhide real biological signal\nmake models look more confident than they should be\n\nThe dangerous part is that everything can look “clean”:\n\nPCA plots show tight clusters\n\nvolcano plots show strong hits\n\nmodels converge without warnings\n\nBut the interpretation is wrong."
+  },
+  {
+    "objectID": "pitfalls/batch-effects.html#how-to-detect-it",
+    "href": "pitfalls/batch-effects.html#how-to-detect-it",
+    "title": "Batch Effects",
+    "section": "How to detect it",
+    "text": "How to detect it\nThis usually shows up during exploratory analysis.\nThings that have saved me more than once:\n\nPCA colored by both condition and batch\nchecking whether samples cluster by sequencing date instead of phenotype\nlooking at metadata early, not after modeling\ncounting how many batches exist per group\n\nA simple but critical question:\n\nIf I remove the condition labels, would I still see the same clusters?\n\nIf yes, something else is driving the structure."
+  },
+  {
+    "objectID": "pitfalls/batch-effects.html#how-to-prevent-it",
+    "href": "pitfalls/batch-effects.html#how-to-prevent-it",
+    "title": "Batch Effects",
+    "section": "How to prevent it",
+    "text": "How to prevent it\nSome problems are fixable. Some are not.\nGood habits:\n\nrecord batch variables in metadata (date, lane, center, prep)\nbalance cases and controls across batches when possible\ncheck for confounding before modeling\ninclude batch terms in the model only when design allows it\ndocument limitations when batch and condition are inseparable\n\nThe uncomfortable truth:\n\nIf batch and condition are perfectly confounded, no statistical method can fully recover the biology.\n\nAt that point, interpretation needs to be cautious, not clever."
+  },
+  {
+    "objectID": "pitfalls/batch-effects.html#tiny-demo",
+    "href": "pitfalls/batch-effects.html#tiny-demo",
+    "title": "Batch Effects",
+    "section": "Tiny demo",
+    "text": "Tiny demo\nA minimal example of how misleading structure can look:\n\n\n\nsample\ncondition\nbatch\nPC1 (sketch)\n\n\n\n\nS1\ncase\nbatch1\n-5\n\n\nS2\ncase\nbatch1\n-4\n\n\nS3\ncontrol\nbatch2\n4\n\n\nS4\ncontrol\nbatch2\n5\n\n\n\nIf you color by condition:\n\ncases cluster together\n\ncontrols cluster together\n\nLooks biological.\nIf you color by batch:\n\nbatch1 vs batch2 separation is identical\n\nThe plot did not lie.\nIt just answered a different question."
+  },
+  {
+    "objectID": "pitfalls/batch-effects.html#suggested-figure",
+    "href": "pitfalls/batch-effects.html#suggested-figure",
+    "title": "Batch Effects",
+    "section": "Suggested figure",
+    "text": "Suggested figure\nTwo PCA plots side by side:\n\nleft: colored by condition → clean separation\n\nright: colored by batch → same separation\n\nCaption:\n\nThe same structure can support two different stories depending on what you color by."
+  },
+  {
+    "objectID": "pitfalls/batch-effects.html#related-project",
+    "href": "pitfalls/batch-effects.html#related-project",
+    "title": "Batch Effects",
+    "section": "Related project",
+    "text": "Related project\n/projects/rnaseq-workflow-demo.qmd\nRelevant workflow section:\nStatistical analysis → interpretation\nThis is where patterns are interpreted and where batch effects can silently turn technical variation into biological claims."
+  },
+  {
+    "objectID": "pitfalls/batch-effects.html#related-crosswalk-post",
+    "href": "pitfalls/batch-effects.html#related-crosswalk-post",
+    "title": "Batch Effects",
+    "section": "Related Crosswalk post",
+    "text": "Related Crosswalk post\n/crosswalk/posts/when-patterns-are-not-biology.qmd\nWorking idea:\nWhen patterns are not biology: the illusion of clean data"
+  },
+  {
+    "objectID": "pitfalls/batch-effects.html#related-concept-atlas-entries",
+    "href": "pitfalls/batch-effects.html#related-concept-atlas-entries",
+    "title": "Batch Effects",
+    "section": "Related Concept Atlas entries",
+    "text": "Related Concept Atlas entries\n\nBatch effect\n\nConfounding\n\nPCA\n\nExperimental design\n\nDifferential expression\n\nBiological interpretation"
+  },
+  {
+    "objectID": "pitfalls/wrong-genome-build.html",
+    "href": "pitfalls/wrong-genome-build.html",
+    "title": "Wrong Genome Build",
+    "section": "",
+    "text": "A workflow uses genomic coordinates, variants or annotations from one genome build while interpreting them against another.\nFor example, a file may contain coordinates based on GRCh37/hg19, but the analysis assumes GRCh38/hg38.\nThis can look harmless because the chromosome names and positions still appear valid. The problem is that the same coordinate can refer to a different genomic context depending on the reference build."
+  },
+  {
+    "objectID": "pitfalls/wrong-genome-build.html#the-mistake",
+    "href": "pitfalls/wrong-genome-build.html#the-mistake",
+    "title": "Wrong Genome Build",
+    "section": "",
+    "text": "A workflow uses genomic coordinates, variants or annotations from one genome build while interpreting them against another.\nFor example, a file may contain coordinates based on GRCh37/hg19, but the analysis assumes GRCh38/hg38.\nThis can look harmless because the chromosome names and positions still appear valid. The problem is that the same coordinate can refer to a different genomic context depending on the reference build."
+  },
+  {
+    "objectID": "pitfalls/wrong-genome-build.html#why-it-happens",
+    "href": "pitfalls/wrong-genome-build.html#why-it-happens",
+    "title": "Wrong Genome Build",
+    "section": "Why it happens",
+    "text": "Why it happens\nGenome build mismatches often happen when data are combined from multiple sources.\nCommon causes include:\n\ndownloading public data without checking the reference build\nmixing older variant resources with newer annotations\nreusing BED, GTF or VCF files from a previous project\nassuming chr1 versus 1 is the main compatibility issue\nlosing reference build information during file transfer or preprocessing\n\nThe mistake is easy to miss because many tools will still run."
+  },
+  {
+    "objectID": "pitfalls/wrong-genome-build.html#what-breaks",
+    "href": "pitfalls/wrong-genome-build.html#what-breaks",
+    "title": "Wrong Genome Build",
+    "section": "What breaks",
+    "text": "What breaks\nA wrong genome build can affect both technical outputs and biological interpretation.\nIt can lead to:\n\nvariants mapped to the wrong gene or regulatory region\nincorrect overlap with promoters, enhancers or exons\nmissing or false-positive intersections in BEDTools-style analyses\nmisleading annotation of genomic bins\nincorrect gene-level summaries\nbiological claims based on shifted genomic context\n\nThe most dangerous part is that the output may look clean. A table can have coordinates, gene names and p-values while still being built on the wrong reference assumption."
+  },
+  {
+    "objectID": "pitfalls/wrong-genome-build.html#how-to-detect-it",
+    "href": "pitfalls/wrong-genome-build.html#how-to-detect-it",
+    "title": "Wrong Genome Build",
+    "section": "How to detect it",
+    "text": "How to detect it\nUseful checks include:\n\nconfirm the reference build from the original data source\ninspect file headers, especially VCF headers\ncheck whether chromosome naming conventions match expected files\ncompare a few known loci against a genome browser\nexamine whether many overlaps unexpectedly disappear\ncheck whether coordinates exceed chromosome lengths for the assumed build\ndocument the genome build explicitly in the project README or config file\n\nA small sanity check is often more useful than trusting that the pipeline completed."
+  },
+  {
+    "objectID": "pitfalls/wrong-genome-build.html#how-to-prevent-it",
+    "href": "pitfalls/wrong-genome-build.html#how-to-prevent-it",
+    "title": "Wrong Genome Build",
+    "section": "How to prevent it",
+    "text": "How to prevent it\nPreventing this problem requires making the reference build a visible part of the workflow.\nGood habits include:\n\nstore genome build information in params.yaml or another config file\nkeep genome FASTA, annotation and index files in clearly named folders\navoid generic names like genome.fa or annotation.gtf\ninclude build names in file paths, for example GRCh38/\nvalidate that FASTA, GTF, BED and VCF files belong to the same build\nrecord reference sources and versions in documentation\navoid mixing downloaded resources unless their build compatibility is confirmed\n\nIn a reproducible workflow, the genome build should not live in someone’s memory. It should live in the project structure."
+  },
+  {
+    "objectID": "pitfalls/wrong-genome-build.html#tiny-demo",
+    "href": "pitfalls/wrong-genome-build.html#tiny-demo",
+    "title": "Wrong Genome Build",
+    "section": "Tiny demo",
+    "text": "Tiny demo\nImagine we are checking whether variants overlap a gene region.\n```r library(tibble)\nvariants &lt;- tibble::tribble( ~variant_id, ~chromosome, ~position, ~assumed_build, “var_001”, “chr1”, 1000000, “GRCh38”, “var_002”, “chr1”, 2000000, “GRCh38”, “var_003”, “chr1”, 3000000, “GRCh37” )\nexpected_build &lt;- “GRCh38”\nvariants |&gt; dplyr::mutate( build_check = ifelse( assumed_build == expected_build, “OK”, “Check build before interpretation” ) )"
+  },
+  {
+    "objectID": "atlas/index.html",
+    "href": "atlas/index.html",
+    "title": "E3 Atlas",
+    "section": "",
+    "text": "The E3 Atlas is a small concept map for the portfolio. It connects the ideas that appear across projects, Shiny apps, Crosswalk posts and the Bioinformatics Pitfalls Lab.\nProjects show what I can build.\nField Notes show how I think.\nThe Pitfalls Lab shows my judgment.\nThe Atlas shows how the ideas connect."
+  },
+  {
+    "objectID": "atlas/index.html#how-to-read-the-atlas",
+    "href": "atlas/index.html#how-to-read-the-atlas",
+    "title": "E3 Atlas",
+    "section": "How to read the Atlas",
+    "text": "How to read the Atlas\nEach concept has two definitions:\n\na plain-language definition for quick understanding\na technical definition for more precise interpretation\n\nThe links are intentionally lightweight. A concept can point to related projects, Crosswalk posts or Pitfalls Lab modules without needing a separate page yet."
+  },
+  {
+    "objectID": "atlas/index.html#main-concept-groups",
+    "href": "atlas/index.html#main-concept-groups",
+    "title": "E3 Atlas",
+    "section": "Main concept groups",
+    "text": "Main concept groups\n\nStatistics and interpretation\nThese concepts support the genetic association Shiny app and Crosswalk posts about uncertainty, evidence and communication.\nExamples include odds ratio, confidence interval, statistical significance, effect size, sample size and uncertainty.\n\n\nBioinformatics and RNA-seq\nThese concepts support the RNA-seq pipeline demo and explain how raw sequencing data becomes structured output.\nExamples include quality control, read trimming, alignment, quantification, normalization and differential expression.\n\n\nPitfalls and data integrity\nThese concepts connect directly to the Bioinformatics Pitfalls Lab.\nExamples include genome build, annotation file, gene ID, batch effect, metadata, low counts, multiple testing and overinterpretation."
+  },
+  {
+    "objectID": "atlas/index.html#future-upgrades",
+    "href": "atlas/index.html#future-upgrades",
+    "title": "E3 Atlas",
+    "section": "Future upgrades",
+    "text": "Future upgrades\nVersion 1 is intentionally simple. Later, this Atlas could grow into:\n\na searchable concept table\ntag filters by topic or project\nindividual concept pages\na network map showing connections between concepts\nbacklinks from projects, Crosswalk posts and Pitfalls Lab modules"
   },
   {
     "objectID": "about.html",
     "href": "about.html",
     "title": "About",
     "section": "",
-    "text": "I am a genomics and data analysis researcher with training in bioinformatics, statistical analysis, and reproducible workflow design. My work sits at the intersection of biological data, computation, and interpretation.\nI am especially interested in roles where technical analysis needs to be both rigorous and understandable, including bioinformatics, applied genomics, and biostatistical analysis. I enjoy building systems that make complex data easier to process, interpret, and communicate clearly.\nThis portfolio highlights a practical theme that runs across much of my work: turning complex data into reliable, interpretable outputs.\n\n\n\nGitHub\nLinkedIn"
+    "text": "I am interested in how scientific knowledge is built, challenged, and sometimes misunderstood. My work sits at the intersection of biology, statistics, and computation, but my curiosity extends beyond any single field.\nThe same principles that shape genomics also shape physics, economics, and even theology: we observe, we model, we interpret, and we make decisions under uncertainty.\nHistory shows us that some of the most powerful ideas come from crossing boundaries. Einstein relied deeply on mathematics at a time when physics resisted it. Alan Turing, a mathematician, proposed a mechanism for biological pattern formation that was ignored for decades before becoming foundational.\nThese stories are not exceptions — they are reminders that knowledge advances when we allow ideas to move freely between disciplines.\nAt the same time, science is a human process. It carries bias, incentives, and limitations. Data can mislead, pipelines can break, and results can be overinterpreted.\nMy work focuses on making those weak points visible — and turning them into opportunities for better reasoning, better tools, and clearer communication.\n\n\n\nGitHub\nLinkedIn"
   },
   {
     "objectID": "about.html#links",
@@ -33,6 +222,27 @@
     "title": "About",
     "section": "",
     "text": "GitHub\nLinkedIn"
+  },
+  {
+    "objectID": "pitfalls/index.html",
+    "href": "pitfalls/index.html",
+    "title": "Bioinformatics Pitfalls Lab",
+    "section": "",
+    "text": "The Bioinformatics Pitfalls Lab is a collection of short practical modules about common mistakes that can quietly distort biological interpretation.\nThese are not textbook chapters. They are debugging notes from the messy middle of analysis, where files, assumptions and metadata have to line up before results can be trusted."
+  },
+  {
+    "objectID": "pitfalls/index.html#modules",
+    "href": "pitfalls/index.html#modules",
+    "title": "Bioinformatics Pitfalls Lab",
+    "section": "Modules",
+    "text": "Modules\n\n\n\nModule\nFocus\nStatus\n\n\n\n\nWrong Genome Build\nReference genome mismatch\nReady\n\n\nBatch Effects\nTechnical structure mistaken for biology\nReady"
+  },
+  {
+    "objectID": "pitfalls/index.html#how-to-read-these-modules",
+    "href": "pitfalls/index.html#how-to-read-these-modules",
+    "title": "Bioinformatics Pitfalls Lab",
+    "section": "How to read these modules",
+    "text": "How to read these modules\nEach module follows the same structure:\n\nThe mistake\n\nWhy it happens\n\nWhat breaks\n\nHow to detect it\n\nHow to prevent it\n\nTiny demo, figure, table or code snippet\n\nRelated project\n\nRelated Crosswalk post\n\nRelated Concept Atlas entries"
   },
   {
     "objectID": "projects/genomics-to-insight.html",
@@ -110,5 +320,103 @@
     "title": "From genomic data to statistical interpretation",
     "section": "Next steps",
     "text": "Next steps\nPotential future extensions include:\n\nadding a more detailed workflow diagram\nexpanding the RNA-seq demo with richer summary outputs\nintegrating example downstream plots from differential expression analysis\nadding a short methods appendix for technically interested readers\n\nFor now, the site is intentionally scoped to present one clear idea well: how raw genomic data become interpretable statistical evidence."
+  },
+  {
+    "objectID": "projects/rnaseq-workflow.html",
+    "href": "projects/rnaseq-workflow.html",
+    "title": "RNA-seq Workflow Demo: From Raw Reads to Interpretation",
+    "section": "",
+    "text": "Scientific data is messy.\nBefore we interpret results, data moves through multiple steps — each one making assumptions, introducing structure, and sometimes creating unintended patterns.\nThis project shows how RNA-seq data moves through that process, and where interpretation can become uncertain."
+  },
+  {
+    "objectID": "projects/rnaseq-workflow.html#opening",
+    "href": "projects/rnaseq-workflow.html#opening",
+    "title": "RNA-seq Workflow Demo: From Raw Reads to Interpretation",
+    "section": "",
+    "text": "Scientific data is messy.\nBefore we interpret results, data moves through multiple steps — each one making assumptions, introducing structure, and sometimes creating unintended patterns.\nThis project shows how RNA-seq data moves through that process, and where interpretation can become uncertain."
+  },
+  {
+    "objectID": "projects/rnaseq-workflow.html#the-question",
+    "href": "projects/rnaseq-workflow.html#the-question",
+    "title": "RNA-seq Workflow Demo: From Raw Reads to Interpretation",
+    "section": "The Question",
+    "text": "The Question\nWhy does analyzing RNA-seq data require more than just running a pipeline?"
+  },
+  {
+    "objectID": "projects/rnaseq-workflow.html#workflow-overview",
+    "href": "projects/rnaseq-workflow.html#workflow-overview",
+    "title": "RNA-seq Workflow Demo: From Raw Reads to Interpretation",
+    "section": "Workflow Overview",
+    "text": "Workflow Overview\nRNA-seq analysis is often presented as a sequence of steps:\nRaw data → quality control → processing → statistical analysis → interpretation\nIn practice, each of these steps transforms the data.\n\nQuality control decides what data is considered usable\n\nAlignment maps reads to a reference that may not perfectly represent the sample\n\nQuantification reduces complex read data into gene-level summaries\n\nStatistical analysis highlights patterns under specific assumptions\n\nAt each step, information is filtered, reshaped, and interpreted.\nThe final results depend not only on the data itself, but on how these transformations are applied."
+  },
+  {
+    "objectID": "projects/rnaseq-workflow.html#what-i-built",
+    "href": "projects/rnaseq-workflow.html#what-i-built",
+    "title": "RNA-seq Workflow Demo: From Raw Reads to Interpretation",
+    "section": "What I Built",
+    "text": "What I Built\nThis project implements a small, modular RNA-seq workflow designed to make each step visible and reproducible.\nIt includes:\n\nStructured workflow steps (QC, alignment, quantification, analysis)\n\nA differential expression analysis using gene-level counts\n\nClear input and output organization\n\nExplicit configuration for reproducibility\n\nThe goal is not to present a production-ready pipeline.\nThe goal is to show how analysis decisions are structured, and how they affect interpretation."
+  },
+  {
+    "objectID": "projects/rnaseq-workflow.html#outputs",
+    "href": "projects/rnaseq-workflow.html#outputs",
+    "title": "RNA-seq Workflow Demo: From Raw Reads to Interpretation",
+    "section": "Outputs",
+    "text": "Outputs\n\nPCA plot\n\n\n\nPCA plot showing sample clustering\n\n\nA PCA plot summarizes variation across samples.\nIt can reveal clustering patterns, potential batch effects, or outliers.\nIt does not explain why samples cluster — only that they do.\n\n\n\nVolcano plot\n\n\n\nVolcano plot showing differential expression\n\n\nA volcano plot highlights genes with large changes and strong statistical signals.\nIt helps prioritize candidates for further investigation.\nIt does not confirm biological relevance.\n\n\n\nResults table (snippet)\n\n\n\nGene\nlog2 Fold Change\np-value\nAdjusted p-value\n\n\n\n\nGeneA\n1.8\n0.001\n0.01\n\n\nGeneB\n-2.1\n0.002\n0.02\n\n\nGeneC\n0.5\n0.05\n0.10\n\n\n\nThis table summarizes statistical outputs.\nIt shows which genes differ between conditions under a specific model.\nIt does not explain the biological mechanism behind those differences."
+  },
+  {
+    "objectID": "projects/rnaseq-workflow.html#interpretation",
+    "href": "projects/rnaseq-workflow.html#interpretation",
+    "title": "RNA-seq Workflow Demo: From Raw Reads to Interpretation",
+    "section": "Interpretation",
+    "text": "Interpretation\nDifferential expression analysis identifies genes whose expression levels differ between conditions.\nThis is a statistical statement, not a biological conclusion.\nA gene can appear statistically significant because:\n\nthe effect size is large\n\nthe variability is low\n\nthe sample size is sufficient\n\nBut statistical significance does not guarantee biological importance.\nEffect size, variability, and context all matter.\nPatterns in data do not automatically translate into biological insight — they require interpretation."
+  },
+  {
+    "objectID": "projects/rnaseq-workflow.html#where-things-go-wrong",
+    "href": "projects/rnaseq-workflow.html#where-things-go-wrong",
+    "title": "RNA-seq Workflow Demo: From Raw Reads to Interpretation",
+    "section": "Where Things Go Wrong",
+    "text": "Where Things Go Wrong\nSome errors are invisible at first glance.\nA Wrong Genome Build can shift coordinates so that reads map to the wrong locations, producing results that look valid but refer to the wrong biology.\nBatch Effects can introduce systematic differences between groups that are unrelated to the biological condition, creating patterns that appear meaningful but are driven by technical structure."
+  },
+  {
+    "objectID": "projects/rnaseq-workflow.html#connecting-to-statistical-reasoning",
+    "href": "projects/rnaseq-workflow.html#connecting-to-statistical-reasoning",
+    "title": "RNA-seq Workflow Demo: From Raw Reads to Interpretation",
+    "section": "Connecting to Statistical Reasoning",
+    "text": "Connecting to Statistical Reasoning\nThese challenges are not unique to RNA-seq.\nThey reflect broader questions about uncertainty, sample size, and interpretation.\nSee: When is a genetic association real?\nStatistical results depend on how much data we have, how variable it is, and how we model it.\nUnderstanding those limits is part of interpreting any result."
+  },
+  {
+    "objectID": "projects/rnaseq-workflow.html#key-concepts",
+    "href": "projects/rnaseq-workflow.html#key-concepts",
+    "title": "RNA-seq Workflow Demo: From Raw Reads to Interpretation",
+    "section": "Key Concepts",
+    "text": "Key Concepts\n\nBatch effect — differences driven by experimental conditions rather than biology\n\nSample metadata — information about how samples were collected and processed\n\nPCA — a way to summarize variation across samples\n\nDifferential expression — statistical comparison of gene expression between groups\n\nNormalization — adjusting counts to make samples comparable"
+  },
+  {
+    "objectID": "projects/rnaseq-workflow.html#limitations",
+    "href": "projects/rnaseq-workflow.html#limitations",
+    "title": "RNA-seq Workflow Demo: From Raw Reads to Interpretation",
+    "section": "Limitations",
+    "text": "Limitations\nThis workflow is designed as a demonstration.\n\nIt uses public or simplified data\n\nIt is not a clinical-grade pipeline\n\nSome steps are intentionally simplified to highlight structure rather than edge cases\n\nThe focus is on interpretation, not optimization."
+  },
+  {
+    "objectID": "projects/rnaseq-workflow.html#closing",
+    "href": "projects/rnaseq-workflow.html#closing",
+    "title": "RNA-seq Workflow Demo: From Raw Reads to Interpretation",
+    "section": "Closing",
+    "text": "Closing\nUnderstanding data is not just about building pipelines — it is about knowing where results come from, what assumptions they carry, and how easily they can mislead."
+  },
+  {
+    "objectID": "crosswalk/example-post.html",
+    "href": "crosswalk/example-post.html",
+    "title": "A small file mismatch can become a biological claim",
+    "section": "",
+    "text": "Bioinformatics errors are often described as technical problems, but many of them become interpretation problems.\nA mismatched reference file, annotation file or genome build may not immediately crash a workflow. Sometimes the analysis runs successfully and produces results that look clean.\nThat is what makes these errors dangerous.\nThe issue is not only whether the code ran. The issue is whether the output still means what we think it means."
+  },
+  {
+    "objectID": "crosswalk/example-post.html#related",
+    "href": "crosswalk/example-post.html#related",
+    "title": "A small file mismatch can become a biological claim",
+    "section": "Related",
+    "text": "Related\n\nRelated Pitfalls\n\nWrong Genome Build\n\n\n\nRelated Projects\n\nRNA-seq Workflow Demo\n\n\n\nRelated Concepts\n\nReproducibility\nAnnotation\nUncertainty\nInterpretation"
   }
 ]

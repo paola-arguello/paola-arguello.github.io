@@ -1,0 +1,96 @@
+---
+title: "Wrong Genome Build"
+subtitle: "When coordinates look precise but point to the wrong biology"
+---
+
+## The mistake
+
+A workflow uses genomic coordinates, variants or annotations from one genome build while interpreting them against another.
+
+For example, a file may contain coordinates based on GRCh37/hg19, but the analysis assumes GRCh38/hg38.
+
+This can look harmless because the chromosome names and positions still appear valid. The problem is that the same coordinate can refer to a different genomic context depending on the reference build.
+
+## Why it happens
+
+Genome build mismatches often happen when data are combined from multiple sources.
+
+Common causes include:
+
+- downloading public data without checking the reference build
+- mixing older variant resources with newer annotations
+- reusing BED, GTF or VCF files from a previous project
+- assuming `chr1` versus `1` is the main compatibility issue
+- losing reference build information during file transfer or preprocessing
+
+The mistake is easy to miss because many tools will still run.
+
+## What breaks
+
+A wrong genome build can affect both technical outputs and biological interpretation.
+
+It can lead to:
+
+- variants mapped to the wrong gene or regulatory region
+- incorrect overlap with promoters, enhancers or exons
+- missing or false-positive intersections in BEDTools-style analyses
+- misleading annotation of genomic bins
+- incorrect gene-level summaries
+- biological claims based on shifted genomic context
+
+The most dangerous part is that the output may look clean. A table can have coordinates, gene names and p-values while still being built on the wrong reference assumption.
+
+## How to detect it
+
+Useful checks include:
+
+- confirm the reference build from the original data source
+- inspect file headers, especially VCF headers
+- check whether chromosome naming conventions match expected files
+- compare a few known loci against a genome browser
+- examine whether many overlaps unexpectedly disappear
+- check whether coordinates exceed chromosome lengths for the assumed build
+- document the genome build explicitly in the project README or config file
+
+A small sanity check is often more useful than trusting that the pipeline completed.
+
+## How to prevent it
+
+Preventing this problem requires making the reference build a visible part of the workflow.
+
+Good habits include:
+
+- store genome build information in `params.yaml` or another config file
+- keep genome FASTA, annotation and index files in clearly named folders
+- avoid generic names like `genome.fa` or `annotation.gtf`
+- include build names in file paths, for example `GRCh38/`
+- validate that FASTA, GTF, BED and VCF files belong to the same build
+- record reference sources and versions in documentation
+- avoid mixing downloaded resources unless their build compatibility is confirmed
+
+In a reproducible workflow, the genome build should not live in someone’s memory. It should live in the project structure.
+
+## Tiny demo
+
+Imagine we are checking whether variants overlap a gene region.
+
+```r
+library(tibble)
+
+variants <- tibble::tribble(
+  ~variant_id, ~chromosome, ~position, ~assumed_build,
+  "var_001", "chr1", 1000000, "GRCh38",
+  "var_002", "chr1", 2000000, "GRCh38",
+  "var_003", "chr1", 3000000, "GRCh37"
+)
+
+expected_build <- "GRCh38"
+
+variants |>
+  dplyr::mutate(
+    build_check = ifelse(
+      assumed_build == expected_build,
+      "OK",
+      "Check build before interpretation"
+    )
+  )

@@ -3,20 +3,38 @@ project:
   output-dir: docs
 
 website:
-  title: "Paola Arguello"
+  title: "Lunaland"
+  site-url: "https://paola-arguello.github.io"
+  description: "Scientific data interpretation: how messy biological data moves through analysis, uncertainty, and communication."
+
   navbar:
     left:
-      - href: index.qmd
-        text: Home
-      - href: projects/genomics-to-insight.qmd
-        text: Clinical Genomics Workflow
-      - href: about.qmd
-        text: About
+      - text: "Home"
+        href: index.qmd
+      - text: "Projects"
+        href: projects/index.qmd
+      - text: "Pitfalls Lab"
+        href: pitfalls/index.qmd
+      - text: "The Crosswalk"
+        href: crosswalk/index.qmd
+      - text: "Concept Atlas"
+        href: atlas/index.qmd
+      - text: "About"
+        href: about.qmd
+
     right:
       - icon: github
         href: https://github.com/paola-arguello
 
+  page-footer:
+    center: "Lunaland · Scientific data interpretation, uncertainty and communication"
+
 format:
   html:
     theme: cosmo
+    css: styles.css
     toc: true
+    toc-depth: 2
+    anchor-sections: true
+    smooth-scroll: true
+    link-external-newwindow: true

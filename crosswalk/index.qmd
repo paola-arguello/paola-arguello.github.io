@@ -1,0 +1,28 @@
+---
+title: "The Crosswalk"
+subtitle: "Field notes from the intersections of biology, data, statistics and curiosity."
+---
+
+The Crosswalk is the thinking layer of Lunaland.
+
+These short posts connect technical work to interpretation, uncertainty and communication.
+
+## Posts
+
+### [Example Post](example-post.qmd)
+
+A short field note about how small data decisions can shape biological interpretation.
+
+**Related concepts:** uncertainty, interpretation, reproducibility  
+**Related projects:** RNA-seq Workflow Demo  
+**Related pitfalls:** Wrong Genome Build
+
+---
+
+## Categories
+
+- Evidence & Uncertainty
+- Bioinformatics Pitfalls
+- Visual Statistics
+- Cross-Discipline Curiosity
+- Scientific Communication

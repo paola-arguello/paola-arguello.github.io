@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>About – Paola Arguello</title>
+<title>About – Lunaland</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -70,8 +70,10 @@ ul.task-list li input[type="checkbox"] {
     "search-label": "Search"
   }
 }</script>
+<style>html{ scroll-behavior: smooth; }</style>
 
 
+<link rel="stylesheet" href="styles.css">
 </head>
 
 <body class="nav-fixed quarto-light">
@@ -82,7 +84,7 @@ ul.task-list li input[type="checkbox"] {
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
     <a class="navbar-brand" href="./index.html">
-    <span class="navbar-title">Paola Arguello</span>
+    <span class="navbar-title">Lunaland</span>
     </a>
   </div>
             <div id="quarto-search" class="" title="Search"></div>
@@ -96,8 +98,20 @@ ul.task-list li input[type="checkbox"] {
 <span class="menu-text">Home</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./projects/genomics-to-insight.html"> 
-<span class="menu-text">Clinical Genomics Workflow</span></a>
+    <a class="nav-link" href="./projects/index.html"> 
+<span class="menu-text">Projects</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./pitfalls/index.html"> 
+<span class="menu-text">Pitfalls Lab</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./crosswalk/index.html"> 
+<span class="menu-text">The Crosswalk</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./atlas/index.html"> 
+<span class="menu-text">Concept Atlas</span></a>
   </li>  
   <li class="nav-item">
     <a class="nav-link active" href="./about.html" aria-current="page"> 
@@ -125,7 +139,7 @@ ul.task-list li input[type="checkbox"] {
         <nav id="TOC" role="doc-toc" class="toc-active">
     <h2 id="toc-title">On this page</h2>
    
-  <ul>
+  <ul class="collapse">
   <li><a href="#about" id="toc-about" class="nav-link active" data-scroll-target="#about">About</a>
   <ul class="collapse">
   <li><a href="#links" id="toc-links" class="nav-link" data-scroll-target="#links">Links</a></li>
@@ -157,9 +171,12 @@ ul.task-list li input[type="checkbox"] {
 
 <section id="about" class="level1">
 <h1>About</h1>
-<p>I am a genomics and data analysis researcher with training in bioinformatics, statistical analysis, and reproducible workflow design. My work sits at the intersection of biological data, computation, and interpretation.</p>
-<p>I am especially interested in roles where technical analysis needs to be both rigorous and understandable, including bioinformatics, applied genomics, and biostatistical analysis. I enjoy building systems that make complex data easier to process, interpret, and communicate clearly.</p>
-<p>This portfolio highlights a practical theme that runs across much of my work: turning complex data into reliable, interpretable outputs.</p>
+<p>I am interested in how scientific knowledge is built, challenged, and sometimes misunderstood. My work sits at the intersection of biology, statistics, and computation, but my curiosity extends beyond any single field.</p>
+<p>The same principles that shape genomics also shape physics, economics, and even theology: we observe, we model, we interpret, and we make decisions under uncertainty.</p>
+<p>History shows us that some of the most powerful ideas come from crossing boundaries. Einstein relied deeply on mathematics at a time when physics resisted it. Alan Turing, a mathematician, proposed a mechanism for biological pattern formation that was ignored for decades before becoming foundational.</p>
+<p>These stories are not exceptions — they are reminders that knowledge advances when we allow ideas to move freely between disciplines.</p>
+<p>At the same time, science is a human process. It carries bias, incentives, and limitations. Data can mislead, pipelines can break, and results can be overinterpreted.</p>
+<p>My work focuses on making those weak points visible — and turning them into opportunities for better reasoning, better tools, and clearer communication.</p>
 <section id="links" class="level2">
 <h2 class="anchored" data-anchor-id="links">Links</h2>
 <ul>
@@ -245,7 +262,7 @@ ul.task-list li input[type="checkbox"] {
     }
       var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
       var mailtoRegex = new RegExp(/^mailto:/);
-        var filterRegex = new RegExp('/' + window.location.host + '/');
+        var filterRegex = new RegExp("https:\/\/paola-arguello\.github\.io");
       var isInternal = (href) => {
           return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
       }
@@ -259,6 +276,11 @@ ul.task-list li input[type="checkbox"] {
           if (link.dataset.originalHref !== undefined) {
             link.href = link.dataset.originalHref;
           }
+            // target, if specified
+            link.setAttribute("target", "_blank");
+            if (link.getAttribute("rel") === null) {
+              link.setAttribute("rel", "noopener");
+            }
         }
       }
     function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
@@ -573,8 +595,22 @@ ul.task-list li input[type="checkbox"] {
   });
   </script>
 </div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+      &nbsp;
+    </div>   
+    <div class="nav-footer-center">
+<p>Lunaland · Scientific data interpretation, uncertainty and communication</p>
+</div>
+    <div class="nav-footer-right">
+      &nbsp;
+    </div>
+  </div>
+</footer>
 
 
 
 
+<script src="site_libs/quarto-html/zenscroll-min.js"></script>
 </body></html>

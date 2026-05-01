@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>From genomic data to statistical interpretation – Paola Arguello</title>
+<title>From genomic data to statistical interpretation – Lunaland</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -70,8 +70,10 @@ ul.task-list li input[type="checkbox"] {
     "search-label": "Search"
   }
 }</script>
+<style>html{ scroll-behavior: smooth; }</style>
 
 
+<link rel="stylesheet" href="../styles.css">
 </head>
 
 <body class="nav-fixed quarto-light">
@@ -82,7 +84,7 @@ ul.task-list li input[type="checkbox"] {
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
     <a class="navbar-brand" href="../index.html">
-    <span class="navbar-title">Paola Arguello</span>
+    <span class="navbar-title">Lunaland</span>
     </a>
   </div>
             <div id="quarto-search" class="" title="Search"></div>
@@ -96,8 +98,20 @@ ul.task-list li input[type="checkbox"] {
 <span class="menu-text">Home</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link active" href="../projects/genomics-to-insight.html" aria-current="page"> 
-<span class="menu-text">Clinical Genomics Workflow</span></a>
+    <a class="nav-link" href="../projects/index.html"> 
+<span class="menu-text">Projects</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../pitfalls/index.html"> 
+<span class="menu-text">Pitfalls Lab</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../crosswalk/index.html"> 
+<span class="menu-text">The Crosswalk</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../atlas/index.html"> 
+<span class="menu-text">Concept Atlas</span></a>
   </li>  
   <li class="nav-item">
     <a class="nav-link" href="../about.html"> 
@@ -125,41 +139,15 @@ ul.task-list li input[type="checkbox"] {
         <nav id="TOC" role="doc-toc" class="toc-active">
     <h2 id="toc-title">On this page</h2>
    
-  <ul>
+  <ul class="collapse">
   <li><a href="#overview" id="toc-overview" class="nav-link active" data-scroll-target="#overview">Overview</a></li>
   <li><a href="#problem" id="toc-problem" class="nav-link" data-scroll-target="#problem">1. Problem</a></li>
   <li><a href="#workflow-overview" id="toc-workflow-overview" class="nav-link" data-scroll-target="#workflow-overview">2. Workflow overview</a></li>
-  <li><a href="#rna-seq-pipeline-section" id="toc-rna-seq-pipeline-section" class="nav-link" data-scroll-target="#rna-seq-pipeline-section">3. RNA-seq pipeline section</a>
-  <ul class="collapse">
-  <li><a href="#purpose" id="toc-purpose" class="nav-link" data-scroll-target="#purpose">Purpose</a></li>
-  <li><a href="#included-steps" id="toc-included-steps" class="nav-link" data-scroll-target="#included-steps">Included steps</a></li>
-  <li><a href="#why-this-matters" id="toc-why-this-matters" class="nav-link" data-scroll-target="#why-this-matters">Why this matters</a></li>
-  <li><a href="#reproducibility-signals" id="toc-reproducibility-signals" class="nav-link" data-scroll-target="#reproducibility-signals">Reproducibility signals</a></li>
-  <li><a href="#example-output" id="toc-example-output" class="nav-link" data-scroll-target="#example-output">Example output</a></li>
-  <li><a href="#repository" id="toc-repository" class="nav-link" data-scroll-target="#repository">Repository</a></li>
-  </ul></li>
-  <li><a href="#statistical-analysis-section" id="toc-statistical-analysis-section" class="nav-link" data-scroll-target="#statistical-analysis-section">4. Statistical analysis section</a>
-  <ul class="collapse">
-  <li><a href="#purpose-1" id="toc-purpose-1" class="nav-link" data-scroll-target="#purpose-1">Purpose</a></li>
-  <li><a href="#core-concepts" id="toc-core-concepts" class="nav-link" data-scroll-target="#core-concepts">Core concepts</a></li>
-  <li><a href="#why-this-matters-1" id="toc-why-this-matters-1" class="nav-link" data-scroll-target="#why-this-matters-1">Why this matters</a></li>
-  <li><a href="#app-preview" id="toc-app-preview" class="nav-link" data-scroll-target="#app-preview">App preview</a></li>
-  <li><a href="#live-app-repository" id="toc-live-app-repository" class="nav-link" data-scroll-target="#live-app-repository">Live app / repository</a></li>
-  </ul></li>
-  <li><a href="#interpretation-section" id="toc-interpretation-section" class="nav-link" data-scroll-target="#interpretation-section">5. Interpretation section</a>
-  <ul class="collapse">
-  <li><a href="#effect-size-matters" id="toc-effect-size-matters" class="nav-link" data-scroll-target="#effect-size-matters">Effect size matters</a></li>
-  <li><a href="#uncertainty-matters" id="toc-uncertainty-matters" class="nav-link" data-scroll-target="#uncertainty-matters">Uncertainty matters</a></li>
-  <li><a href="#context-matters" id="toc-context-matters" class="nav-link" data-scroll-target="#context-matters">Context matters</a></li>
-  </ul></li>
+  <li><a href="#rna-seq-pipeline-section" id="toc-rna-seq-pipeline-section" class="nav-link" data-scroll-target="#rna-seq-pipeline-section">3. RNA-seq pipeline section</a></li>
+  <li><a href="#statistical-analysis-section" id="toc-statistical-analysis-section" class="nav-link" data-scroll-target="#statistical-analysis-section">4. Statistical analysis section</a></li>
+  <li><a href="#interpretation-section" id="toc-interpretation-section" class="nav-link" data-scroll-target="#interpretation-section">5. Interpretation section</a></li>
   <li><a href="#data-and-context" id="toc-data-and-context" class="nav-link" data-scroll-target="#data-and-context">6. Data and context</a></li>
-  <li><a href="#design-decisions" id="toc-design-decisions" class="nav-link" data-scroll-target="#design-decisions">7. Design decisions</a>
-  <ul class="collapse">
-  <li><a href="#why-only-one-main-project-page" id="toc-why-only-one-main-project-page" class="nav-link" data-scroll-target="#why-only-one-main-project-page">Why only one main project page?</a></li>
-  <li><a href="#why-keep-the-examples-lightweight" id="toc-why-keep-the-examples-lightweight" class="nav-link" data-scroll-target="#why-keep-the-examples-lightweight">Why keep the examples lightweight?</a></li>
-  <li><a href="#why-emphasize-interpretation" id="toc-why-emphasize-interpretation" class="nav-link" data-scroll-target="#why-emphasize-interpretation">Why emphasize interpretation?</a></li>
-  <li><a href="#trade-offs-and-assumptions" id="toc-trade-offs-and-assumptions" class="nav-link" data-scroll-target="#trade-offs-and-assumptions">Trade-offs and assumptions</a></li>
-  </ul></li>
+  <li><a href="#design-decisions" id="toc-design-decisions" class="nav-link" data-scroll-target="#design-decisions">7. Design decisions</a></li>
   <li><a href="#what-this-project-demonstrates" id="toc-what-this-project-demonstrates" class="nav-link" data-scroll-target="#what-this-project-demonstrates">What this project demonstrates</a></li>
   <li><a href="#next-steps" id="toc-next-steps" class="nav-link" data-scroll-target="#next-steps">Next steps</a></li>
   </ul>
@@ -489,7 +477,7 @@ ul.task-list li input[type="checkbox"] {
     }
       var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
       var mailtoRegex = new RegExp(/^mailto:/);
-        var filterRegex = new RegExp('/' + window.location.host + '/');
+        var filterRegex = new RegExp("https:\/\/paola-arguello\.github\.io");
       var isInternal = (href) => {
           return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
       }
@@ -503,6 +491,11 @@ ul.task-list li input[type="checkbox"] {
           if (link.dataset.originalHref !== undefined) {
             link.href = link.dataset.originalHref;
           }
+            // target, if specified
+            link.setAttribute("target", "_blank");
+            if (link.getAttribute("rel") === null) {
+              link.setAttribute("rel", "noopener");
+            }
         }
       }
     function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
@@ -817,8 +810,22 @@ ul.task-list li input[type="checkbox"] {
   });
   </script>
 </div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+      &nbsp;
+    </div>   
+    <div class="nav-footer-center">
+<p>Lunaland · Scientific data interpretation, uncertainty and communication</p>
+</div>
+    <div class="nav-footer-right">
+      &nbsp;
+    </div>
+  </div>
+</footer>
 
 
 
 
+<script src="../site_libs/quarto-html/zenscroll-min.js"></script>
 </body></html>

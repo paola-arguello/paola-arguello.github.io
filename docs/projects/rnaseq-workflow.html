@@ -6,8 +6,9 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
+<meta name="description" content="A reproducible workflow showing how RNA-seq data moves from raw sequencing reads to interpretable results.">
 
-<title>Lunaland</title>
+<title>RNA-seq Workflow Demo: From Raw Reads to Interpretation – Lunaland</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -26,23 +27,23 @@ ul.task-list li input[type="checkbox"] {
 </style>
 
 
-<script src="site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="site_libs/quarto-nav/headroom.min.js"></script>
-<script src="site_libs/clipboard/clipboard.min.js"></script>
-<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
-<script src="site_libs/quarto-search/fuse.min.js"></script>
-<script src="site_libs/quarto-search/quarto-search.js"></script>
-<meta name="quarto:offset" content="./">
-<script src="site_libs/quarto-html/quarto.js" type="module"></script>
-<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
-<script src="site_libs/quarto-html/popper.min.js"></script>
-<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="site_libs/quarto-html/anchor.min.js"></script>
-<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-7f8f88aac4f3542376d5c11b86a4c14d.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-<script src="site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-70efa5e1e524af0d90900d8c51eadcbc.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-7f8f88aac4f3542376d5c11b86a4c14d.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-70efa5e1e524af0d90900d8c51eadcbc.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -73,7 +74,7 @@ ul.task-list li input[type="checkbox"] {
 <style>html{ scroll-behavior: smooth; }</style>
 
 
-<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="../styles.css">
 </head>
 
 <body class="nav-fixed quarto-light">
@@ -83,7 +84,7 @@ ul.task-list li input[type="checkbox"] {
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
-    <a class="navbar-brand" href="./index.html">
+    <a class="navbar-brand" href="../index.html">
     <span class="navbar-title">Lunaland</span>
     </a>
   </div>
@@ -94,27 +95,27 @@ ul.task-list li input[type="checkbox"] {
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
-    <a class="nav-link active" href="./index.html" aria-current="page"> 
+    <a class="nav-link" href="../index.html"> 
 <span class="menu-text">Home</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./projects/index.html"> 
+    <a class="nav-link" href="../projects/index.html"> 
 <span class="menu-text">Projects</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./pitfalls/index.html"> 
+    <a class="nav-link" href="../pitfalls/index.html"> 
 <span class="menu-text">Pitfalls Lab</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./crosswalk/index.html"> 
+    <a class="nav-link" href="../crosswalk/index.html"> 
 <span class="menu-text">The Crosswalk</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./atlas/index.html"> 
+    <a class="nav-link" href="../atlas/index.html"> 
 <span class="menu-text">Concept Atlas</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./about.html"> 
+    <a class="nav-link" href="../about.html"> 
 <span class="menu-text">About</span></a>
   </li>  
 </ul>
@@ -140,8 +141,17 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">On this page</h2>
    
   <ul class="collapse">
-  <li><a href="#explore" id="toc-explore" class="nav-link active" data-scroll-target="#explore">Explore</a></li>
-  <li><a href="#the-organizing-idea" id="toc-the-organizing-idea" class="nav-link" data-scroll-target="#the-organizing-idea">The organizing idea</a></li>
+  <li><a href="#opening" id="toc-opening" class="nav-link active" data-scroll-target="#opening">Opening</a></li>
+  <li><a href="#the-question" id="toc-the-question" class="nav-link" data-scroll-target="#the-question">The Question</a></li>
+  <li><a href="#workflow-overview" id="toc-workflow-overview" class="nav-link" data-scroll-target="#workflow-overview">Workflow Overview</a></li>
+  <li><a href="#what-i-built" id="toc-what-i-built" class="nav-link" data-scroll-target="#what-i-built">What I Built</a></li>
+  <li><a href="#outputs" id="toc-outputs" class="nav-link" data-scroll-target="#outputs">Outputs</a></li>
+  <li><a href="#interpretation" id="toc-interpretation" class="nav-link" data-scroll-target="#interpretation">Interpretation</a></li>
+  <li><a href="#where-things-go-wrong" id="toc-where-things-go-wrong" class="nav-link" data-scroll-target="#where-things-go-wrong">Where Things Go Wrong</a></li>
+  <li><a href="#connecting-to-statistical-reasoning" id="toc-connecting-to-statistical-reasoning" class="nav-link" data-scroll-target="#connecting-to-statistical-reasoning">Connecting to Statistical Reasoning</a></li>
+  <li><a href="#key-concepts" id="toc-key-concepts" class="nav-link" data-scroll-target="#key-concepts">Key Concepts</a></li>
+  <li><a href="#limitations" id="toc-limitations" class="nav-link" data-scroll-target="#limitations">Limitations</a></li>
+  <li><a href="#closing" id="toc-closing" class="nav-link" data-scroll-target="#closing">Closing</a></li>
   </ul>
 </nav>
     </div>
@@ -150,10 +160,14 @@ ul.task-list li input[type="checkbox"] {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Lunaland</h1>
-<p class="subtitle lead">Scientific data interpretation: how messy biological data moves through analysis, uncertainty, and communication.</p>
+<h1 class="title">RNA-seq Workflow Demo: From Raw Reads to Interpretation</h1>
 </div>
 
+<div>
+  <div class="description">
+    A reproducible workflow showing how RNA-seq data moves from raw sequencing reads to interpretable results.
+  </div>
+</div>
 
 
 <div class="quarto-title-meta">
@@ -168,37 +182,183 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<p>Lunaland is a portfolio ecosystem about turning complex biological data into interpretable, usable insight.</p>
-<p>It connects workflow development, statistical interpretation, bioinformatics judgment and science communication into one coherent story.</p>
-<section id="explore" class="level2">
-<h2 class="anchored" data-anchor-id="explore">Explore</h2>
-<div class="grid">
-<section id="projects" class="level3 g-col-12 g-col-md-6">
-<h3 class="anchored" data-anchor-id="projects"><a href="./projects/index.html">Projects</a></h3>
-<p>Reproducible workflows, Shiny apps and practical data interpretation tools.</p>
-<p><strong>Projects show what I can build.</strong></p>
+<section id="opening" class="level2">
+<h2 class="anchored" data-anchor-id="opening">Opening</h2>
+<p>Scientific data is messy.</p>
+<p>Before we interpret results, data moves through multiple steps — each one making assumptions, introducing structure, and sometimes creating unintended patterns.</p>
+<p>This project shows how RNA-seq data moves through that process, and where interpretation can become uncertain.</p>
+<hr>
 </section>
-<section id="bioinformatics-pitfalls-lab" class="level3 g-col-12 g-col-md-6">
-<h3 class="anchored" data-anchor-id="bioinformatics-pitfalls-lab"><a href="./pitfalls/index.html">Bioinformatics Pitfalls Lab</a></h3>
-<p>Small practical modules about common mistakes in bioinformatics analysis.</p>
-<p><strong>The Pitfalls Lab shows my judgment.</strong></p>
+<section id="the-question" class="level2">
+<h2 class="anchored" data-anchor-id="the-question">The Question</h2>
+<p>Why does analyzing RNA-seq data require more than just running a pipeline?</p>
+<hr>
 </section>
-<section id="the-crosswalk" class="level3 g-col-12 g-col-md-6">
-<h3 class="anchored" data-anchor-id="the-crosswalk"><a href="./crosswalk/index.html">The Crosswalk</a></h3>
-<p>Short field notes from the intersections of biology, data, statistics and curiosity.</p>
-<p><strong>Field Notes show how I think.</strong></p>
+<section id="workflow-overview" class="level2">
+<h2 class="anchored" data-anchor-id="workflow-overview">Workflow Overview</h2>
+<p>RNA-seq analysis is often presented as a sequence of steps:</p>
+<p>Raw data → quality control → processing → statistical analysis → interpretation</p>
+<p>In practice, each of these steps transforms the data.</p>
+<ul>
+<li>Quality control decides what data is considered usable<br>
+</li>
+<li>Alignment maps reads to a reference that may not perfectly represent the sample<br>
+</li>
+<li>Quantification reduces complex read data into gene-level summaries<br>
+</li>
+<li>Statistical analysis highlights patterns under specific assumptions</li>
+</ul>
+<p>At each step, information is filtered, reshaped, and interpreted.</p>
+<p>The final results depend not only on the data itself, but on how these transformations are applied.</p>
+<hr>
 </section>
-<section id="concept-atlas" class="level3 g-col-12 g-col-md-6">
-<h3 class="anchored" data-anchor-id="concept-atlas"><a href="./atlas/index.html">Concept Atlas</a></h3>
-<p>A lightweight map of recurring concepts across the portfolio.</p>
-<p><strong>The Atlas shows how ideas connect.</strong></p>
+<section id="what-i-built" class="level2">
+<h2 class="anchored" data-anchor-id="what-i-built">What I Built</h2>
+<p>This project implements a small, modular RNA-seq workflow designed to make each step visible and reproducible.</p>
+<p>It includes:</p>
+<ul>
+<li>Structured workflow steps (QC, alignment, quantification, analysis)<br>
+</li>
+<li>A differential expression analysis using gene-level counts<br>
+</li>
+<li>Clear input and output organization<br>
+</li>
+<li>Explicit configuration for reproducibility</li>
+</ul>
+<p>The goal is not to present a production-ready pipeline.</p>
+<p>The goal is to show how analysis decisions are structured, and how they affect interpretation.</p>
+<hr>
 </section>
+<section id="outputs" class="level2">
+<h2 class="anchored" data-anchor-id="outputs">Outputs</h2>
+<section id="pca-plot" class="level3">
+<h3 class="anchored" data-anchor-id="pca-plot">PCA plot</h3>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../assets/figures/pca_plot.png" class="img-fluid figure-img"></p>
+<figcaption>PCA plot showing sample clustering</figcaption>
+</figure>
 </div>
+<p>A PCA plot summarizes variation across samples.</p>
+<p>It can reveal clustering patterns, potential batch effects, or outliers.</p>
+<p>It does not explain <em>why</em> samples cluster — only that they do.</p>
+<hr>
 </section>
-<section id="the-organizing-idea" class="level2">
-<h2 class="anchored" data-anchor-id="the-organizing-idea">The organizing idea</h2>
-<p>Biological data rarely moves cleanly from experiment to conclusion. It passes through quality control, assumptions, metadata, uncertainty, statistical modeling and communication.</p>
-<p>This site documents that path.</p>
+<section id="volcano-plot" class="level3">
+<h3 class="anchored" data-anchor-id="volcano-plot">Volcano plot</h3>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../assets/figures/volcano_plot.png" class="img-fluid figure-img"></p>
+<figcaption>Volcano plot showing differential expression</figcaption>
+</figure>
+</div>
+<p>A volcano plot highlights genes with large changes and strong statistical signals.</p>
+<p>It helps prioritize candidates for further investigation.</p>
+<p>It does not confirm biological relevance.</p>
+<hr>
+</section>
+<section id="results-table-snippet" class="level3">
+<h3 class="anchored" data-anchor-id="results-table-snippet">Results table (snippet)</h3>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Gene</th>
+<th>log2 Fold Change</th>
+<th>p-value</th>
+<th>Adjusted p-value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>GeneA</td>
+<td>1.8</td>
+<td>0.001</td>
+<td>0.01</td>
+</tr>
+<tr class="even">
+<td>GeneB</td>
+<td>-2.1</td>
+<td>0.002</td>
+<td>0.02</td>
+</tr>
+<tr class="odd">
+<td>GeneC</td>
+<td>0.5</td>
+<td>0.05</td>
+<td>0.10</td>
+</tr>
+</tbody>
+</table>
+<p>This table summarizes statistical outputs.</p>
+<p>It shows which genes differ between conditions under a specific model.</p>
+<p>It does not explain the biological mechanism behind those differences.</p>
+<hr>
+</section>
+</section>
+<section id="interpretation" class="level2">
+<h2 class="anchored" data-anchor-id="interpretation">Interpretation</h2>
+<p>Differential expression analysis identifies genes whose expression levels differ between conditions.</p>
+<p>This is a statistical statement, not a biological conclusion.</p>
+<p>A gene can appear statistically significant because:</p>
+<ul>
+<li>the effect size is large<br>
+</li>
+<li>the variability is low<br>
+</li>
+<li>the sample size is sufficient</li>
+</ul>
+<p>But statistical significance does not guarantee biological importance.</p>
+<p>Effect size, variability, and context all matter.</p>
+<p>Patterns in data do not automatically translate into biological insight — they require interpretation.</p>
+<hr>
+</section>
+<section id="where-things-go-wrong" class="level2">
+<h2 class="anchored" data-anchor-id="where-things-go-wrong">Where Things Go Wrong</h2>
+<p>Some errors are invisible at first glance.</p>
+<p>A <a href="../pitfalls/wrong-genome-build.html">Wrong Genome Build</a> can shift coordinates so that reads map to the wrong locations, producing results that look valid but refer to the wrong biology.</p>
+<p><a href="../pitfalls/index.html">Batch Effects</a> can introduce systematic differences between groups that are unrelated to the biological condition, creating patterns that appear meaningful but are driven by technical structure.</p>
+<hr>
+</section>
+<section id="connecting-to-statistical-reasoning" class="level2">
+<h2 class="anchored" data-anchor-id="connecting-to-statistical-reasoning">Connecting to Statistical Reasoning</h2>
+<p>These challenges are not unique to RNA-seq.</p>
+<p>They reflect broader questions about uncertainty, sample size, and interpretation.</p>
+<p>See: <a href="../crosswalk/example-post.html">When is a genetic association real?</a></p>
+<p>Statistical results depend on how much data we have, how variable it is, and how we model it.</p>
+<p>Understanding those limits is part of interpreting any result.</p>
+<hr>
+</section>
+<section id="key-concepts" class="level2">
+<h2 class="anchored" data-anchor-id="key-concepts">Key Concepts</h2>
+<ul>
+<li><strong>Batch effect</strong> — differences driven by experimental conditions rather than biology<br>
+</li>
+<li><strong>Sample metadata</strong> — information about how samples were collected and processed<br>
+</li>
+<li><strong>PCA</strong> — a way to summarize variation across samples<br>
+</li>
+<li><strong>Differential expression</strong> — statistical comparison of gene expression between groups<br>
+</li>
+<li><strong>Normalization</strong> — adjusting counts to make samples comparable</li>
+</ul>
+<hr>
+</section>
+<section id="limitations" class="level2">
+<h2 class="anchored" data-anchor-id="limitations">Limitations</h2>
+<p>This workflow is designed as a demonstration.</p>
+<ul>
+<li>It uses public or simplified data<br>
+</li>
+<li>It is not a clinical-grade pipeline<br>
+</li>
+<li>Some steps are intentionally simplified to highlight structure rather than edge cases</li>
+</ul>
+<p>The focus is on interpretation, not optimization.</p>
+<hr>
+</section>
+<section id="closing" class="level2">
+<h2 class="anchored" data-anchor-id="closing">Closing</h2>
+<p>Understanding data is not just about building pipelines — it is about knowing where results come from, what assumptions they carry, and how easily they can mislead.</p>
 
 
 </section>
@@ -627,5 +787,5 @@ ul.task-list li input[type="checkbox"] {
 
 
 
-<script src="site_libs/quarto-html/zenscroll-min.js"></script>
+<script src="../site_libs/quarto-html/zenscroll-min.js"></script>
 </body></html>

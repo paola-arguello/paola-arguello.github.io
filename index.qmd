@@ -1,26 +1,52 @@
 ---
-title: "Home"
-format: html
+title: "Lunaland"
+subtitle: "Scientific data interpretation: how messy biological data moves through analysis, uncertainty, and communication."
 ---
 
-# From genomic data to interpretable evidence
+Lunaland is a portfolio ecosystem about turning complex biological data into interpretable, usable insight.
 
-I build analytical workflows that connect **data processing, statistical analysis, and interpretation**. My portfolio focuses on reproducible bioinformatics and clear reasoning about what results do and do not support.
+It connects workflow development, statistical interpretation, bioinformatics judgment and science communication into one coherent story.
 
-## Featured project
+## Explore
 
-### From genomic data to statistical interpretation
+::: {.grid}
 
-This project combines a lightweight RNA-seq workflow demo with an interactive Shiny app on odds ratios, uncertainty, and sample size. Together, they show how raw data become structured outputs and how those outputs become interpretable evidence.
+::: {.g-col-12 .g-col-md-6}
+### [Projects](projects/index.qmd)
 
-[View the project](projects/genomics-to-insight.qmd)
+Reproducible workflows, Shiny apps and practical data interpretation tools.
 
-## Tools and themes
+**Projects show what I can build.**
+:::
 
-- RNA-seq
-- Nextflow-style workflow design
-- R and Shiny
-- DESeq2
-- Quarto
-- Reproducible analysis
-- Statistical interpretation
+::: {.g-col-12 .g-col-md-6}
+### [Bioinformatics Pitfalls Lab](pitfalls/index.qmd)
+
+Small practical modules about common mistakes in bioinformatics analysis.
+
+**The Pitfalls Lab shows my judgment.**
+:::
+
+::: {.g-col-12 .g-col-md-6}
+### [The Crosswalk](crosswalk/index.qmd)
+
+Short field notes from the intersections of biology, data, statistics and curiosity.
+
+**Field Notes show how I think.**
+:::
+
+::: {.g-col-12 .g-col-md-6}
+### [Concept Atlas](atlas/index.qmd)
+
+A lightweight map of recurring concepts across the portfolio.
+
+**The Atlas shows how ideas connect.**
+:::
+
+:::
+
+## The organizing idea
+
+Biological data rarely moves cleanly from experiment to conclusion. It passes through quality control, assumptions, metadata, uncertainty, statistical modeling and communication.
+
+This site documents that path.

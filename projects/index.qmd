@@ -1,0 +1,25 @@
+---
+title: "Projects"
+---
+
+Projects are the build layer of Lunaland: reproducible workflows, statistical explainers and interactive tools.
+
+## Featured projects
+
+### [RNA-seq Workflow Demo](rnaseq-workflow.qmd)
+
+A compact reproducible RNA-seq workflow showing how raw sequencing data moves through quality control, alignment, quantification and interpretation.
+
+**Related concepts:** reproducibility, quality control, differential expression, workflow design  
+**Related pitfalls:** mismatched annotation file, low counts and overinterpretation  
+**Related Crosswalk posts:** interpreting uncertainty in genomic analysis
+
+---
+
+### Shiny Statistical Explainer
+
+An interactive app explaining odds ratios, confidence intervals and sample size in genetic association studies.
+
+**Related concepts:** uncertainty, confidence intervals, effect size, statistical significance  
+**Related pitfalls:** low counts and overinterpretation  
+**Related Crosswalk posts:** when is a result meaningful?

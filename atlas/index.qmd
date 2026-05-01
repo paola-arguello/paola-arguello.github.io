@@ -1,0 +1,81 @@
+---
+title: "E3 Atlas"
+subtitle: "Evidence, Error, and Explanation"
+listing: false
+---
+
+The E3 Atlas is a small concept map for the portfolio. It connects the ideas that appear across projects, Shiny apps, Crosswalk posts and the Bioinformatics Pitfalls Lab.
+
+Projects show what I can build.  
+Field Notes show how I think.  
+The Pitfalls Lab shows my judgment.  
+The Atlas shows how the ideas connect.
+
+```{r}
+#| echo: false
+#| warning: false
+#| message: false
+
+library(readr)
+library(dplyr)
+library(DT)
+
+concepts <- read_csv("concepts.csv", show_col_types = FALSE)
+
+concepts %>%
+  select(
+    Concept = concept,
+    Category = category,
+    `Plain-language definition` = plain_definition,
+    `Related concepts` = related_concepts,
+    `Related projects` = related_projects,
+    `Related pitfalls` = related_pitfalls
+  ) %>%
+  datatable(
+    rownames = FALSE,
+    filter = "top",
+    options = list(
+      pageLength = 10,
+      autoWidth = TRUE
+    )
+  )
+```
+
+## How to read the Atlas
+
+Each concept has two definitions:
+
+- a plain-language definition for quick understanding
+- a technical definition for more precise interpretation
+
+The links are intentionally lightweight. A concept can point to related projects, Crosswalk posts or Pitfalls Lab modules without needing a separate page yet.
+
+## Main concept groups
+
+### Statistics and interpretation
+
+These concepts support the genetic association Shiny app and Crosswalk posts about uncertainty, evidence and communication.
+
+Examples include odds ratio, confidence interval, statistical significance, effect size, sample size and uncertainty.
+
+### Bioinformatics and RNA-seq
+
+These concepts support the RNA-seq pipeline demo and explain how raw sequencing data becomes structured output.
+
+Examples include quality control, read trimming, alignment, quantification, normalization and differential expression.
+
+### Pitfalls and data integrity
+
+These concepts connect directly to the Bioinformatics Pitfalls Lab.
+
+Examples include genome build, annotation file, gene ID, batch effect, metadata, low counts, multiple testing and overinterpretation.
+
+## Future upgrades
+
+Version 1 is intentionally simple. Later, this Atlas could grow into:
+
+- a searchable concept table
+- tag filters by topic or project
+- individual concept pages
+- a network map showing connections between concepts
+- backlinks from projects, Crosswalk posts and Pitfalls Lab modules

@@ -1,0 +1,29 @@
+---
+title: "Bioinformatics Pitfalls Lab"
+subtitle: "Small mistakes, big consequences."
+---
+
+The Bioinformatics Pitfalls Lab is a collection of short practical modules about common mistakes that can quietly distort biological interpretation.
+
+These are not textbook chapters. They are debugging notes from the messy middle of analysis, where files, assumptions and metadata have to line up before results can be trusted.
+
+## Modules
+
+| Module | Focus | Status |
+|---|---|---|
+| [Wrong Genome Build](wrong-genome-build.qmd) | Reference genome mismatch | Ready |
+| [Batch Effects](batch-effects.qmd) | Technical structure mistaken for biology | Ready |
+
+## How to read these modules
+
+Each module follows the same structure:
+
+1. The mistake  
+2. Why it happens  
+3. What breaks  
+4. How to detect it  
+5. How to prevent it  
+6. Tiny demo, figure, table or code snippet  
+7. Related project  
+8. Related Crosswalk post  
+9. Related Concept Atlas entries  

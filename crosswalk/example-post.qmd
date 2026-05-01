@@ -1,0 +1,31 @@
+---
+title: "A small file mismatch can become a biological claim"
+categories:
+  - Bioinformatics Pitfalls
+  - Evidence & Uncertainty
+---
+
+Bioinformatics errors are often described as technical problems, but many of them become interpretation problems.
+
+A mismatched reference file, annotation file or genome build may not immediately crash a workflow. Sometimes the analysis runs successfully and produces results that look clean.
+
+That is what makes these errors dangerous.
+
+The issue is not only whether the code ran. The issue is whether the output still means what we think it means.
+
+## Related
+
+### Related Pitfalls
+
+- [Wrong Genome Build](../pitfalls/wrong-genome-build.qmd)
+
+### Related Projects
+
+- [RNA-seq Workflow Demo](../projects/rnaseq-workflow.qmd)
+
+### Related Concepts
+
+- Reproducibility
+- Annotation
+- Uncertainty
+- Interpretation

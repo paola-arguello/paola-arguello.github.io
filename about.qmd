@@ -4,12 +4,18 @@ format: html
 ---
 
 # About
+I am interested in how scientific knowledge is built, challenged, and sometimes misunderstood.
+My work sits at the intersection of biology, statistics, and computation, but my curiosity extends beyond any single field.
 
-I am a genomics and data analysis researcher with training in bioinformatics, statistical analysis, and reproducible workflow design. My work sits at the intersection of biological data, computation, and interpretation.
+The same principles that shape genomics also shape physics, economics, and even theology: we observe, we model, we interpret, and we make decisions under uncertainty.
 
-I am especially interested in roles where technical analysis needs to be both rigorous and understandable, including bioinformatics, applied genomics, and biostatistical analysis. I enjoy building systems that make complex data easier to process, interpret, and communicate clearly.
+History shows us that some of the most powerful ideas come from crossing boundaries. Einstein relied deeply on mathematics at a time when physics resisted it. Alan Turing, a mathematician, proposed a mechanism for biological pattern formation that was ignored for decades before becoming foundational.
 
-This portfolio highlights a practical theme that runs across much of my work: turning complex data into reliable, interpretable outputs.
+These stories are not exceptions — they are reminders that knowledge advances when we allow ideas to move freely between disciplines.
+
+At the same time, science is a human process. It carries bias, incentives, and limitations. Data can mislead, pipelines can break, and results can be overinterpreted.
+
+My work focuses on making those weak points visible — and turning them into opportunities for better reasoning, better tools, and clearer communication.
 
 ## Links
 
