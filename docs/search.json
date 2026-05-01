@@ -4,21 +4,21 @@
     "href": "crosswalk/index.html",
     "title": "The Crosswalk",
     "section": "",
-    "text": "The Crosswalk is the thinking layer of Lunaland.\nThese short posts connect technical work to interpretation, uncertainty and communication."
+    "text": "The Crosswalk is the thinking layer of Lunaland.\nThese short field notes follow how data moves from observation to interpretation — and where uncertainty enters along the way.\nProjects show what I build.\nThe Pitfalls Lab shows where things break.\nThe Concept Atlas shows how ideas connect.\nThe Crosswalk shows how I think through it."
   },
   {
     "objectID": "crosswalk/index.html#posts",
     "href": "crosswalk/index.html#posts",
     "title": "The Crosswalk",
     "section": "Posts",
-    "text": "Posts\n\nExample Post\nA short field note about how small data decisions can shape biological interpretation.\nRelated concepts: uncertainty, interpretation, reproducibility\nRelated projects: RNA-seq Workflow Demo\nRelated pitfalls: Wrong Genome Build"
+    "text": "Posts\n\nWhen is a genetic association real?\nA field note on why odds ratios alone are not enough — and how uncertainty and sample size shape interpretation.\nRelated concepts: Odds Ratio, Confidence Interval, Sample Size\nRelated projects: RNA-seq Workflow Demo\nRelated app: When is a genetic association real? (Shiny, coming soon)\nRelated pitfalls: Overinterpreting small datasets (planned)"
   },
   {
     "objectID": "crosswalk/index.html#categories",
     "href": "crosswalk/index.html#categories",
     "title": "The Crosswalk",
     "section": "Categories",
-    "text": "Categories\n\nEvidence & Uncertainty\nBioinformatics Pitfalls\nVisual Statistics\nCross-Discipline Curiosity\nScientific Communication"
+    "text": "Categories\n\nEvidence & Uncertainty\n\nBioinformatics Pitfalls\n\nVisual Statistics\n\nCross-Discipline Curiosity\n\nScientific Communication"
   },
   {
     "objectID": "index.html",
@@ -406,17 +406,59 @@
     "text": "Closing\nUnderstanding data is not just about building pipelines — it is about knowing where results come from, what assumptions they carry, and how easily they can mislead."
   },
   {
-    "objectID": "crosswalk/example-post.html",
-    "href": "crosswalk/example-post.html",
-    "title": "A small file mismatch can become a biological claim",
+    "objectID": "crosswalk/posts/genetic-association-real.html",
+    "href": "crosswalk/posts/genetic-association-real.html",
+    "title": "When is a genetic association real?",
     "section": "",
-    "text": "Bioinformatics errors are often described as technical problems, but many of them become interpretation problems.\nA mismatched reference file, annotation file or genome build may not immediately crash a workflow. Sometimes the analysis runs successfully and produces results that look clean.\nThat is what makes these errors dangerous.\nThe issue is not only whether the code ran. The issue is whether the output still means what we think it means."
+    "text": "If a genetic variant appears more often in cases than controls, when can we say the association is real?"
   },
   {
-    "objectID": "crosswalk/example-post.html#related",
-    "href": "crosswalk/example-post.html#related",
-    "title": "A small file mismatch can become a biological claim",
-    "section": "Related",
-    "text": "Related\n\nRelated Pitfalls\n\nWrong Genome Build\n\n\n\nRelated Projects\n\nRNA-seq Workflow Demo\n\n\n\nRelated Concepts\n\nReproducibility\nAnnotation\nUncertainty\nInterpretation"
+    "objectID": "crosswalk/posts/genetic-association-real.html#the-question",
+    "href": "crosswalk/posts/genetic-association-real.html#the-question",
+    "title": "When is a genetic association real?",
+    "section": "",
+    "text": "If a genetic variant appears more often in cases than controls, when can we say the association is real?"
+  },
+  {
+    "objectID": "crosswalk/posts/genetic-association-real.html#the-concept",
+    "href": "crosswalk/posts/genetic-association-real.html#the-concept",
+    "title": "When is a genetic association real?",
+    "section": "2. The concept",
+    "text": "2. The concept\nGenetic association studies often summarize results using an odds ratio (OR).\n\nOR &gt; 1 → variant is more common in cases\n\nOR &lt; 1 → variant is less common in cases\n\nBut an odds ratio on its own is not enough.\nEvery estimate comes with uncertainty, typically expressed as a confidence interval (CI).\nThis interval reflects how much the estimate could reasonably change if we observed new data.\nInterpretation lives in the relationship between:\n\nthe effect size (OR)\n\nthe uncertainty (CI)\n\nthe amount of data supporting both"
+  },
+  {
+    "objectID": "crosswalk/posts/genetic-association-real.html#a-simple-example",
+    "href": "crosswalk/posts/genetic-association-real.html#a-simple-example",
+    "title": "When is a genetic association real?",
+    "section": "3. A simple example",
+    "text": "3. A simple example\nImagine a small study:\n\n100 cases\n\n100 controls\n\nVariant carriers:\n\nCases: 20\n\nControls: 10\n\nThis produces an odds ratio greater than 1, suggesting a possible association.\nNow imagine repeating the same calculation with:\n\na much larger dataset\n\nor slightly different counts\n\nThe odds ratio might stay similar, but the confidence interval will shrink or expand depending on how stable the data is.\nSame number, different meaning."
+  },
+  {
+    "objectID": "crosswalk/posts/genetic-association-real.html#what-can-go-wrong",
+    "href": "crosswalk/posts/genetic-association-real.html#what-can-go-wrong",
+    "title": "When is a genetic association real?",
+    "section": "4. What can go wrong",
+    "text": "4. What can go wrong\nThis is where interpretation often breaks:\n\nFocusing on the odds ratio alone\nTreating OR = 2 as strong evidence without asking how stable that estimate is\nIgnoring confidence intervals\nA wide interval may include 1, meaning the data is compatible with no association\nEquating statistical significance with importance\nLarge datasets can produce very small, statistically significant effects that are not meaningful\nUnderestimating sample size effects\nSmall datasets produce unstable estimates that can shift dramatically"
+  },
+  {
+    "objectID": "crosswalk/posts/genetic-association-real.html#why-this-matters-across-fields",
+    "href": "crosswalk/posts/genetic-association-real.html#why-this-matters-across-fields",
+    "title": "When is a genetic association real?",
+    "section": "5. Why this matters across fields",
+    "text": "5. Why this matters across fields\nThis pattern shows up everywhere.\n\nIn genomics → variant associations depend on sample size and cohort structure\n\nIn RNA-seq → differential expression depends on count variability and replication\n\nIn clinical research → treatment effects depend on both magnitude and uncertainty\n\nIn machine learning → performance estimates depend on data splits and variability\n\nAcross fields, the same idea holds:\n\nAn estimate without uncertainty is incomplete.\nAn estimate without enough data is unstable."
+  },
+  {
+    "objectID": "crosswalk/posts/genetic-association-real.html#takeaway",
+    "href": "crosswalk/posts/genetic-association-real.html#takeaway",
+    "title": "When is a genetic association real?",
+    "section": "6. Takeaway",
+    "text": "6. Takeaway\nA genetic association is not defined by a single number.\nIt requires:\n\nan effect size (odds ratio)\n\nan estimate of uncertainty (confidence interval)\n\nenough data to make that estimate stable\n\nInterpretation is not about whether a result exists.\nIt is about how much we can trust it."
+  },
+  {
+    "objectID": "crosswalk/posts/genetic-association-real.html#related",
+    "href": "crosswalk/posts/genetic-association-real.html#related",
+    "title": "When is a genetic association real?",
+    "section": "7. Related",
+    "text": "7. Related\n\nInteractive app: When is a genetic association real?\n(Shiny app – coming soon)\nProject: /projects/rnaseq-workflow.qmd\n→ See how variability and sample size affect downstream interpretation\nConcept Atlas:\n\nOdds Ratio\n\nConfidence Interval\n\nSample Size\n\nPitfalls Lab (related):\n\nOverinterpreting small datasets (planned)"
   }
 ]

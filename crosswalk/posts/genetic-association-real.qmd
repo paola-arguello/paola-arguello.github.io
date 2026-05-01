@@ -1,0 +1,122 @@
+---
+title: "When is a genetic association real?"
+date: 2026-04-30
+categories: [Evidence & Uncertainty]
+format: html
+---
+
+## 1. The question
+
+If a genetic variant appears more often in cases than controls, when can we say the association is real?
+
+---
+
+## 2. The concept
+
+Genetic association studies often summarize results using an **odds ratio (OR)**.
+
+- OR > 1 → variant is more common in cases  
+- OR < 1 → variant is less common in cases  
+
+But an odds ratio on its own is not enough.
+
+Every estimate comes with **uncertainty**, typically expressed as a **confidence interval (CI)**.  
+This interval reflects how much the estimate could reasonably change if we observed new data.
+
+Interpretation lives in the relationship between:
+
+- the effect size (OR)  
+- the uncertainty (CI)  
+- the amount of data supporting both  
+
+---
+
+## 3. A simple example
+
+Imagine a small study:
+
+- 100 cases  
+- 100 controls  
+
+Variant carriers:
+
+- Cases: 20  
+- Controls: 10  
+
+This produces an odds ratio greater than 1, suggesting a possible association.
+
+Now imagine repeating the same calculation with:
+
+- a much larger dataset  
+- or slightly different counts  
+
+The odds ratio might stay similar, but the **confidence interval will shrink or expand** depending on how stable the data is.
+
+Same number, different meaning.
+
+---
+
+## 4. What can go wrong
+
+This is where interpretation often breaks:
+
+- **Focusing on the odds ratio alone**  
+  Treating OR = 2 as strong evidence without asking how stable that estimate is  
+
+- **Ignoring confidence intervals**  
+  A wide interval may include 1, meaning the data is compatible with no association  
+
+- **Equating statistical significance with importance**  
+  Large datasets can produce very small, statistically significant effects that are not meaningful  
+
+- **Underestimating sample size effects**  
+  Small datasets produce unstable estimates that can shift dramatically  
+
+---
+
+## 5. Why this matters across fields
+
+This pattern shows up everywhere.
+
+- In genomics → variant associations depend on sample size and cohort structure  
+- In RNA-seq → differential expression depends on count variability and replication  
+- In clinical research → treatment effects depend on both magnitude and uncertainty  
+- In machine learning → performance estimates depend on data splits and variability  
+
+Across fields, the same idea holds:
+
+> An estimate without uncertainty is incomplete.  
+> An estimate without enough data is unstable.
+
+---
+
+## 6. Takeaway
+
+A genetic association is not defined by a single number.
+
+It requires:
+
+- an effect size (odds ratio)  
+- an estimate of uncertainty (confidence interval)  
+- enough data to make that estimate stable  
+
+Interpretation is not about whether a result exists.  
+It is about how much we can trust it.
+
+---
+
+## 7. Related
+
+- **Interactive app:** *When is a genetic association real?*  
+  *(Shiny app – coming soon)*  
+
+- **Project:** `/projects/rnaseq-workflow.qmd`  
+  → See how variability and sample size affect downstream interpretation  
+
+- **Concept Atlas:**  
+  - Odds Ratio  
+  - Confidence Interval  
+  - Sample Size  
+
+- **Pitfalls Lab (related):**  
+  - Overinterpreting small datasets *(planned)*  

@@ -133,7 +133,7 @@ These challenges are not unique to RNA-seq.
 
 They reflect broader questions about uncertainty, sample size, and interpretation.
 
-See: [When is a genetic association real?](../crosswalk/example-post.qmd)
+See: [When is a genetic association real?](../crosswalk/posts/genetic-association-real.qmd)
 
 Statistical results depend on how much data we have, how variable it is, and how we model it.
 

@@ -5,24 +5,33 @@ subtitle: "Field notes from the intersections of biology, data, statistics and c
 
 The Crosswalk is the thinking layer of Lunaland.
 
-These short posts connect technical work to interpretation, uncertainty and communication.
+These short field notes follow how data moves from observation to interpretation — and where uncertainty enters along the way.
+
+Projects show what I build.  
+The Pitfalls Lab shows where things break.  
+The Concept Atlas shows how ideas connect.  
+
+The Crosswalk shows how I think through it.
+
+---
 
 ## Posts
 
-### [Example Post](example-post.qmd)
+### [When is a genetic association real?](posts/genetic-association-real.qmd)
 
-A short field note about how small data decisions can shape biological interpretation.
+A field note on why odds ratios alone are not enough — and how uncertainty and sample size shape interpretation.
 
-**Related concepts:** uncertainty, interpretation, reproducibility  
+**Related concepts:** Odds Ratio, Confidence Interval, Sample Size  
 **Related projects:** RNA-seq Workflow Demo  
-**Related pitfalls:** Wrong Genome Build
+**Related app:** *When is a genetic association real?* (Shiny, coming soon)  
+**Related pitfalls:** Overinterpreting small datasets *(planned)*
 
 ---
 
 ## Categories
 
-- Evidence & Uncertainty
-- Bioinformatics Pitfalls
-- Visual Statistics
-- Cross-Discipline Curiosity
-- Scientific Communication
+- Evidence & Uncertainty  
+- Bioinformatics Pitfalls  
+- Visual Statistics  
+- Cross-Discipline Curiosity  
+- Scientific Communication  
