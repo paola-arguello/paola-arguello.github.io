@@ -29,16 +29,17 @@ website:
 
   page-footer:
     center: 
-      <div class="footer-brand">
+      <div class="lunaland-footer">
+        
+        <img src="/assets/lunaland_logo.png" alt="Lunaland logo" class="footer-logo">
 
-        <div class="footer-logo-row">
-          <img src="/assets/lunaland_logo.png" alt="Lunaland logo" class="footer-logo">
+        <div class="footer-title">
+        Powered by Lunaland
         </div>
 
         <div class="footer-text">
-          Lunaland  ●   Scientific data interpretation and communication
+        Scientific data interpretation; moving from messy biological data to evidence, uncertainty and communication
         </div>
-
       </div>
 
 format:

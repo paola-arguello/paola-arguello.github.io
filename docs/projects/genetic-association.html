@@ -6,8 +6,9 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
+<meta name="description" content="An interactive Shiny app for exploring odds ratios, confidence intervals, sample size and uncertainty in a case-control genetic association scenario.">
 
-<title>From genomic data to statistical interpretation – Lunaland</title>
+<title>When is a genetic association real? – Lunaland</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -141,16 +142,16 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">On this page</h2>
    
   <ul class="collapse">
-  <li><a href="#overview" id="toc-overview" class="nav-link active" data-scroll-target="#overview">Overview</a></li>
-  <li><a href="#problem" id="toc-problem" class="nav-link" data-scroll-target="#problem">1. Problem</a></li>
-  <li><a href="#workflow-overview" id="toc-workflow-overview" class="nav-link" data-scroll-target="#workflow-overview">2. Workflow overview</a></li>
-  <li><a href="#rna-seq-pipeline-section" id="toc-rna-seq-pipeline-section" class="nav-link" data-scroll-target="#rna-seq-pipeline-section">3. RNA-seq pipeline section</a></li>
-  <li><a href="#statistical-analysis-section" id="toc-statistical-analysis-section" class="nav-link" data-scroll-target="#statistical-analysis-section">4. Statistical analysis section</a></li>
-  <li><a href="#interpretation-section" id="toc-interpretation-section" class="nav-link" data-scroll-target="#interpretation-section">5. Interpretation section</a></li>
-  <li><a href="#data-and-context" id="toc-data-and-context" class="nav-link" data-scroll-target="#data-and-context">6. Data and context</a></li>
-  <li><a href="#design-decisions" id="toc-design-decisions" class="nav-link" data-scroll-target="#design-decisions">7. Design decisions</a></li>
-  <li><a href="#what-this-project-demonstrates" id="toc-what-this-project-demonstrates" class="nav-link" data-scroll-target="#what-this-project-demonstrates">What this project demonstrates</a></li>
-  <li><a href="#next-steps" id="toc-next-steps" class="nav-link" data-scroll-target="#next-steps">Next steps</a></li>
+  <li><a href="#opening" id="toc-opening" class="nav-link active" data-scroll-target="#opening">Opening</a></li>
+  <li><a href="#the-question" id="toc-the-question" class="nav-link" data-scroll-target="#the-question">The Question</a></li>
+  <li><a href="#what-i-built" id="toc-what-i-built" class="nav-link" data-scroll-target="#what-i-built">What I Built</a></li>
+  <li><a href="#try-the-app" id="toc-try-the-app" class="nav-link" data-scroll-target="#try-the-app">Try the App</a></li>
+  <li><a href="#what-this-shows" id="toc-what-this-shows" class="nav-link" data-scroll-target="#what-this-shows">What This Shows</a></li>
+  <li><a href="#where-interpretation-fails" id="toc-where-interpretation-fails" class="nav-link" data-scroll-target="#where-interpretation-fails">Where Interpretation Fails</a></li>
+  <li><a href="#connection-to-workflow" id="toc-connection-to-workflow" class="nav-link" data-scroll-target="#connection-to-workflow">Connection to Workflow</a></li>
+  <li><a href="#key-concepts" id="toc-key-concepts" class="nav-link" data-scroll-target="#key-concepts">Key Concepts</a></li>
+  <li><a href="#limitations" id="toc-limitations" class="nav-link" data-scroll-target="#limitations">Limitations</a></li>
+  <li><a href="#closing" id="toc-closing" class="nav-link" data-scroll-target="#closing">Closing</a></li>
   </ul>
 </nav>
     </div>
@@ -159,9 +160,14 @@ ul.task-list li input[type="checkbox"] {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">From genomic data to statistical interpretation</h1>
+<h1 class="title">When is a genetic association real?</h1>
 </div>
 
+<div>
+  <div class="description">
+    An interactive Shiny app for exploring odds ratios, confidence intervals, sample size and uncertainty in a case-control genetic association scenario.
+  </div>
+</div>
 
 
 <div class="quarto-title-meta column-page-left">
@@ -176,230 +182,122 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<section id="overview" class="level2">
-<h2 class="anchored" data-anchor-id="overview">Overview</h2>
-<p>This project was built as a compact portfolio demonstration of an idea that sits at the center of modern bioinformatics and biostatistics: <strong>data alone are not enough</strong>. To generate meaningful insight, we need both a reliable computational workflow to process raw data and a statistical framework to evaluate what the results actually mean.</p>
-<p>This page brings together two connected components:</p>
-<ol type="1">
-<li>A lightweight RNA-seq workflow demo showing how raw sequencing reads move through quality control, processing, and quantification<br>
+<section id="opening" class="level2">
+<h2 class="anchored" data-anchor-id="opening">Opening</h2>
+<p>Statistical results often look precise, but their meaning depends on how we interpret uncertainty, sample size, and effect size.</p>
+<p>This project uses a simple case-control example to show how the same kind of result can feel convincing, fragile or misleading depending on the data behind it.</p>
+<hr>
+</section>
+<section id="the-question" class="level2">
+<h2 class="anchored" data-anchor-id="the-question">The Question</h2>
+<p>When can we trust that an observed difference between groups reflects a real association?</p>
+<hr>
+</section>
+<section id="what-i-built" class="level2">
+<h2 class="anchored" data-anchor-id="what-i-built">What I Built</h2>
+<p>I built an interactive Shiny app that lets users explore a simplified genetic association scenario.</p>
+<p>The app compares variant carriers between two groups:</p>
+<ul>
+<li>cases</li>
+<li>controls</li>
+</ul>
+<p>Users can change the number of people in each group and the number of variant carriers observed.</p>
+<p>The app then shows how those choices affect:</p>
+<ul>
+<li>odds ratio</li>
+<li>confidence interval</li>
+<li>p-value</li>
+<li>interpretation</li>
+</ul>
+<p>The goal is not to replace formal statistical analysis.</p>
+<p>The goal is to make the logic of association testing easier to see.</p>
+<hr>
+</section>
+<section id="try-the-app" class="level2">
+<h2 class="anchored" data-anchor-id="try-the-app">Try the App</h2>
+<p>Live app: <a href="https://paola-arguello-pascualli.shinyapps.io/genetic-association-shiny/">click here</a></p>
+<section id="screenshot-app-overview" class="level3">
+<h3 class="anchored" data-anchor-id="screenshot-app-overview">Screenshot: app overview</h3>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../assets/images/genetic-association-app-overview.png" class="img-fluid figure-img"></p>
+<figcaption>Screenshot of the genetic association Shiny app overview</figcaption>
+</figure>
+</div>
+</section>
+<section id="screenshot-interpretation-panel" class="level3">
+<h3 class="anchored" data-anchor-id="screenshot-interpretation-panel">Screenshot: interpretation panel</h3>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../assets/images/genetic-association-interpretation-panel.png" class="img-fluid figure-img"></p>
+<figcaption>Screenshot of the app interpretation panel</figcaption>
+</figure>
+</div>
+<hr>
+</section>
+</section>
+<section id="what-this-shows" class="level2">
+<h2 class="anchored" data-anchor-id="what-this-shows">What This Shows</h2>
+<p>An <strong>odds ratio</strong> compares how common an outcome or feature is between two groups.</p>
+<p>A value above 1 suggests the variant is more common in cases than controls.</p>
+<p>A value below 1 suggests the variant is less common in cases than controls.</p>
+<p>A <strong>confidence interval</strong> shows the range of values that are compatible with the observed data under the model.</p>
+<p>Wide intervals usually mean the estimate is uncertain.</p>
+<p>Narrow intervals can look more stable, but they still depend on the assumptions behind the analysis.</p>
+<p>A result can be statistically significant without being biologically meaningful.</p>
+<p>A result can also be biologically interesting but too uncertain to support a strong claim.</p>
+<p>Effect size and significance answer different questions.</p>
+<hr>
+</section>
+<section id="where-interpretation-fails" class="level2">
+<h2 class="anchored" data-anchor-id="where-interpretation-fails">Where Interpretation Fails</h2>
+<p>Some interpretation failures happen when the result looks cleaner than the data really is.</p>
+<p><strong>Low counts and overinterpretation</strong> happen when a small number of observations produces a large-looking effect. The odds ratio may look dramatic, but the uncertainty can be wide.</p>
+<p><strong>Misleading statistical significance</strong> happens when a p-value is treated as the whole conclusion. A significant result still needs context, effect size, uncertainty and study design.</p>
+<hr>
+</section>
+<section id="connection-to-workflow" class="level2">
+<h2 class="anchored" data-anchor-id="connection-to-workflow">Connection to Workflow</h2>
+<p>This statistical reasoning also applies to gene expression analysis.</p>
+<p>In the <a href="../projects/rnaseq-workflow.html">RNA-seq Workflow Demo</a>, differential expression results are not meaningful just because a table contains small adjusted p-values.</p>
+<p>They need interpretation.</p>
+<p>Gene expression results depend on count structure, sample metadata, normalization, model assumptions and uncertainty.</p>
+<p>The same principle applies here: a result is not just a number. It is evidence shaped by context.</p>
+<hr>
+</section>
+<section id="key-concepts" class="level2">
+<h2 class="anchored" data-anchor-id="key-concepts">Key Concepts</h2>
+<ul>
+<li><strong>Odds ratio</strong> — a comparison of how common something is between two groups<br>
 </li>
-<li>An interactive Shiny app showing how statistical evidence is interpreted through effect sizes, confidence intervals, and sample size</li>
-</ol>
-<p>Together, they illustrate a full analytical story: <strong>from data generation to interpretation</strong>.</p>
-<hr>
-</section>
-<section id="problem" class="level2">
-<h2 class="anchored" data-anchor-id="problem">1. Problem</h2>
-<p>Genomic datasets are complex, high dimensional, and sensitive to processing choices. Before any biological or clinical conclusion can be made, raw data must first be transformed into structured, analyzable outputs through a reproducible pipeline. Even then, the work is not finished. Statistical analysis is needed to evaluate whether an observed pattern is meaningful, how uncertain it is, and how strongly it should inform a decision.</p>
-<p>This matters because strong-looking results are not always reliable, and statistically significant results are not always important in practice. In both research and applied genomics settings, good analysis depends on two things working together:</p>
-<ul>
-<li>a transparent and reproducible data-processing workflow</li>
-<li>a clear statistical interpretation framework</li>
-</ul>
-<p>This portfolio project was designed to show both.</p>
-<hr>
-</section>
-<section id="workflow-overview" class="level2">
-<h2 class="anchored" data-anchor-id="workflow-overview">2. Workflow overview</h2>
-<p>At a high level, the analytical process looks like this:</p>
-<p><strong>Raw sequencing data → quality control → read processing → alignment / quantification → structured outputs → statistical analysis → interpretation</strong></p>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="../images/workflow-diagram.png" class="img-fluid figure-img"></p>
-<figcaption>Workflow diagram</figcaption>
-</figure>
-</div>
-<p>The first half of this process focuses on computational reproducibility: making sure that data are processed consistently, with clear inputs, outputs, and assumptions.</p>
-<p>The second half focuses on statistical reasoning: understanding effect size, uncertainty, and the practical meaning of the result.</p>
-<hr>
-</section>
-<section id="rna-seq-pipeline-section" class="level2">
-<h2 class="anchored" data-anchor-id="rna-seq-pipeline-section">3. RNA-seq pipeline section</h2>
-<section id="purpose" class="level3">
-<h3 class="anchored" data-anchor-id="purpose">Purpose</h3>
-<p>The RNA-seq component demonstrates how raw sequencing reads can be organized into a lightweight but realistic workflow for differential expression analysis. The goal was not to build a production-scale pipeline, but to show sound workflow design, reproducibility, and clear data flow.</p>
-</section>
-<section id="included-steps" class="level3">
-<h3 class="anchored" data-anchor-id="included-steps">Included steps</h3>
-<p>The pipeline structure includes the core stages commonly used in RNA-seq analysis:</p>
-<ul>
-<li>Quality control with FastQC</li>
-<li>Read trimming</li>
-<li>Alignment with STAR</li>
-<li>Counting with featureCounts</li>
-<li>Differential expression analysis with DESeq2</li>
-</ul>
-</section>
-<section id="why-this-matters" class="level3">
-<h3 class="anchored" data-anchor-id="why-this-matters">Why this matters</h3>
-<p>In bioinformatics work, the value of a pipeline is not only in whether it runs, but in whether it is understandable, reproducible, and easy to extend. For that reason, this demo emphasizes:</p>
-<ul>
-<li>modular workflow structure</li>
-<li>explicit inputs and outputs</li>
-<li>parameterization</li>
-<li>environment specification</li>
-<li>realistic organization of files and steps</li>
-</ul>
-<p>These choices make it easier to inspect how data move through the system and how results were generated.</p>
-</section>
-<section id="reproducibility-signals" class="level3">
-<h3 class="anchored" data-anchor-id="reproducibility-signals">Reproducibility signals</h3>
-<p>The workflow is intentionally structured to highlight reproducibility practices, including:</p>
-<ul>
-<li>a Nextflow-style organization</li>
-<li>a central workflow file</li>
-<li>configurable parameters</li>
-<li>environment definition</li>
-<li>documented execution steps</li>
-<li>clear folder structure for inputs, outputs, and intermediate results</li>
-</ul>
-</section>
-<section id="example-output" class="level3">
-<h3 class="anchored" data-anchor-id="example-output">Example output</h3>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="../images/pca_plot.png" class="img-fluid figure-img"></p>
-<figcaption>PCA plot</figcaption>
-</figure>
-</div>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="../images/volcano_plot.png" class="img-fluid figure-img"></p>
-<figcaption>Volcano plot</figcaption>
-</figure>
-</div>
-</section>
-<section id="repository" class="level3">
-<h3 class="anchored" data-anchor-id="repository">Repository</h3>
-<p>The code for the RNA-seq demo is available here:</p>
-<p><a href="https://github.com/paola-arguello/your-rnaseq-repo">View the RNA-seq workflow repository</a></p>
-<hr>
-</section>
-</section>
-<section id="statistical-analysis-section" class="level2">
-<h2 class="anchored" data-anchor-id="statistical-analysis-section">4. Statistical analysis section</h2>
-<section id="purpose-1" class="level3">
-<h3 class="anchored" data-anchor-id="purpose-1">Purpose</h3>
-<p>Once processed data have been transformed into analyzable outputs, the next challenge is interpretation. The statistical component of this portfolio focuses on a simple but important question:</p>
-<p><strong>When does an observed association represent meaningful evidence?</strong></p>
-<p>To explore that question, I built an interactive Shiny app around a case-control genetics scenario. The app allows users to vary the number of cases, controls, and variant carriers, and then observe how the estimated association changes.</p>
-</section>
-<section id="core-concepts" class="level3">
-<h3 class="anchored" data-anchor-id="core-concepts">Core concepts</h3>
-<p>The app focuses on a small number of high-value concepts:</p>
-<ul>
-<li>odds ratios as measures of association</li>
-<li>confidence intervals as measures of uncertainty</li>
-<li>the role of sample size in shaping precision</li>
-<li>the difference between apparent signal and interpretable evidence</li>
-</ul>
-<p>This section was designed to make statistical reasoning more visible and accessible rather than treating model output as self-explanatory.</p>
-</section>
-<section id="why-this-matters-1" class="level3">
-<h3 class="anchored" data-anchor-id="why-this-matters-1">Why this matters</h3>
-<p>In genomics and health data analysis, interpretation often fails when numerical results are presented without context. A point estimate by itself can be misleading. A statistically significant result may still be unstable, small in magnitude, or difficult to interpret in practice. Conversely, a potentially important effect may appear inconclusive if the sample size is too limited.</p>
-<p>This is why I wanted the statistical component of the portfolio to center not only on calculation, but on interpretation.</p>
-</section>
-<section id="app-preview" class="level3">
-<h3 class="anchored" data-anchor-id="app-preview">App preview</h3>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="../images/shiny-screenshot.png" class="img-fluid figure-img"></p>
-<figcaption>Shiny app screenshot</figcaption>
-</figure>
-</div>
-</section>
-<section id="live-app-repository" class="level3">
-<h3 class="anchored" data-anchor-id="live-app-repository">Live app / repository</h3>
-<p><a href="https://paola-arguello-pascualli.shinyapps.io/genetic-association-shiny/">Open the Shiny app</a><br>
-<a href="https://github.com/paola-arguello/genetic-association-shiny">View the app source code</a></p>
-<hr>
-</section>
-</section>
-<section id="interpretation-section" class="level2">
-<h2 class="anchored" data-anchor-id="interpretation-section">5. Interpretation section</h2>
-<p>This project is ultimately about how analytical outputs become useful evidence.</p>
-<p>A well-structured pipeline can produce clean counts, summary tables, and differential expression results. A statistical app can calculate odds ratios and confidence intervals. But the key step is understanding <strong>what those outputs support and what they do not</strong>.</p>
-<p>There are three ideas I wanted to make especially clear in this portfolio:</p>
-<section id="effect-size-matters" class="level3">
-<h3 class="anchored" data-anchor-id="effect-size-matters">Effect size matters</h3>
-<p>A result is more informative when we understand the magnitude of the observed effect, not only whether it crosses a significance threshold. In practice, the size of an effect often matters more than the binary label of “significant” or “not significant.”</p>
-</section>
-<section id="uncertainty-matters" class="level3">
-<h3 class="anchored" data-anchor-id="uncertainty-matters">Uncertainty matters</h3>
-<p>Confidence intervals provide context that a single estimate cannot. They show how precise the estimate is and whether multiple plausible interpretations remain compatible with the data.</p>
-</section>
-<section id="context-matters" class="level3">
-<h3 class="anchored" data-anchor-id="context-matters">Context matters</h3>
-<p>Results do not exist in isolation. Their meaning depends on study design, sample size, data quality, assumptions, and the specific question being asked. Analytical outputs should support judgment, not replace it.</p>
-<p>In research and clinical-adjacent settings, this kind of interpretation is essential. Decisions are rarely based on one number alone. They rely on a combination of workflow quality, statistical evidence, and domain context.</p>
-<hr>
-</section>
-</section>
-<section id="data-and-context" class="level2">
-<h2 class="anchored" data-anchor-id="data-and-context">6. Data and context</h2>
-<p>This portfolio project uses <strong>public, example, or simulated data</strong> for demonstration purposes.</p>
-<p>The goal is not to reproduce a specific biological finding or clinical result, but to illustrate the structure of an end-to-end analytical workflow and the reasoning used to interpret outputs responsibly.</p>
-<p>Although simplified, the components reflect the kinds of practices used in research and applied genomics settings:</p>
-<ul>
-<li>transforming raw data into structured outputs</li>
-<li>maintaining reproducibility and transparency</li>
-<li>evaluating statistical evidence with attention to uncertainty</li>
-<li>presenting results in a way that supports interpretation</li>
-</ul>
-<p>This makes the project suitable as a compact demonstration of workflow thinking rather than as a production or diagnostic system.</p>
-<hr>
-</section>
-<section id="design-decisions" class="level2">
-<h2 class="anchored" data-anchor-id="design-decisions">7. Design decisions</h2>
-<p>This site was intentionally designed to be minimal.</p>
-<section id="why-only-one-main-project-page" class="level3">
-<h3 class="anchored" data-anchor-id="why-only-one-main-project-page">Why only one main project page?</h3>
-<p>Because the strongest version of this portfolio is not a list of disconnected tools. It is a single analytical narrative. The RNA-seq workflow and the Shiny app are presented together because they address different parts of the same problem.</p>
-</section>
-<section id="why-keep-the-examples-lightweight" class="level3">
-<h3 class="anchored" data-anchor-id="why-keep-the-examples-lightweight">Why keep the examples lightweight?</h3>
-<p>Given the time constraint, the priority was clarity over scale. A smaller, well-explained project is more convincing than a larger project with weak framing or incomplete documentation.</p>
-</section>
-<section id="why-emphasize-interpretation" class="level3">
-<h3 class="anchored" data-anchor-id="why-emphasize-interpretation">Why emphasize interpretation?</h3>
-<p>Many technical portfolios stop at computation. I wanted this one to show the next step: how outputs are evaluated, communicated, and connected back to the original question.</p>
-</section>
-<section id="trade-offs-and-assumptions" class="level3">
-<h3 class="anchored" data-anchor-id="trade-offs-and-assumptions">Trade-offs and assumptions</h3>
-<p>This project makes several simplifying choices:</p>
-<ul>
-<li>the RNA-seq workflow is a compact demonstration rather than a production pipeline</li>
-<li>the statistical app focuses on one concept deeply rather than covering many methods superficially</li>
-<li>examples are chosen for interpretability and communication value</li>
-<li>public or simulated data are used to avoid privacy concerns and keep the project shareable</li>
-</ul>
-<p>These trade-offs were deliberate. The goal was to build a portfolio piece that is realistic, focused, and easy to understand.</p>
-<hr>
-</section>
-</section>
-<section id="what-this-project-demonstrates" class="level2">
-<h2 class="anchored" data-anchor-id="what-this-project-demonstrates">What this project demonstrates</h2>
-<p>Across both components, this portfolio highlights the following strengths:</p>
-<ul>
-<li>workflow design and reproducibility</li>
-<li>clear input-to-output reasoning</li>
-<li>statistical interpretation beyond surface-level computation</li>
-<li>communication across technical and non-technical audiences</li>
-<li>practical awareness of assumptions and limitations</li>
+<li><strong>Confidence interval</strong> — a range that shows uncertainty around an estimate<br>
+</li>
+<li><strong>Sample size</strong> — the amount of data supporting the result<br>
+</li>
+<li><strong>Uncertainty</strong> — the limits of what the data can tell us clearly<br>
+</li>
+<li><strong>Statistical significance</strong> — a signal that the observed pattern is unlikely under a specific model</li>
 </ul>
 <hr>
 </section>
-<section id="next-steps" class="level2">
-<h2 class="anchored" data-anchor-id="next-steps">Next steps</h2>
-<p>Potential future extensions include:</p>
+<section id="limitations" class="level2">
+<h2 class="anchored" data-anchor-id="limitations">Limitations</h2>
+<p>This app is intentionally simplified.</p>
 <ul>
-<li>adding a more detailed workflow diagram</li>
-<li>expanding the RNA-seq demo with richer summary outputs</li>
-<li>integrating example downstream plots from differential expression analysis</li>
-<li>adding a short methods appendix for technically interested readers</li>
+<li>It uses a basic case-control scenario<br>
+</li>
+<li>It is not a full statistical inference pipeline<br>
+</li>
+<li>It does not include multiple testing correction<br>
+</li>
+<li>It does not account for ancestry, covariates, population structure or study design complexity</li>
 </ul>
-<p>For now, the site is intentionally scoped to present one clear idea well: <strong>how raw genomic data become interpretable statistical evidence</strong>.</p>
+<p>The purpose is interpretation, not exhaustive modeling.</p>
+<hr>
+</section>
+<section id="closing" class="level2">
+<h2 class="anchored" data-anchor-id="closing">Closing</h2>
+<p>Understanding statistical results is not just about calculation — it is about recognizing uncertainty and limits of evidence.</p>
 
 
 </section>
@@ -817,12 +715,13 @@ ul.task-list li input[type="checkbox"] {
       &nbsp;
     </div>   
     <div class="nav-footer-center">
-<div class="footer-brand">
-<div class="footer-logo-row">
+<div class="lunaland-footer">
 <img src="../assets/lunaland_logo.png" alt="Lunaland logo" class="footer-logo">
+<div class="footer-title">
+Powered by Lunaland
 </div>
 <div class="footer-text">
-Lunaland ● Scientific data interpretation and communication
+Scientific data interpretation; moving from messy biological data to evidence, uncertainty and communication
 </div>
 </div>
 </div>

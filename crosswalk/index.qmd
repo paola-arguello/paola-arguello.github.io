@@ -19,7 +19,7 @@ A field note on why odds ratios alone are not enough — and how uncertainty and
 **Related concepts:** Odds Ratio, Confidence Interval, Sample Size  
 **Related projects:** RNA-seq Workflow Demo  
 **Related app:** *When is a genetic association real?* (Shiny, coming soon)  
-**Related pitfalls:** Overinterpreting small datasets *(planned)*
+**Related pitfalls:** Overinterpreting small datasets *(comming soon)*
 
 ---
 
