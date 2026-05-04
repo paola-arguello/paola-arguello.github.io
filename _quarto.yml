@@ -5,7 +5,7 @@ project:
 website:
   title: "Lunaland"
   site-url: "https://paola-arguello.github.io"
-  favicon: assets/logo.png
+  favicon: assets/lunaland_logo.png
   description: "Scientific data interpretation: how messy biological data moves through analysis, uncertainty, and communication."
 
   navbar:
@@ -28,7 +28,18 @@ website:
         href: https://github.com/paola-arguello
 
   page-footer:
-    center: "Lunaland · Scientific data interpretation, uncertainty and communication"
+    center: 
+      <div class="footer-brand">
+
+        <div class="footer-logo-row">
+          <img src="/assets/lunaland_logo.png" alt="Lunaland logo" class="footer-logo">
+        </div>
+
+        <div class="footer-text">
+          Lunaland  ●   Scientific data interpretation and communication
+        </div>
+
+      </div>
 
 format:
   html:
@@ -39,3 +50,4 @@ format:
     anchor-sections: true
     smooth-scroll: true
     link-external-newwindow: true
+    page-layout: full

@@ -11,7 +11,7 @@ These are not textbook chapters. They are debugging notes from the messy middle 
 
 | Module | Focus | Status |
 |---|---|---|
-| [Wrong Genome Build](wrong-genome-build.qmd) | Reference genome mismatch | Ready |
+| [Wrong Genome Build](wrong-genome-build.qmd) | Reference genome mismatch | In progress |
 | [Batch Effects](batch-effects.qmd) | Technical structure mistaken for biology | Ready |
 
 ## How to read these modules

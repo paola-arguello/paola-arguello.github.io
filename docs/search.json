@@ -25,21 +25,14 @@
     "href": "index.html",
     "title": "Lunaland",
     "section": "",
-    "text": "Lunaland is a portfolio ecosystem about turning complex biological data into interpretable, usable insight.\nIt connects workflow development, statistical interpretation, bioinformatics judgment and science communication into one coherent story.\nProjects show what I build.\nThe Pitfalls Lab shows where things break.\nThe Concept Atlas shows how ideas connect.\nThe Crosswalk shows how I think through it."
+    "text": "Lunaland is a portfolio ecosystem about turning complex biological data into interpretable, usable insight.\nIt connects workflow development, statistical interpretation, bioinformatics judgment and science communication into one coherent story.\nThe Crosswalk shows how I think through it."
   },
   {
     "objectID": "index.html#explore",
     "href": "index.html#explore",
     "title": "Lunaland",
     "section": "Explore",
-    "text": "Explore\n\n\nProjects\nReproducible workflows, Shiny apps and practical data interpretation tools.\nProjects show what I can build.\n\n\nBioinformatics Pitfalls Lab\nSmall practical modules about common mistakes in bioinformatics analysis.\nThe Pitfalls Lab shows my judgment.\n\n\nThe Crosswalk\nShort field notes from the intersections of biology, data, statistics and curiosity.\nField Notes show how I think.\n\n\nConcept Atlas\nA lightweight map of recurring concepts across the portfolio.\nThe Atlas shows how ideas connect."
-  },
-  {
-    "objectID": "index.html#the-organizing-idea",
-    "href": "index.html#the-organizing-idea",
-    "title": "Lunaland",
-    "section": "The organizing idea",
-    "text": "The organizing idea\nBiological data rarely moves cleanly from experiment to conclusion. It passes through quality control, assumptions, metadata, uncertainty, statistical modeling and communication.\nThis site documents that path."
+    "text": "Explore\n\n\nProjects\nReproducible workflows, Shiny apps and practical data interpretation tools.\nProjects show what I can build.\n\n\nBioinformatics Pitfalls Lab\nSmall practical modules about common mistakes in bioinformatics analysis.\nThe Pitfalls Lab where things break.\n\n\nThe Crosswalk\nShort field notes from the intersections of biology, data, statistics and curiosity.\nThe Crosswalk show how I through ideas.\n\n\nConcept Atlas\nA lightweight map of recurring concepts across the portfolio.\nThe Atlas shows how ideas connect."
   },
   {
     "objectID": "projects/index.html",
@@ -179,7 +172,7 @@
     "href": "pitfalls/wrong-genome-build.html#tiny-demo",
     "title": "Wrong Genome Build",
     "section": "Tiny demo",
-    "text": "Tiny demo\nImagine we are checking whether variants overlap a gene region.\n```r library(tibble)\nvariants &lt;- tibble::tribble( ~variant_id, ~chromosome, ~position, ~assumed_build, “var_001”, “chr1”, 1000000, “GRCh38”, “var_002”, “chr1”, 2000000, “GRCh38”, “var_003”, “chr1”, 3000000, “GRCh37” )\nexpected_build &lt;- “GRCh38”\nvariants |&gt; dplyr::mutate( build_check = ifelse( assumed_build == expected_build, “OK”, “Check build before interpretation” ) )"
+    "text": "Tiny demo\nImagine we are checking whether variants overlap a gene region.\nlibrary(tibble)\n\nvariants &lt;- tibble::tribble(\n  ~variant_id, ~chromosome, ~position, ~assumed_build,\n  \"var_001\", \"chr1\", 1000000, \"GRCh38\",\n  \"var_002\", \"chr1\", 2000000, \"GRCh38\",\n  \"var_003\", \"chr1\", 3000000, \"GRCh37\"\n)\n\nexpected_build &lt;- \"GRCh38\"\n\nvariants |&gt;\n  dplyr::mutate(\n    build_check = ifelse(\n      assumed_build == expected_build,\n      \"OK\",\n      \"Check build before interpretation\"\n    )\n  )"
   },
   {
     "objectID": "atlas/index.html",
@@ -214,14 +207,21 @@
     "href": "about.html",
     "title": "About",
     "section": "",
-    "text": "I am interested in how scientific knowledge is built, challenged, and sometimes misunderstood. My work sits at the intersection of biology, statistics, and computation, but my curiosity extends beyond any single field.\nThe same principles that shape genomics also shape physics, economics, and even theology: we observe, we model, we interpret, and we make decisions under uncertainty.\nHistory shows us that some of the most powerful ideas come from crossing boundaries. Einstein relied deeply on mathematics at a time when physics resisted it. Alan Turing, a mathematician, proposed a mechanism for biological pattern formation that was ignored for decades before becoming foundational.\nThese stories are not exceptions — they are reminders that knowledge advances when we allow ideas to move freely between disciplines.\nAt the same time, science is a human process. It carries bias, incentives, and limitations. Data can mislead, pipelines can break, and results can be overinterpreted.\nMy work focuses on making those weak points visible — and turning them into opportunities for better reasoning, better tools, and clearer communication.\n\n\n\n\n\n\n\n\n\nGitHub\nLinkedIn"
+    "text": "I am interested in how scientific knowledge is built, challenged, and sometimes misunderstood. My work sits at the intersection of biology, statistics, and computation, but my curiosity extends beyond any single field.\nThe same principles that shape genomics also shape physics, economics, and even theology: we observe, we model, we interpret, and we make decisions under uncertainty.\nHistory shows us that some of the most powerful ideas come from crossing boundaries. Einstein relied deeply on mathematics at a time when physics resisted it. Alan Turing, a mathematician, proposed a mechanism for biological pattern formation that was ignored for decades before becoming foundational.\nThese stories are not exceptions, they are reminders that knowledge advances when we allow ideas to move freely between disciplines.\nAt the same time, science is a human process. It carries bias, incentives, and limitations. Data can mislead, pipelines can break, and results can be overinterpreted.\nMy work focuses on making those weak points visible and turning them into opportunities for better reasoning, better tools, and clearer communication.\n\n\nAlso at the center of my work is Luna. She is the unofficial companion to all my projects, a patient listener during work rambles and a persistent reminder that the best thinking sometimes happens outside."
+  },
+  {
+    "objectID": "about.html#the-core-of-lunaland",
+    "href": "about.html#the-core-of-lunaland",
+    "title": "About",
+    "section": "",
+    "text": "I am interested in how scientific knowledge is built, challenged, and sometimes misunderstood. My work sits at the intersection of biology, statistics, and computation, but my curiosity extends beyond any single field.\nThe same principles that shape genomics also shape physics, economics, and even theology: we observe, we model, we interpret, and we make decisions under uncertainty.\nHistory shows us that some of the most powerful ideas come from crossing boundaries. Einstein relied deeply on mathematics at a time when physics resisted it. Alan Turing, a mathematician, proposed a mechanism for biological pattern formation that was ignored for decades before becoming foundational.\nThese stories are not exceptions, they are reminders that knowledge advances when we allow ideas to move freely between disciplines.\nAt the same time, science is a human process. It carries bias, incentives, and limitations. Data can mislead, pipelines can break, and results can be overinterpreted.\nMy work focuses on making those weak points visible and turning them into opportunities for better reasoning, better tools, and clearer communication.\n\n\nAlso at the center of my work is Luna. She is the unofficial companion to all my projects, a patient listener during work rambles and a persistent reminder that the best thinking sometimes happens outside."
   },
   {
     "objectID": "about.html#links",
     "href": "about.html#links",
     "title": "About",
-    "section": "",
-    "text": "GitHub\nLinkedIn"
+    "section": "Links",
+    "text": "Links\n\nGitHub\nLinkedIn"
   },
   {
     "objectID": "pitfalls/index.html",
@@ -235,7 +235,7 @@
     "href": "pitfalls/index.html#modules",
     "title": "Bioinformatics Pitfalls Lab",
     "section": "Modules",
-    "text": "Modules\n\n\n\nModule\nFocus\nStatus\n\n\n\n\nWrong Genome Build\nReference genome mismatch\nReady\n\n\nBatch Effects\nTechnical structure mistaken for biology\nReady"
+    "text": "Modules\n\n\n\nModule\nFocus\nStatus\n\n\n\n\nWrong Genome Build\nReference genome mismatch\nIn progress\n\n\nBatch Effects\nTechnical structure mistaken for biology\nReady"
   },
   {
     "objectID": "pitfalls/index.html#how-to-read-these-modules",

@@ -3,7 +3,7 @@ title: "About"
 format: html
 ---
 
-# The core of Lunaland
+## The core of Lunaland
 
 I am interested in how scientific knowledge is built, challenged, and sometimes misunderstood.
 My work sits at the intersection of biology, statistics, and computation, but my curiosity extends beyond any single field.
@@ -12,24 +12,24 @@ The same principles that shape genomics also shape physics, economics, and even 
 
 History shows us that some of the most powerful ideas come from crossing boundaries. Einstein relied deeply on mathematics at a time when physics resisted it. Alan Turing, a mathematician, proposed a mechanism for biological pattern formation that was ignored for decades before becoming foundational.
 
-These stories are not exceptions — they are reminders that knowledge advances when we allow ideas to move freely between disciplines.
+These stories are not exceptions, they are reminders that knowledge advances when we allow ideas to move freely between disciplines.
 
 At the same time, science is a human process. It carries bias, incentives, and limitations. Data can mislead, pipelines can break, and results can be overinterpreted.
 
-My work focuses on making those weak points visible — and turning them into opportunities for better reasoning, better tools, and clearer communication.
+My work focuses on making those weak points visible and turning them into opportunities for better reasoning, better tools, and clearer communication.
+
+### Meet Luna
+
+Also at the center of my work is Luna. She is the unofficial companion to all my projects, a patient listener during work rambles and a persistent reminder that the best thinking sometimes happens outside.
 
 
-::: {.about-collage}
+::: {.about-photo}
 
-![](assets/images/about/Luna_and_me.png){.collage-main}
+![](assets/images/about/lunaland_about.png){fig-alt="About page photo"}
 
-![](assets/images/about/luna_stanford.png){.collage-small}
-
-![](assets/images/about/luna_vancity.png){.collage-small}
-
-![](assets/images/about/luna_whistler.png){.collage-small}
 
 :::
+
 
 
 ## Links
