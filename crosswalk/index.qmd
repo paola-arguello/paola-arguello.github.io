@@ -7,11 +7,6 @@ The Crosswalk is the thinking layer of Lunaland.
 
 These short field notes follow how data moves from observation to interpretation — and where uncertainty enters along the way.
 
-Projects show what I build.  
-The Pitfalls Lab shows where things break.  
-The Concept Atlas shows how ideas connect.  
-
-The Crosswalk shows how I think through it.
 
 ---
 

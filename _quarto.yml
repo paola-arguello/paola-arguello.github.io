@@ -5,6 +5,7 @@ project:
 website:
   title: "Lunaland"
   site-url: "https://paola-arguello.github.io"
+  favicon: assets/logo.png
   description: "Scientific data interpretation: how messy biological data moves through analysis, uncertainty, and communication."
 
   navbar:

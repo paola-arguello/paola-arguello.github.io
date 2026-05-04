@@ -7,6 +7,11 @@ Lunaland is a portfolio ecosystem about turning complex biological data into int
 
 It connects workflow development, statistical interpretation, bioinformatics judgment and science communication into one coherent story.
 
+Projects show what I build.  
+The Pitfalls Lab shows where things break.  
+The Concept Atlas shows how ideas connect.  
+The Crosswalk shows how I think through it.
+
 ## Explore
 
 ::: {.grid}
