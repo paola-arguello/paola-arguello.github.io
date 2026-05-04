@@ -71,3 +71,45 @@ blockquote {
   padding-left: 1rem;
   color: #555;
 }
+
+.about-collage {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr;
+  grid-template-rows: repeat(3, 140px);
+  gap: 0.8rem;
+  margin: 2rem 0;
+  max-width: 720px;
+}
+
+.about-collage img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 18px;
+  display: block;
+}
+
+.about-collage .collage-main {
+  grid-row: 1 / span 3;
+}
+
+.about-collage .collage-small {
+  min-height: 0;
+}
+
+@media (max-width: 700px) {
+  .about-collage {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto;
+  }
+
+  .about-collage img {
+    height: auto;
+    max-height: 360px;
+  }
+
+  .about-collage .collage-main {
+    grid-row: auto;
+  }
+}
+

@@ -4,7 +4,7 @@
     "href": "crosswalk/index.html",
     "title": "The Crosswalk",
     "section": "",
-    "text": "The Crosswalk is the thinking layer of Lunaland.\nThese short field notes follow how data moves from observation to interpretation — and where uncertainty enters along the way.\nProjects show what I build.\nThe Pitfalls Lab shows where things break.\nThe Concept Atlas shows how ideas connect.\nThe Crosswalk shows how I think through it."
+    "text": "The Crosswalk is the thinking layer of Lunaland.\nThese short field notes follow how data moves from observation to interpretation — and where uncertainty enters along the way."
   },
   {
     "objectID": "crosswalk/index.html#posts",
@@ -25,7 +25,7 @@
     "href": "index.html",
     "title": "Lunaland",
     "section": "",
-    "text": "Lunaland is a portfolio ecosystem about turning complex biological data into interpretable, usable insight.\nIt connects workflow development, statistical interpretation, bioinformatics judgment and science communication into one coherent story."
+    "text": "Lunaland is a portfolio ecosystem about turning complex biological data into interpretable, usable insight.\nIt connects workflow development, statistical interpretation, bioinformatics judgment and science communication into one coherent story.\nProjects show what I build.\nThe Pitfalls Lab shows where things break.\nThe Concept Atlas shows how ideas connect.\nThe Crosswalk shows how I think through it."
   },
   {
     "objectID": "index.html#explore",
@@ -214,7 +214,7 @@
     "href": "about.html",
     "title": "About",
     "section": "",
-    "text": "I am interested in how scientific knowledge is built, challenged, and sometimes misunderstood. My work sits at the intersection of biology, statistics, and computation, but my curiosity extends beyond any single field.\nThe same principles that shape genomics also shape physics, economics, and even theology: we observe, we model, we interpret, and we make decisions under uncertainty.\nHistory shows us that some of the most powerful ideas come from crossing boundaries. Einstein relied deeply on mathematics at a time when physics resisted it. Alan Turing, a mathematician, proposed a mechanism for biological pattern formation that was ignored for decades before becoming foundational.\nThese stories are not exceptions — they are reminders that knowledge advances when we allow ideas to move freely between disciplines.\nAt the same time, science is a human process. It carries bias, incentives, and limitations. Data can mislead, pipelines can break, and results can be overinterpreted.\nMy work focuses on making those weak points visible — and turning them into opportunities for better reasoning, better tools, and clearer communication.\n\n\n\nGitHub\nLinkedIn"
+    "text": "I am interested in how scientific knowledge is built, challenged, and sometimes misunderstood. My work sits at the intersection of biology, statistics, and computation, but my curiosity extends beyond any single field.\nThe same principles that shape genomics also shape physics, economics, and even theology: we observe, we model, we interpret, and we make decisions under uncertainty.\nHistory shows us that some of the most powerful ideas come from crossing boundaries. Einstein relied deeply on mathematics at a time when physics resisted it. Alan Turing, a mathematician, proposed a mechanism for biological pattern formation that was ignored for decades before becoming foundational.\nThese stories are not exceptions — they are reminders that knowledge advances when we allow ideas to move freely between disciplines.\nAt the same time, science is a human process. It carries bias, incentives, and limitations. Data can mislead, pipelines can break, and results can be overinterpreted.\nMy work focuses on making those weak points visible — and turning them into opportunities for better reasoning, better tools, and clearer communication.\n\n\n\n\n\n\n\n\n\nGitHub\nLinkedIn"
   },
   {
     "objectID": "about.html#links",

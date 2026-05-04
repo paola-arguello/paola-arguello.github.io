@@ -3,7 +3,8 @@ title: "About"
 format: html
 ---
 
-# About
+# The core of Lunaland
+
 I am interested in how scientific knowledge is built, challenged, and sometimes misunderstood.
 My work sits at the intersection of biology, statistics, and computation, but my curiosity extends beyond any single field.
 
@@ -16,6 +17,20 @@ These stories are not exceptions — they are reminders that knowledge advances 
 At the same time, science is a human process. It carries bias, incentives, and limitations. Data can mislead, pipelines can break, and results can be overinterpreted.
 
 My work focuses on making those weak points visible — and turning them into opportunities for better reasoning, better tools, and clearer communication.
+
+
+::: {.about-collage}
+
+![](assets/images/about/Luna_and_me.png){.collage-main}
+
+![](assets/images/about/luna_stanford.png){.collage-small}
+
+![](assets/images/about/luna_vancity.png){.collage-small}
+
+![](assets/images/about/luna_whistler.png){.collage-small}
+
+:::
+
 
 ## Links
 
