@@ -3,6 +3,26 @@ title: "About"
 format: html
 ---
 
+## Paola Arguello Pascualli
+
+I analyse genomic data and focus on interpretation: what a result can support and what it can't. A lot of my work deals with genetic ancestry and with people who are underrepresented in genomic reference data, including Latin American populations.
+
+**Education**
+
+- MSc, Medical Genetics, University of British Columbia (2025)
+- Honours BSc, Genomic Sciences, UNAM, Mexico (2019)
+
+**Research areas:** RNA-seq and ChIP-seq analysis, GWAS and polygenic risk scores, ancestry-aware analysis, Latin American and other underrepresented populations.
+
+**Tools:** R (tidyverse, Shiny, DESeq2), Nextflow, Quarto, Git and GitHub, Unix shell.
+<!-- TODO: add Python and bcftools once the variant pipeline repo is public. -->
+
+**Teaching:** more than five years of teaching and tutoring, from grade 10 students to graduate students.
+
+**Contact:** [CV (PDF)](assets/Paola_Arguello_Pascualli_CV.pdf) · [pao.arguello.pascualli@gmail.com](mailto:pao.arguello.pascualli@gmail.com)
+
+---
+
 ## The core of Lunaland
 
 I am interested in how scientific knowledge is built, challenged, and sometimes misunderstood.
