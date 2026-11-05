@@ -106,20 +106,17 @@ If you color by batch:
 The plot did not lie.  
 It just answered a different question.
 
-## Suggested figure
+## The same plot, colored two ways
 
-Two PCA plots side by side:
+![The same PCA, colored by condition (left) and by batch (right). The separation is identical in both panels.](../assets/figures/batch_effects_pca.png){fig-alt="Two PCA scatter plots of the same 12 simulated samples. Left panel colored by case and control, right panel colored by batch 1 and batch 2. The two groups separate the same way in both panels."}
 
-- left: colored by condition → clean separation  
-- right: colored by batch → same separation  
+The same structure can support two different stories depending on what you color by.
 
-Caption:
-
-> The same structure can support two different stories depending on what you color by.
+The data here are simulated. All cases were processed in batch 1 and all controls in batch 2. The expression values contain a batch shift and no condition effect at all, so the clean separation on the left is entirely technical. The script that makes this figure is `scripts/batch_effects_pca.py` in the site repository.
 
 ## Related project
 
-`/projects/rnaseq-workflow-demo.qmd`
+[RNA-seq Workflow Demo](../projects/rnaseq-workflow.qmd)
 
 Relevant workflow section:
 
@@ -129,11 +126,7 @@ This is where patterns are interpreted and where batch effects can silently turn
 
 ## Related Crosswalk post
 
-`/crosswalk/posts/when-patterns-are-not-biology.qmd`
-
-Working idea:
-
-**When patterns are not biology: the illusion of clean data**
+Coming soon: **When patterns are not biology: the illusion of clean data**
 
 ## Related Concept Atlas entries
 

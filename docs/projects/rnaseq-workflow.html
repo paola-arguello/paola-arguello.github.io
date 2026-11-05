@@ -6,7 +6,7 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="description" content="A reproducible workflow showing how RNA-seq data moves from raw sequencing reads to interpretable results.">
+<meta name="description" content="A Nextflow workflow structure for RNA-seq preprocessing, and a DESeq2 analysis on simulated counts.">
 
 <title>RNA-seq Workflow Demo: From Raw Reads to Interpretation – Lunaland</title>
 <style>
@@ -152,7 +152,7 @@ ul.task-list li input[type="checkbox"] {
   <li><a href="#connecting-to-statistical-reasoning" id="toc-connecting-to-statistical-reasoning" class="nav-link" data-scroll-target="#connecting-to-statistical-reasoning">Connecting to Statistical Reasoning</a></li>
   <li><a href="#key-concepts" id="toc-key-concepts" class="nav-link" data-scroll-target="#key-concepts">Key Concepts</a></li>
   <li><a href="#limitations" id="toc-limitations" class="nav-link" data-scroll-target="#limitations">Limitations</a></li>
-  <li><a href="#closing" id="toc-closing" class="nav-link" data-scroll-target="#closing">Closing</a></li>
+  <li><a href="#final-thoughts" id="toc-final-thoughts" class="nav-link" data-scroll-target="#final-thoughts">Final thoughts</a></li>
   </ul>
 </nav>
     </div>
@@ -166,7 +166,7 @@ ul.task-list li input[type="checkbox"] {
 
 <div>
   <div class="description">
-    A reproducible workflow showing how RNA-seq data moves from raw sequencing reads to interpretable results.
+    A Nextflow workflow structure for RNA-seq preprocessing, and a DESeq2 analysis on simulated counts.
   </div>
 </div>
 
@@ -183,10 +183,12 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
+<p><strong>Tools:</strong> Nextflow (DSL2), FastQC, Trimmomatic, STAR, featureCounts, MultiQC, R, DESeq2, ggplot2, conda<br>
+<strong>Code:</strong> <a href="https://github.com/paola-arguello/rna-seq-demo">github.com/paola-arguello/rna-seq-demo</a></p>
 <section id="opening" class="level2">
 <h2 class="anchored" data-anchor-id="opening">Opening</h2>
 <p>Scientific data is messy.</p>
-<p>Before we interpret results, data moves through multiple steps — each one making assumptions, introducing structure, and sometimes creating unintended patterns.</p>
+<p>Before we interpret results, data moves through multiple steps. Each one makes assumptions, adds structure and can create patterns nobody intended.</p>
 <p>This project shows how RNA-seq data moves through that process, and where interpretation can become uncertain.</p>
 <hr>
 </section>
@@ -201,48 +203,37 @@ ul.task-list li input[type="checkbox"] {
 <p>Raw data → quality control → processing → statistical analysis → interpretation</p>
 <p>In practice, each of these steps transforms the data.</p>
 <ul>
-<li>Quality control decides what data is considered usable<br>
-</li>
-<li>Alignment maps reads to a reference that may not perfectly represent the sample<br>
-</li>
-<li>Quantification reduces complex read data into gene-level summaries<br>
-</li>
+<li>Quality control decides what data is considered usable</li>
+<li>Alignment maps reads to a reference that may not perfectly represent the sample</li>
+<li>Quantification reduces complex read data into gene-level summaries</li>
 <li>Statistical analysis highlights patterns under specific assumptions</li>
 </ul>
-<p>At each step, information is filtered, reshaped, and interpreted.</p>
+<p>At each step, information is filtered, reshaped and interpreted.</p>
 <p>The final results depend not only on the data itself, but on how these transformations are applied.</p>
 <hr>
 </section>
 <section id="what-i-built" class="level2">
 <h2 class="anchored" data-anchor-id="what-i-built">What I Built</h2>
-<p>This project implements a small, modular RNA-seq workflow designed to make each step visible and reproducible.</p>
-<p>It includes:</p>
-<ul>
-<li>Structured workflow steps (QC, alignment, quantification, analysis)<br>
-</li>
-<li>A differential expression analysis using gene-level counts<br>
-</li>
-<li>Clear input and output organization<br>
-</li>
-<li>Explicit configuration for reproducibility</li>
-</ul>
-<p>The goal is not to present a production-ready pipeline.</p>
-<p>The goal is to show how analysis decisions are structured, and how they affect interpretation.</p>
+<p>The project has two parts, and they are at different stages.</p>
+<p><strong>Preprocessing (written, not yet run on reads).</strong> A Nextflow DSL2 workflow with one module per step: FastQC, Trimmomatic, STAR alignment, featureCounts and MultiQC. Parameters live in <code>params.yaml</code> and the software environment in <code>environment.yml</code>. I have not run it on real FASTQ files yet.</p>
+<p><strong>Differential expression (run).</strong> An R script simulates a count matrix, and a second script analyses it with DESeq2 and makes the figures below. The simulation has 300 genes and 3 control and 3 treated samples. I raised the mean of 25 genes by 2.5 times in the treated samples, so I know which genes should come out as differentially expressed.</p>
+<p>The goal is not a production-ready pipeline. It is to show how analysis decisions are structured, and how they affect interpretation.</p>
 <hr>
 </section>
 <section id="outputs" class="level2">
 <h2 class="anchored" data-anchor-id="outputs">Outputs</h2>
+<p>All results below come from simulated counts, not a real experiment.</p>
 <section id="pca-plot" class="level3">
 <h3 class="anchored" data-anchor-id="pca-plot">PCA plot</h3>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="../assets/figures/pca_plot.png" class="img-fluid figure-img"></p>
-<figcaption>PCA plot showing sample clustering</figcaption>
+<figcaption>PCA of variance-stabilized counts (simulated data)</figcaption>
 </figure>
 </div>
 <p>A PCA plot summarizes variation across samples.</p>
-<p>It can reveal clustering patterns, potential batch effects, or outliers.</p>
-<p>It does not explain <em>why</em> samples cluster — only that they do.</p>
+<p>It can reveal clustering patterns, potential batch effects or outliers.</p>
+<p>It does not explain <em>why</em> samples cluster, only that they do. Here the samples separate by condition on PC1, which is the treatment effect I simulated.</p>
 <hr>
 </section>
 <section id="volcano-plot" class="level3">
@@ -250,49 +241,49 @@ ul.task-list li input[type="checkbox"] {
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="../assets/figures/volcano_plot.png" class="img-fluid figure-img"></p>
-<figcaption>Volcano plot showing differential expression</figcaption>
+<figcaption>Volcano plot of DESeq2 results (simulated data)</figcaption>
 </figure>
 </div>
 <p>A volcano plot highlights genes with large changes and strong statistical signals.</p>
 <p>It helps prioritize candidates for further investigation.</p>
 <p>It does not confirm biological relevance.</p>
+<p>All the significant genes point up because the simulation only increased expression. A real experiment would usually have genes going both ways.</p>
 <hr>
 </section>
-<section id="results-table-snippet" class="level3">
-<h3 class="anchored" data-anchor-id="results-table-snippet">Results table (snippet)</h3>
+<section id="results-table-top-3-genes" class="level3">
+<h3 class="anchored" data-anchor-id="results-table-top-3-genes">Results table (top 3 genes)</h3>
 <table class="caption-top table">
 <thead>
 <tr class="header">
 <th>Gene</th>
-<th>log2 Fold Change</th>
+<th>log2 fold change</th>
 <th>p-value</th>
 <th>Adjusted p-value</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td>GeneA</td>
-<td>1.8</td>
-<td>0.001</td>
-<td>0.01</td>
+<td>gene_3</td>
+<td>2.37</td>
+<td>1.8 × 10<sup>-12</sup></td>
+<td>1.8 × 10<sup>-10</sup></td>
 </tr>
 <tr class="even">
-<td>GeneB</td>
-<td>-2.1</td>
-<td>0.002</td>
-<td>0.02</td>
+<td>gene_23</td>
+<td>1.85</td>
+<td>1.1 × 10<sup>-7</sup></td>
+<td>5.4 × 10<sup>-6</sup></td>
 </tr>
 <tr class="odd">
-<td>GeneC</td>
-<td>0.5</td>
-<td>0.05</td>
-<td>0.10</td>
+<td>gene_5</td>
+<td>1.56</td>
+<td>1.5 × 10<sup>-6</sup></td>
+<td>4.5 × 10<sup>-5</sup></td>
 </tr>
 </tbody>
 </table>
-<p>This table summarizes statistical outputs.</p>
-<p>It shows which genes differ between conditions under a specific model.</p>
-<p>It does not explain the biological mechanism behind those differences.</p>
+<p>The full table is in the repository (<code>results/deseq2/deseq2_results.csv</code>).</p>
+<p>Because the simulation tells me which genes really changed, I can check the result. DESeq2 called 20 genes significant (adjusted p &lt; 0.05). All 20 are among the 25 I simulated as changed, so there were no false positives. It missed 5. In those genes the random draws happened to give a small observed change (log2 fold change between 0.27 and 1.06), and with 3 samples per group that is not enough to pass the threshold.</p>
 <hr>
 </section>
 </section>
@@ -302,64 +293,56 @@ ul.task-list li input[type="checkbox"] {
 <p>This is a statistical statement, not a biological conclusion.</p>
 <p>A gene can appear statistically significant because:</p>
 <ul>
-<li>the effect size is large<br>
-</li>
-<li>the variability is low<br>
-</li>
+<li>the effect size is large</li>
+<li>the variability is low</li>
 <li>the sample size is sufficient</li>
 </ul>
 <p>But statistical significance does not guarantee biological importance.</p>
-<p>Effect size, variability, and context all matter.</p>
-<p>Patterns in data do not automatically translate into biological insight — they require interpretation.</p>
+<p>Effect size, variability and context all matter. The 5 missed genes show the other side: a real change can go undetected when the sample is small.</p>
+<p>Patterns in data do not automatically turn into biological insight. They need interpretation.</p>
 <hr>
 </section>
 <section id="where-things-go-wrong" class="level2">
 <h2 class="anchored" data-anchor-id="where-things-go-wrong">Where Things Go Wrong</h2>
 <p>Some errors are invisible at first glance.</p>
 <p>A <a href="../pitfalls/wrong-genome-build.html">Wrong Genome Build</a> can shift coordinates so that reads map to the wrong locations, producing results that look valid but refer to the wrong biology.</p>
-<p><a href="../pitfalls/index.html">Batch Effects</a> can introduce systematic differences between groups that are unrelated to the biological condition, creating patterns that appear meaningful but are driven by technical structure.</p>
+<p><a href="../pitfalls/batch-effects.html">Batch Effects</a> can introduce systematic differences between groups that are unrelated to the biological condition, creating patterns that appear meaningful but are driven by technical structure.</p>
+<p>Filtering also changes what gets tested. In this run, DESeq2’s independent filtering gave no adjusted p-value to 198 of the 300 genes, all with mean counts below about 96. None of the 25 changed genes was filtered out here, but in real data a filtered gene is easy to mistake for a gene that showed no change.</p>
 <hr>
 </section>
 <section id="connecting-to-statistical-reasoning" class="level2">
 <h2 class="anchored" data-anchor-id="connecting-to-statistical-reasoning">Connecting to Statistical Reasoning</h2>
 <p>These challenges are not unique to RNA-seq.</p>
-<p>They reflect broader questions about uncertainty, sample size, and interpretation.</p>
+<p>They reflect broader questions about uncertainty, sample size and interpretation.</p>
 <p>See: <a href="../crosswalk/posts/genetic-association-real.html">When is a genetic association real?</a></p>
-<p>Statistical results depend on how much data we have, how variable it is, and how we model it.</p>
+<p>Statistical results depend on how much data we have, how variable it is and how we model it.</p>
 <p>Understanding those limits is part of interpreting any result.</p>
 <hr>
 </section>
 <section id="key-concepts" class="level2">
 <h2 class="anchored" data-anchor-id="key-concepts">Key Concepts</h2>
 <ul>
-<li><strong>Batch effect</strong> — differences driven by experimental conditions rather than biology<br>
-</li>
-<li><strong>Sample metadata</strong> — information about how samples were collected and processed<br>
-</li>
-<li><strong>PCA</strong> — a way to summarize variation across samples<br>
-</li>
-<li><strong>Differential expression</strong> — statistical comparison of gene expression between groups<br>
-</li>
-<li><strong>Normalization</strong> — adjusting counts to make samples comparable</li>
+<li><strong>Batch effect:</strong> differences driven by experimental conditions rather than biology</li>
+<li><strong>Sample metadata:</strong> information about how samples were collected and processed</li>
+<li><strong>PCA:</strong> a way to summarize variation across samples</li>
+<li><strong>Differential expression:</strong> statistical comparison of gene expression between groups</li>
+<li><strong>Normalization:</strong> adjusting counts to make samples comparable</li>
 </ul>
 <hr>
 </section>
 <section id="limitations" class="level2">
 <h2 class="anchored" data-anchor-id="limitations">Limitations</h2>
-<p>This workflow is designed as a demonstration.</p>
 <ul>
-<li>It uses public or simplified data<br>
-</li>
-<li>It is not a clinical-grade pipeline<br>
-</li>
-<li>Some steps are intentionally simplified to highlight structure rather than edge cases</li>
+<li>The preprocessing workflow has not been run on real reads yet.</li>
+<li>The counts are simulated, with only upregulated genes and no batch structure.</li>
+<li>It is not a clinical-grade pipeline.</li>
 </ul>
-<p>The focus is on interpretation, not optimization.</p>
+<p>Next step: run the preprocessing on a small public dataset so both parts are connected.</p>
 <hr>
 </section>
-<section id="closing" class="level2">
-<h2 class="anchored" data-anchor-id="closing">Closing</h2>
-<p>Understanding data is not just about building pipelines — it is about knowing where results come from, what assumptions they carry, and how easily they can mislead.</p>
+<section id="final-thoughts" class="level2">
+<h2 class="anchored" data-anchor-id="final-thoughts">Final thoughts</h2>
+<p>Understanding data is not just about building pipelines. It is about knowing <strong>where</strong> results come from, <strong>what assumptions</strong> they carry and how easily they can be mislead.</p>
 
 
 </section>

@@ -2,6 +2,13 @@
    Lunaland site styling
    ========================= */
 
+/* Colour tokens (used by the footer) */
+
+:root {
+  --ll-muted: #6b7280;
+  --ll-turquoise-dark: #2f6f6f;
+}
+
 /* Base typography */
 
 body {

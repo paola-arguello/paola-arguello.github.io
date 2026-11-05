@@ -3,6 +3,10 @@ title: "When is a genetic association real?"
 description: "An interactive Shiny app for exploring odds ratios, confidence intervals, sample size and uncertainty in a case-control genetic association scenario."
 ---
 
+**Tools:** R, Shiny (Fisher's exact and chi-square tests, Wald confidence intervals)  
+**Code:** [github.com/paola-arguello/genetic-association-shiny](https://github.com/paola-arguello/genetic-association-shiny)  
+**App:** [open the live app](https://paola-arguello-pascualli.shinyapps.io/genetic-association-shiny/)
+
 ## Opening
 
 Statistical results often look precise, but their meaning depends on how we interpret uncertainty, sample size, and effect size.

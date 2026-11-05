@@ -5,7 +5,7 @@ subtitle: "Field notes from the intersections of biology, data, statistics and c
 
 The Crosswalk is the thinking layer of Lunaland.
 
-These short field notes follow how data moves from observation to interpretation — and where uncertainty enters along the way.
+These short field notes follow how data moves from observation to interpretation, and where uncertainty enters along the way.
 
 
 ---
@@ -14,19 +14,19 @@ These short field notes follow how data moves from observation to interpretation
 
 ### [When is a genetic association real?](posts/genetic-association-real.qmd)
 
-A field note on why odds ratios alone are not enough — and how uncertainty and sample size shape interpretation.
+A field note on why odds ratios alone are not enough, and how uncertainty and sample size shape interpretation.
 
 **Related concepts:** Odds Ratio, Confidence Interval, Sample Size  
-**Related projects:** RNA-seq Workflow Demo  
-**Related app:** *When is a genetic association real?* (Shiny, coming soon)  
-**Related pitfalls:** Overinterpreting small datasets *(comming soon)*
+**Related projects:** [When is a genetic association real? (Shiny app page)](../projects/genetic-association.qmd), [RNA-seq Workflow Demo](../projects/rnaseq-workflow.qmd)  
+**Related app:** [*When is a genetic association real?*](https://paola-arguello-pascualli.shinyapps.io/genetic-association-shiny/) (live Shiny app)  
+**Related pitfalls:** Overinterpreting small datasets *(coming soon)*  
 
 ---
 
 ## Categories
 
-- Evidence & Uncertainty  
-- Bioinformatics Pitfalls  
-- Visual Statistics  
-- Cross-Discipline Curiosity  
-- Scientific Communication  
+- Evidence & Uncertainty
+- Bioinformatics Pitfalls
+- Visual Statistics
+- Cross-Discipline Curiosity
+- Scientific Communication
