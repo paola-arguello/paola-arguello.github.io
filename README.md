@@ -4,6 +4,8 @@ Source for my portfolio site, https://paola-arguello.github.io.
 
 The site is about interpreting biological data: how results are built, where they break, and how to explain them. It has four parts. Projects are things I built. The Pitfalls Lab has short modules on common analysis mistakes. The Crosswalk has field notes. The Concept Atlas is a table of concepts that link the rest together.
 
+AI assistants (including Claude by Anthropic) were used to help draft text and write and review code. I review every change before it is merged. See the About page for details.
+
 ## Build
 
 The site is a Quarto website. R packages are managed with renv.

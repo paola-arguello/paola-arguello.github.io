@@ -51,6 +51,11 @@ Also at the center of my work is Luna. She is the unofficial companion to all my
 :::
 
 
+## How I use AI tools
+
+I use AI assistants, including Claude by Anthropic, while building this site and the code behind it. They help me draft and edit text, write and review code, and check for broken links and inconsistencies.
+
+I decide what goes on the site and I review every change before it is published. The analyses, interpretations and any mistakes are mine. Results come from code in the linked repositories, and anything based on simulated data is labelled as simulated.
 
 ## Links
 
