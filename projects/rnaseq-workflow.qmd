@@ -1,13 +1,16 @@
 ---
 title: "RNA-seq Workflow Demo: From Raw Reads to Interpretation"
-description: "A reproducible workflow showing how RNA-seq data moves from raw sequencing reads to interpretable results."
+description: "A Nextflow workflow structure for RNA-seq preprocessing, and a DESeq2 analysis on simulated counts."
 ---
+
+**Tools:** Nextflow (DSL2), FastQC, Trimmomatic, STAR, featureCounts, MultiQC, R, DESeq2, ggplot2, conda  
+**Code:** [github.com/paola-arguello/rna-seq-demo](https://github.com/paola-arguello/rna-seq-demo)  
 
 ## Opening
 
 Scientific data is messy.
 
-Before we interpret results, data moves through multiple steps — each one making assumptions, introducing structure, and sometimes creating unintended patterns.
+Before we interpret results, data moves through multiple steps. Each one makes assumptions, adds structure and can create patterns nobody intended.
 
 This project shows how RNA-seq data moves through that process, and where interpretation can become uncertain.
 
@@ -27,12 +30,12 @@ Raw data → quality control → processing → statistical analysis → interpr
 
 In practice, each of these steps transforms the data.
 
-- Quality control decides what data is considered usable  
-- Alignment maps reads to a reference that may not perfectly represent the sample  
-- Quantification reduces complex read data into gene-level summaries  
-- Statistical analysis highlights patterns under specific assumptions  
+- Quality control decides what data is considered usable
+- Alignment maps reads to a reference that may not perfectly represent the sample
+- Quantification reduces complex read data into gene-level summaries
+- Statistical analysis highlights patterns under specific assumptions
 
-At each step, information is filtered, reshaped, and interpreted.
+At each step, information is filtered, reshaped and interpreted.
 
 The final results depend not only on the data itself, but on how these transformations are applied.
 
@@ -40,38 +43,35 @@ The final results depend not only on the data itself, but on how these transform
 
 ## What I Built
 
-This project implements a small, modular RNA-seq workflow designed to make each step visible and reproducible.
+The project has two parts, and they are at different stages.
 
-It includes:
+**Preprocessing (written, not yet run on reads).** A Nextflow DSL2 workflow with one module per step: FastQC, Trimmomatic, STAR alignment, featureCounts and MultiQC. Parameters live in `params.yaml` and the software environment in `environment.yml`. I have not run it on real FASTQ files yet.
 
-- Structured workflow steps (QC, alignment, quantification, analysis)  
-- A differential expression analysis using gene-level counts  
-- Clear input and output organization  
-- Explicit configuration for reproducibility  
+**Differential expression (run).** An R script simulates a count matrix, and a second script analyses it with DESeq2 and makes the figures below. The simulation has 300 genes and 3 control and 3 treated samples. I raised the mean of 25 genes by 2.5 times in the treated samples, so I know which genes should come out as differentially expressed.
 
-The goal is not to present a production-ready pipeline.
-
-The goal is to show how analysis decisions are structured, and how they affect interpretation.
+The goal is not a production-ready pipeline. It is to show how analysis decisions are structured, and how they affect interpretation.
 
 ---
 
 ## Outputs
 
+All results below come from simulated counts, not a real experiment.
+
 ### PCA plot
 
-![PCA plot showing sample clustering](../assets/figures/pca_plot.png)
+![PCA of variance-stabilized counts (simulated data)](../assets/figures/pca_plot.png)
 
 A PCA plot summarizes variation across samples.
 
-It can reveal clustering patterns, potential batch effects, or outliers.
+It can reveal clustering patterns, potential batch effects or outliers.
 
-It does not explain *why* samples cluster — only that they do.
+It does not explain *why* samples cluster, only that they do. Here the samples separate by condition on PC1, which is the treatment effect I simulated.
 
 ---
 
 ### Volcano plot
 
-![Volcano plot showing differential expression](../assets/figures/volcano_plot.png)
+![Volcano plot of DESeq2 results (simulated data)](../assets/figures/volcano_plot.png)
 
 A volcano plot highlights genes with large changes and strong statistical signals.
 
@@ -79,21 +79,21 @@ It helps prioritize candidates for further investigation.
 
 It does not confirm biological relevance.
 
+All the significant genes point up because the simulation only increased expression. A real experiment would usually have genes going both ways.
+
 ---
 
-### Results table (snippet)
+### Results table (top 3 genes)
 
-| Gene | log2 Fold Change | p-value | Adjusted p-value |
-|------|------------------|--------|------------------|
-| GeneA | 1.8 | 0.001 | 0.01 |
-| GeneB | -2.1 | 0.002 | 0.02 |
-| GeneC | 0.5 | 0.05 | 0.10 |
+| Gene | log2 fold change | p-value | Adjusted p-value |
+|------|------------------|---------|------------------|
+| gene_3 | 2.37 | 1.8 × 10^-12^ | 1.8 × 10^-10^ |
+| gene_23 | 1.85 | 1.1 × 10^-7^ | 5.4 × 10^-6^ |
+| gene_5 | 1.56 | 1.5 × 10^-6^ | 4.5 × 10^-5^ |
 
-This table summarizes statistical outputs.
+The full table is in the repository (`results/deseq2/deseq2_results.csv`).
 
-It shows which genes differ between conditions under a specific model.
-
-It does not explain the biological mechanism behind those differences.
+Because the simulation tells me which genes really changed, I can check the result. DESeq2 called 20 genes significant (adjusted p < 0.05). All 20 are among the 25 I simulated as changed, so there were no false positives. It missed 5. In those genes the random draws happened to give a small observed change (log2 fold change between 0.27 and 1.06), and with 3 samples per group that is not enough to pass the threshold.
 
 ---
 
@@ -105,15 +105,15 @@ This is a statistical statement, not a biological conclusion.
 
 A gene can appear statistically significant because:
 
-- the effect size is large  
-- the variability is low  
-- the sample size is sufficient  
+- the effect size is large
+- the variability is low
+- the sample size is sufficient
 
 But statistical significance does not guarantee biological importance.
 
-Effect size, variability, and context all matter.
+Effect size, variability and context all matter. The 5 missed genes show the other side: a real change can go undetected when the sample is small.
 
-Patterns in data do not automatically translate into biological insight — they require interpretation.
+Patterns in data do not automatically turn into biological insight. They need interpretation.
 
 ---
 
@@ -123,7 +123,9 @@ Some errors are invisible at first glance.
 
 A [Wrong Genome Build](../pitfalls/wrong-genome-build.qmd) can shift coordinates so that reads map to the wrong locations, producing results that look valid but refer to the wrong biology.
 
-[Batch Effects](../pitfalls/index.qmd) can introduce systematic differences between groups that are unrelated to the biological condition, creating patterns that appear meaningful but are driven by technical structure.
+[Batch Effects](../pitfalls/batch-effects.qmd) can introduce systematic differences between groups that are unrelated to the biological condition, creating patterns that appear meaningful but are driven by technical structure.
+
+Filtering also changes what gets tested. In this run, DESeq2's independent filtering gave no adjusted p-value to 198 of the 300 genes, all with mean counts below about 96. None of the 25 changed genes was filtered out here, but in real data a filtered gene is easy to mistake for a gene that showed no change.
 
 ---
 
@@ -131,11 +133,11 @@ A [Wrong Genome Build](../pitfalls/wrong-genome-build.qmd) can shift coordinates
 
 These challenges are not unique to RNA-seq.
 
-They reflect broader questions about uncertainty, sample size, and interpretation.
+They reflect broader questions about uncertainty, sample size and interpretation.
 
 See: [When is a genetic association real?](../crosswalk/posts/genetic-association-real.qmd)
 
-Statistical results depend on how much data we have, how variable it is, and how we model it.
+Statistical results depend on how much data we have, how variable it is and how we model it.
 
 Understanding those limits is part of interpreting any result.
 
@@ -143,26 +145,24 @@ Understanding those limits is part of interpreting any result.
 
 ## Key Concepts
 
-- **Batch effect** — differences driven by experimental conditions rather than biology  
-- **Sample metadata** — information about how samples were collected and processed  
-- **PCA** — a way to summarize variation across samples  
-- **Differential expression** — statistical comparison of gene expression between groups  
-- **Normalization** — adjusting counts to make samples comparable  
+- **Batch effect:** differences driven by experimental conditions rather than biology
+- **Sample metadata:** information about how samples were collected and processed
+- **PCA:** a way to summarize variation across samples
+- **Differential expression:** statistical comparison of gene expression between groups
+- **Normalization:** adjusting counts to make samples comparable
 
 ---
 
 ## Limitations
 
-This workflow is designed as a demonstration.
+- The preprocessing workflow has not been run on real reads yet.
+- The counts are simulated, with only upregulated genes and no batch structure.
+- It is not a clinical-grade pipeline.
 
-- It uses public or simplified data  
-- It is not a clinical-grade pipeline  
-- Some steps are intentionally simplified to highlight structure rather than edge cases  
-
-The focus is on interpretation, not optimization.
+Next step: run the preprocessing on a small public dataset so both parts are connected.
 
 ---
 
 ## Closing
 
-Understanding data is not just about building pipelines — it is about knowing where results come from, what assumptions they carry, and how easily they can mislead.
+Understanding data is not just about building pipelines. It is about knowing where results come from, what assumptions they carry and how easily they can mislead.
