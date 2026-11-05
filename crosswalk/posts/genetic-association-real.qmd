@@ -107,10 +107,10 @@ It is about how much we can trust it.
 
 ## 7. Related
 
-- **Interactive app:** *When is a genetic association real?*  
-  *(Shiny app – coming soon)*  
+- **Interactive app:** [*When is a genetic association real?*](https://paola-arguello-pascualli.shinyapps.io/genetic-association-shiny/) (live Shiny app)  
+  Project page: [When is a genetic association real?](../../projects/genetic-association.qmd)  
 
-- **Project:** `/projects/rnaseq-workflow.qmd`  
+- **Project:** [RNA-seq Workflow Demo](../../projects/rnaseq-workflow.qmd)  
   → See how variability and sample size affect downstream interpretation  
 
 - **Concept Atlas:**  
