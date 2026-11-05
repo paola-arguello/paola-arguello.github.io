@@ -182,6 +182,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#how-to-detect-it" id="toc-how-to-detect-it" class="nav-link" data-scroll-target="#how-to-detect-it">How to detect it</a></li>
   <li><a href="#how-to-prevent-it" id="toc-how-to-prevent-it" class="nav-link" data-scroll-target="#how-to-prevent-it">How to prevent it</a></li>
   <li><a href="#tiny-demo" id="toc-tiny-demo" class="nav-link" data-scroll-target="#tiny-demo">Tiny demo</a></li>
+  <li><a href="#related-project" id="toc-related-project" class="nav-link" data-scroll-target="#related-project">Related project</a></li>
+  <li><a href="#related-crosswalk-post" id="toc-related-crosswalk-post" class="nav-link" data-scroll-target="#related-crosswalk-post">Related Crosswalk post</a></li>
+  <li><a href="#related-concept-atlas-entries" id="toc-related-concept-atlas-entries" class="nav-link" data-scroll-target="#related-concept-atlas-entries">Related Concept Atlas entries</a></li>
   </ul>
 </nav>
     </div>
@@ -291,8 +294,31 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>      <span class="st">"OK"</span>,</span>
 <span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>      <span class="st">"Check build before interpretation"</span></span>
 <span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>  </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>This only works if every row already carries its build label. Real files usually don’t, so the build has to be checked from the file itself.</p>
+<p>For a VCF, the header is the first place to look. The length of chromosome 1 differs between builds: 249,250,621 bp in GRCh37 and 248,956,422 bp in GRCh38.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Print the reference line and the chr1 contig line from a VCF header</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="ex">bcftools</span> view <span class="at">-h</span> sample.vcf.gz <span class="kw">|</span> <span class="fu">grep</span> <span class="at">-E</span> <span class="st">'^##reference|^##contig=&lt;ID=(chr)?1,'</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>If the contig line says <code>length=249250621</code>, the file is GRCh37 even if the file name says otherwise. If there are no contig lines at all, treat the build as unknown and stop until it is confirmed.</p>
+</section>
+<section id="related-project" class="level2">
+<h2 class="anchored" data-anchor-id="related-project">Related project</h2>
+<p><a href="../projects/rnaseq-workflow.html">RNA-seq Workflow Demo</a>: the alignment step depends on the genome FASTA, index and annotation all coming from the same build.</p>
+<p>Coming soon: an ancestry-aware clinical variant pipeline. Its first step checks that every input VCF and BED is on GRCh38 with the expected contig names, and stops with an error if not.</p>
+</section>
+<section id="related-crosswalk-post" class="level2">
+<h2 class="anchored" data-anchor-id="related-crosswalk-post">Related Crosswalk post</h2>
+<p>Coming soon.</p>
+</section>
+<section id="related-concept-atlas-entries" class="level2">
+<h2 class="anchored" data-anchor-id="related-concept-atlas-entries">Related Concept Atlas entries</h2>
+<p>See the <a href="../atlas/index.html">Concept Atlas</a>:</p>
+<ul>
+<li>Genome build</li>
+<li>Alignment</li>
+<li>Annotation file</li>
+<li>Gene ID</li>
+</ul>
 
 
 </section>

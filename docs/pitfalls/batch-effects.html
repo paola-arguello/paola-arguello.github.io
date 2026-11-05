@@ -147,7 +147,7 @@ ul.task-list li input[type="checkbox"] {
   <li><a href="#how-to-detect-it" id="toc-how-to-detect-it" class="nav-link" data-scroll-target="#how-to-detect-it">How to detect it</a></li>
   <li><a href="#how-to-prevent-it" id="toc-how-to-prevent-it" class="nav-link" data-scroll-target="#how-to-prevent-it">How to prevent it</a></li>
   <li><a href="#tiny-demo" id="toc-tiny-demo" class="nav-link" data-scroll-target="#tiny-demo">Tiny demo</a></li>
-  <li><a href="#suggested-figure" id="toc-suggested-figure" class="nav-link" data-scroll-target="#suggested-figure">Suggested figure</a></li>
+  <li><a href="#the-same-plot-colored-two-ways" id="toc-the-same-plot-colored-two-ways" class="nav-link" data-scroll-target="#the-same-plot-colored-two-ways">The same plot, colored two ways</a></li>
   <li><a href="#related-project" id="toc-related-project" class="nav-link" data-scroll-target="#related-project">Related project</a></li>
   <li><a href="#related-crosswalk-post" id="toc-related-crosswalk-post" class="nav-link" data-scroll-target="#related-crosswalk-post">Related Crosswalk post</a></li>
   <li><a href="#related-concept-atlas-entries" id="toc-related-concept-atlas-entries" class="nav-link" data-scroll-target="#related-concept-atlas-entries">Related Concept Atlas entries</a></li>
@@ -304,31 +304,27 @@ It is when <strong>batch and biological condition overlap</strong>.</p>
 <p>The plot did not lie.<br>
 It just answered a different question.</p>
 </section>
-<section id="suggested-figure" class="level2">
-<h2 class="anchored" data-anchor-id="suggested-figure">Suggested figure</h2>
-<p>Two PCA plots side by side:</p>
-<ul>
-<li>left: colored by condition → clean separation<br>
-</li>
-<li>right: colored by batch → same separation</li>
-</ul>
-<p>Caption:</p>
-<blockquote class="blockquote">
+<section id="the-same-plot-colored-two-ways" class="level2">
+<h2 class="anchored" data-anchor-id="the-same-plot-colored-two-ways">The same plot, colored two ways</h2>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../assets/figures/batch_effects_pca.png" class="img-fluid figure-img" alt="Two PCA scatter plots of the same 12 simulated samples. Left panel colored by case and control, right panel colored by batch 1 and batch 2. The two groups separate the same way in both panels."></p>
+<figcaption>The same PCA, colored by condition (left) and by batch (right). The separation is identical in both panels.</figcaption>
+</figure>
+</div>
 <p>The same structure can support two different stories depending on what you color by.</p>
-</blockquote>
+<p>The data here are simulated. All cases were processed in batch 1 and all controls in batch 2. The expression values contain a batch shift and no condition effect at all, so the clean separation on the left is entirely technical. The script that makes this figure is <code>scripts/batch_effects_pca.py</code> in the site repository.</p>
 </section>
 <section id="related-project" class="level2">
 <h2 class="anchored" data-anchor-id="related-project">Related project</h2>
-<p><code>/projects/rnaseq-workflow-demo.qmd</code></p>
+<p><a href="../projects/rnaseq-workflow.html">RNA-seq Workflow Demo</a></p>
 <p>Relevant workflow section:</p>
 <p><strong>Statistical analysis → interpretation</strong></p>
 <p>This is where patterns are interpreted and where batch effects can silently turn technical variation into biological claims.</p>
 </section>
 <section id="related-crosswalk-post" class="level2">
 <h2 class="anchored" data-anchor-id="related-crosswalk-post">Related Crosswalk post</h2>
-<p><code>/crosswalk/posts/when-patterns-are-not-biology.qmd</code></p>
-<p>Working idea:</p>
-<p><strong>When patterns are not biology: the illusion of clean data</strong></p>
+<p>Coming soon: <strong>When patterns are not biology: the illusion of clean data</strong></p>
 </section>
 <section id="related-concept-atlas-entries" class="level2">
 <h2 class="anchored" data-anchor-id="related-concept-atlas-entries">Related Concept Atlas entries</h2>
