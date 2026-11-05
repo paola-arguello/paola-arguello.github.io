@@ -8,18 +8,22 @@ Projects are the build layer of Lunaland: reproducible workflows, statistical ex
 
 ### [RNA-seq Workflow Demo](rnaseq-workflow.qmd)
 
-A compact reproducible RNA-seq workflow showing how raw sequencing data moves through quality control, alignment, quantification and interpretation.
+A Nextflow workflow structure for RNA-seq preprocessing, and a DESeq2 analysis on simulated counts where I know which genes really changed.
+
+**Code:** [rna-seq-demo](https://github.com/paola-arguello/rna-seq-demo)  
 
 **Related concepts:** reproducibility, quality control, differential expression, workflow design  
-**Related pitfalls:** mismatched annotation file, low counts and overinterpretation  
-**Related Crosswalk posts:** interpreting uncertainty in genomic analysis
+**Related pitfalls:** [Batch Effects](../pitfalls/batch-effects.qmd), [Wrong Genome Build](../pitfalls/wrong-genome-build.qmd)  
+**Related Crosswalk posts:** [When is a genetic association real?](../crosswalk/posts/genetic-association-real.qmd)  
 
 ---
 
-### Shiny Statistical Explainer
+### [When is a genetic association real? (Shiny app)](genetic-association.qmd)
 
 An interactive app explaining odds ratios, confidence intervals and sample size in genetic association studies.
 
+**Open the app:** [live on shinyapps.io](https://paola-arguello-pascualli.shinyapps.io/genetic-association-shiny/)  
+**Code:** [genetic-association-shiny](https://github.com/paola-arguello/genetic-association-shiny)  
 **Related concepts:** uncertainty, confidence intervals, effect size, statistical significance  
-**Related pitfalls:** low counts and overinterpretation  
-**Related Crosswalk posts:** when is a result meaningful?
+**Related pitfalls:** low counts and overinterpretation *(coming soon)*  
+**Related Crosswalk posts:** [When is a genetic association real?](../crosswalk/posts/genetic-association-real.qmd)  
