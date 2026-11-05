@@ -94,5 +94,34 @@ variants |>
       "Check build before interpretation"
     )
   )
-  
- ```
+```
+
+This only works if every row already carries its build label. Real files usually don't, so the build has to be checked from the file itself.
+
+For a VCF, the header is the first place to look. The length of chromosome 1 differs between builds: 249,250,621 bp in GRCh37 and 248,956,422 bp in GRCh38.
+
+```bash
+# Print the reference line and the chr1 contig line from a VCF header
+bcftools view -h sample.vcf.gz | grep -E '^##reference|^##contig=<ID=(chr)?1,'
+```
+
+If the contig line says `length=249250621`, the file is GRCh37 even if the file name says otherwise. If there are no contig lines at all, treat the build as unknown and stop until it is confirmed.
+
+## Related project
+
+[RNA-seq Workflow Demo](../projects/rnaseq-workflow.qmd): the alignment step depends on the genome FASTA, index and annotation all coming from the same build.
+
+Coming soon: an ancestry-aware clinical variant pipeline. Its first step checks that every input VCF and BED is on GRCh38 with the expected contig names, and stops with an error if not.
+
+## Related Crosswalk post
+
+Coming soon.
+
+## Related Concept Atlas entries
+
+See the [Concept Atlas](../atlas/index.qmd):
+
+- Genome build
+- Alignment
+- Annotation file
+- Gene ID
