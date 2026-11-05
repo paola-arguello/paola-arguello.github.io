@@ -163,6 +163,6 @@ Next step: run the preprocessing on a small public dataset so both parts are con
 
 ---
 
-## Closing
+## Final thoughts
 
-Understanding data is not just about building pipelines. It is about knowing where results come from, what assumptions they carry and how easily they can mislead.
+Understanding data is not just about building pipelines. It is about knowing **where** results come from, **what assumptions** they carry and how easily they can be mislead.
