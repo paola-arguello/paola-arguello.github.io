@@ -7,7 +7,6 @@ Lunaland is a portfolio ecosystem about turning complex biological data into int
 
 It connects workflow development, statistical interpretation, bioinformatics judgment and science communication into one coherent story.
 
-The Crosswalk shows how I think through it.
 
 ## Explore
 
@@ -26,7 +25,7 @@ Reproducible workflows, Shiny apps and practical data interpretation tools.
 
 Small practical modules about common mistakes in bioinformatics analysis.
 
-**The Pitfalls Lab where things break.**
+**The Pitfalls Lab shows where things break.**
 :::
 
 ::: {.g-col-12 .g-col-md-6}
@@ -34,7 +33,7 @@ Small practical modules about common mistakes in bioinformatics analysis.
 
 Short field notes from the intersections of biology, data, statistics and curiosity.
 
-**The Crosswalk show how I through ideas.**
+**The Crosswalk shows how I think through ideas.**
 :::
 
 ::: {.g-col-12 .g-col-md-6}
