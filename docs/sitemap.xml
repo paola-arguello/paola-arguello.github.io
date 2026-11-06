@@ -2,46 +2,50 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://paola-arguello.github.io/crosswalk/index.html</loc>
-    <lastmod>2026-11-05T22:31:47.973Z</lastmod>
+    <lastmod>2026-11-06T19:45:17.834Z</lastmod>
   </url>
   <url>
-    <loc>https://paola-arguello.github.io/index.html</loc>
-    <lastmod>2026-11-05T22:31:47.974Z</lastmod>
+    <loc>https://paola-arguello.github.io/crosswalk/posts/hot-ones-lineup/index.html</loc>
+    <lastmod>2026-11-06T19:45:17.835Z</lastmod>
   </url>
   <url>
-    <loc>https://paola-arguello.github.io/projects/index.html</loc>
-    <lastmod>2026-11-05T22:31:47.977Z</lastmod>
+    <loc>https://paola-arguello.github.io/projects/rnaseq-workflow.html</loc>
+    <lastmod>2026-11-05T23:43:13.850Z</lastmod>
   </url>
   <url>
-    <loc>https://paola-arguello.github.io/pitfalls/batch-effects.html</loc>
-    <lastmod>2026-11-05T22:31:47.975Z</lastmod>
-  </url>
-  <url>
-    <loc>https://paola-arguello.github.io/pitfalls/wrong-genome-build.html</loc>
-    <lastmod>2026-11-05T22:31:47.976Z</lastmod>
-  </url>
-  <url>
-    <loc>https://paola-arguello.github.io/atlas/index.html</loc>
-    <lastmod>2026-11-05T22:31:47.972Z</lastmod>
-  </url>
-  <url>
-    <loc>https://paola-arguello.github.io/about.html</loc>
-    <lastmod>2026-11-05T23:29:51.234Z</lastmod>
+    <loc>https://paola-arguello.github.io/projects/genetic-association.html</loc>
+    <lastmod>2026-11-05T23:43:13.850Z</lastmod>
   </url>
   <url>
     <loc>https://paola-arguello.github.io/pitfalls/index.html</loc>
     <lastmod>2026-05-04T21:09:10.036Z</lastmod>
   </url>
   <url>
-    <loc>https://paola-arguello.github.io/projects/genetic-association.html</loc>
-    <lastmod>2026-11-05T22:57:44.456Z</lastmod>
+    <loc>https://paola-arguello.github.io/about.html</loc>
+    <lastmod>2026-11-05T23:44:22.246Z</lastmod>
   </url>
   <url>
-    <loc>https://paola-arguello.github.io/projects/rnaseq-workflow.html</loc>
-    <lastmod>2026-11-05T22:59:22.634Z</lastmod>
+    <loc>https://paola-arguello.github.io/atlas/index.html</loc>
+    <lastmod>2026-11-05T23:40:00.419Z</lastmod>
+  </url>
+  <url>
+    <loc>https://paola-arguello.github.io/pitfalls/wrong-genome-build.html</loc>
+    <lastmod>2026-11-05T23:40:00.424Z</lastmod>
+  </url>
+  <url>
+    <loc>https://paola-arguello.github.io/pitfalls/batch-effects.html</loc>
+    <lastmod>2026-11-05T23:40:00.424Z</lastmod>
+  </url>
+  <url>
+    <loc>https://paola-arguello.github.io/projects/index.html</loc>
+    <lastmod>2026-11-05T23:40:00.425Z</lastmod>
+  </url>
+  <url>
+    <loc>https://paola-arguello.github.io/index.html</loc>
+    <lastmod>2026-11-05T23:40:00.424Z</lastmod>
   </url>
   <url>
     <loc>https://paola-arguello.github.io/crosswalk/posts/genetic-association-real.html</loc>
-    <lastmod>2026-11-05T22:31:47.974Z</lastmod>
+    <lastmod>2026-11-05T23:40:00.419Z</lastmod>
   </url>
 </urlset>

@@ -11,7 +11,7 @@
     "href": "crosswalk/index.html#posts",
     "title": "The Crosswalk",
     "section": "Posts",
-    "text": "Posts\n\nWhen is a genetic association real?\nA field note on why odds ratios alone are not enough, and how uncertainty and sample size shape interpretation.\nRelated concepts: Odds Ratio, Confidence Interval, Sample Size\nRelated projects: When is a genetic association real? (Shiny app page), RNA-seq Workflow Demo\nRelated app: When is a genetic association real? (live Shiny app)\nRelated pitfalls: Overinterpreting small datasets (coming soon)"
+    "text": "Posts\n\nWhen is a genetic association real?\nA field note on why odds ratios alone are not enough, and how uncertainty and sample size shape interpretation.\nRelated concepts: Odds Ratio, Confidence Interval, Sample Size\nRelated projects: When is a genetic association real? (Shiny app page), RNA-seq Workflow Demo\nRelated app: When is a genetic association real? (live Shiny app)\nRelated pitfalls: Overinterpreting small datasets (coming soon)\n\n\n\nBuilding a Hot Ones lineup from our local hot sauce shop\nA side project in Python: parsing a store catalog into a table, matching sauces to the show’s ten wings by Scoville rating, and asking whether heat or brand sets the price of a bottle.\nCategory: Cross-Discipline Curiosity Related concepts: web scraping, log scales, Spearman correlation, R² and adjusted R² Code and data: folder on GitHub"
   },
   {
     "objectID": "crosswalk/index.html#categories",
@@ -21,347 +21,46 @@
     "text": "Categories\n\nEvidence & Uncertainty\nBioinformatics Pitfalls\nVisual Statistics\nCross-Discipline Curiosity\nScientific Communication"
   },
   {
-    "objectID": "index.html",
-    "href": "index.html",
-    "title": "Lunaland",
+    "objectID": "crosswalk/posts/hot-ones-lineup/index.html",
+    "href": "crosswalk/posts/hot-ones-lineup/index.html",
+    "title": "Building a Hot Ones lineup from our local hot sauce shop",
     "section": "",
-    "text": "Lunaland is a portfolio ecosystem about turning complex biological data into interpretable, usable insight.\nIt connects workflow development, statistical interpretation, bioinformatics judgment and science communication into one coherent story."
+    "text": "I am planning a Hot Ones challenge for my partner Marco’s birthday. I needed to know which sauces I could use and how to arrange them so the experience would be as close to the real show as possible.\nOne way of doing it is buying the same sauces the Hot Ones team has expertly put together. But Marco is a hot sauce lover. He appreciates both the flavour and the spiciness, and while Da Bomb has given amazing laughs on the show (and earned its reputation for brutally burning everything it touches), I wanted to give Marco a list of sauces we could try and choose from for each level."
   },
   {
-    "objectID": "index.html#explore",
-    "href": "index.html#explore",
-    "title": "Lunaland",
-    "section": "Explore",
-    "text": "Explore\n\n\nProjects\nReproducible workflows, Shiny apps and practical data interpretation tools.\nProjects show what I can build.\n\n\nBioinformatics Pitfalls Lab\nSmall practical modules about common mistakes in bioinformatics analysis.\nThe Pitfalls Lab shows where things break.\n\n\nThe Crosswalk\nShort field notes from the intersections of biology, data, statistics and curiosity.\nThe Crosswalk shows how I think through ideas.\n\n\nConcept Atlas\nA lightweight map of recurring concepts across the portfolio.\nThe Atlas shows how ideas connect."
+    "objectID": "crosswalk/posts/hot-ones-lineup/index.html#step-1-turning-a-store-website-into-a-table",
+    "href": "crosswalk/posts/hot-ones-lineup/index.html#step-1-turning-a-store-website-into-a-table",
+    "title": "Building a Hot Ones lineup from our local hot sauce shop",
+    "section": "Step 1: Turning a store website into a table",
+    "text": "Step 1: Turning a store website into a table\nThe first step was to search the catalog of our favourite hot sauce store: Lucifer’s House of Heat. We are going there this weekend to sample the candidates I am putting together. To do this, I downloaded the source HTML code of their product pages and parsed it into a table with the sauce name, vendor and price. The parsing code is in the folder for this post on GitHub.\nHTML is the language web pages are written in. It has a specific grammar that tells your browser how to read the information. A great feature of this language is that every element is wrapped in an opening tag &lt;...&gt; and a closing tag &lt;/...&gt;. Each tag can also carry a class, which is a label the website uses to style things. On this page, every product name sits inside a tag with the class grid-product__title, and every vendor inside grid-product__vendor. For example:\n&lt;div class=\"grid-product__title\"&gt;Heartbeat Hot Sauce Pineapple Habanero&lt;/div&gt;\n&lt;div class=\"grid-product__vendor\"&gt;Heartbeat Hot Sauce&lt;/div&gt;\nIf we look carefully and tune out the specifics of the grammar, there is a pattern we can exploit. Every product on the page sits inside a block with the class product-grid-item, and inside each block the name, vendor and price always live under the same labels. So we can tell a script to go block by block and pick out those three pieces.\nI used Python with the Beautiful Soup library, which reads HTML and lets you search it by tag and class. A few things needed cleaning along the way:\n\nRepeated products. The page shows the first few products twice (a featured strip above the main grid), so the script keeps track of each product’s ID and skips repeats.\nMessy prices. The page writes prices as $17&lt;sup&gt;99&lt;/sup&gt; so the cents look small. Read as plain text, that becomes “$17 99”. The page also hides a clean copy ($17.99) for screen readers, so the script grabs that one.\nSale prices. For sauces on sale, the “current” price is the sale price, which is what we would actually pay.\n\n\n\n\nscripts/parse_sauces.py\n\nimport sys, csv, re\nfrom bs4 import BeautifulSoup\n\n# Read the saved HTML page\nsoup = BeautifulSoup(open(sys.argv[1], encoding=\"utf-8\"), \"html.parser\")\n\n# Helper: get the text inside a tag and squash extra spaces\nt = lambda el: re.sub(r\"\\s+\", \" \", el.get_text(\" \", strip=True)) if el else \"\"\n\nrows, seen = [], set()\nfor item in soup.select(\".product-grid-item\"):        # one block per product\n    pid = item.get(\"data-product-id\")\n    if pid in seen:                                    # skip repeated products\n        continue\n    seen.add(pid)\n    # Find the clean \"$17.99\" style price and keep the number\n    m = re.findall(r\"\\$\\d+\\.\\d{2}\", t(item.select_one(\".grid-product__price--current\")))\n    rows.append({\"sauce_name\": t(item.select_one(\".grid-product__title\")),\n                 \"price\": float(m[-1][1:]) if m else \"\",\n                 \"vendor\": t(item.select_one(\".grid-product__vendor\"))})\n\n# Save the table\nwith open(sys.argv[2], \"w\", newline=\"\", encoding=\"utf-8\") as f:\n    w = csv.DictWriter(f, fieldnames=[\"sauce_name\", \"price\", \"vendor\"])\n    w.writeheader()\n    w.writerows(rows)\n\n\nTo run it on a saved page: python scripts/parse_sauces.py sauces_page1.html sauces_page1.csv. I ran it on each page of the catalog and combined the results. After removing repeats, the store had 160 different sauces from 41 vendors."
   },
   {
-    "objectID": "projects/index.html",
-    "href": "projects/index.html",
-    "title": "Projects",
-    "section": "",
-    "text": "Projects are the build layer of Lunaland: reproducible workflows, statistical explainers and interactive tools."
+    "objectID": "crosswalk/posts/hot-ones-lineup/index.html#step-2-how-hot-is-each-sauce",
+    "href": "crosswalk/posts/hot-ones-lineup/index.html#step-2-how-hot-is-each-sauce",
+    "title": "Building a Hot Ones lineup from our local hot sauce shop",
+    "section": "Step 2: How hot is each sauce?",
+    "text": "Step 2: How hot is each sauce?\nTo build a lineup that climbs like the show, I needed a heat rating for every sauce. Heat is measured in Scoville heat units (SHU): how many times a pepper extract has to be diluted before you can’t taste the heat anymore. A jalapeño is a few thousand SHU, a habanero is in the hundreds of thousands, and the peppers behind The Last Dab go past two million.\nThe store doesn’t list Scoville ratings, so I asked Claude (Anthropic’s AI assistant) to find them for me. Here is what it did, at a high level:\n\nIt searched for published ratings first. Many of these brands have been on Hot Ones, and the show publishes a rating for every sauce in each season’s lineup. That covered 73 sauces. El Yucateco publishes its own heat ranges, which covered 10 more, and a store or reviewer listing covered 2.\nIt estimated the rest. Most small brands simply don’t publish a Scoville number. For the remaining 73 sauces, Claude estimated a rating from the peppers in the ingredient list and from the brand’s own heat scale (for example “5 out of 10” or “mild”). Every row in the table says whether its number is published or estimated.\nIt grouped the sauces into five heat levels: Mild (under 5,000 SHU), Medium (5,000 to 25,000), Hot (25,000 to 100,000), Extra Hot (100,000 to 500,000) and Extreme (500,000 and up).\n\nA word of caution: Scoville numbers are rough even when they are published. Peppers vary from batch to batch, and the same sauce has been listed with different ratings in different seasons of the show. The estimates are rougher still. Our tasting this weekend will be the real test.\n\n\nShow how many sauces came from each source\n(sauces[\"source_type\"].value_counts()\n .rename_axis(\"Where the rating came from\").reset_index(name=\"Sauces\"))\n\n\n\n\n\n\n\n\n\nWhere the rating came from\nSauces\n\n\n\n\n0\nEstimate\n73\n\n\n1\nHot Ones lineup\n73\n\n\n2\nBrand-published\n10\n\n\n3\nRetailer/reviewer\n2\n\n\n\n\n\n\n\nHere are all the sauces, sorted from mildest to hottest. Hover over a point to see the sauce, its vendor and where its rating came from. You can click a heat level in the legend to hide or show it.\n\n\nShow the code for the Scoville plot\nplot_df = (sauces.dropna(subset=[\"scoville_shu\"])          # drops 2 gift packs\n           .sort_values(\"scoville_shu\", kind=\"stable\"))\n\nfig = px.scatter(\n    plot_df, x=\"sauce_name\", y=\"scoville_shu\",\n    color=\"heat_level\", color_discrete_map=LEVEL_COLORS,\n    category_orders={\"heat_level\": LEVEL_ORDER,\n                     \"sauce_name\": plot_df[\"sauce_name\"].tolist()},\n    log_y=True, hover_name=\"sauce_name\",\n    hover_data={\"sauce_name\": False, \"vendor\": True, \"scoville_shu\": \":,\",\n                \"heat_level\": True, \"source_type\": True, \"price\": \":$.2f\"},\n    labels={\"scoville_shu\": \"Scoville (SHU)\", \"heat_level\": \"Heat level\",\n            \"source_type\": \"Source\", \"vendor\": \"Vendor\", \"price\": \"Price\"},\n)\nfig.update_traces(marker=dict(size=9, line=dict(width=1, color=\"white\")))\nfig.update_layout(xaxis=dict(title=\"Sauce (sorted mild to hot)\", showticklabels=False),\n                  yaxis_title=\"Scoville heat units (log scale)\",\n                  legend_title_text=\"&lt;b&gt;Heat level&lt;/b&gt;\", template=\"plotly_white\")\nfig.show()\n\n\n                            \n                                            \n\n\nThe y-axis is on a log scale, which means each gridline is ten times hotter than the one below it. Without it, the ratings run from 500 to 820,000 and every sauce under about 50,000 would be squashed into a flat line at the bottom.\n\nMatching the show’s ten wings\nOn the show, each wing is hotter than the one before. In Season 30 the step goes from about 1.3 times to 6 times hotter. To copy that, I took the most recent lineup (Season 30) and matched each sauce in the store to the wing whose rating is closest to its own. Because heat climbs by multiples, “closest” is measured on the log scale too. Wing 10 is The Last Dab, and nothing in the store comes close to it, so our finale will be whatever wins wing 9.\n\n\nShow the code for matching sauces to wings\nlineup = pd.DataFrame({\n    \"Wing\": range(1, 10),\n    \"Show sauce (Season 30)\": [\"That's What Shishito Said\", \"Hot Bergine\",\n                               \"Pickled Garlic Sriracha\", \"Chickpotle\",\n                               \"Pikliz N Scorpion\", \"Tropical Amarillo\", \"8 Dragon\",\n                               \"Hot Ones #8\", \"XXX Salsa Vibes\"],\n    \"Show SHU\": [2100, 7900, 18000, 32000, 54000, 69000, 102000, 135600, 820000],\n})\n\n# Leave out gift packs and clearance bottles\ncandidates = sauces.dropna(subset=[\"scoville_shu\"])\ncandidates = candidates[~candidates[\"sauce_name\"].str.contains(\"CLEARANCE|Gift Pack|3-Pack\", case=False)].copy()\n\n# Distance between each sauce and each wing, on the log scale\ndist = np.abs(np.log10(candidates[\"scoville_shu\"].to_numpy())[:, None]\n              - np.log10(lineup[\"Show SHU\"].to_numpy())[None, :])\ncandidates[\"wing\"] = dist.argmin(axis=1) + 1\ncandidates[\"distance\"] = dist.min(axis=1)\n\ndef closest(group, k=5):\n    top = group.nsmallest(k, \"distance\")\n    return \"; \".join(f\"{n} ({s:,.0f})\" for n, s in zip(top[\"sauce_name\"], top[\"scoville_shu\"]))\n\nsummary = candidates.groupby(\"wing\").apply(\n    lambda g: pd.Series({\"Candidates in store\": len(g),\n                         \"Closest 5 (SHU)\": closest(g)}),\n    include_groups=False)\nlineup.merge(summary, left_on=\"Wing\", right_index=True).style.hide(axis=\"index\").format({\"Show SHU\": \"{:,}\"})\n\n\n\n\n\n\n\nWing\nShow sauce (Season 30)\nShow SHU\nCandidates in store\nClosest 5 (SHU)\n\n\n\n\n1\nThat's What Shishito Said\n2,100\n41\nEl Yucateco Chile Chipotle (2,100); Valentina Black Label Extra Hot Sauce (2,100); Sriracha Revolver Beets and Tequila (2,000); Queen Majesty Morita Mesquite Hot Sauce (2,000); TRUFF Jalapeno Lime Hot Sauce (2,000)\n\n\n2\nHot Bergine\n7,900\n40\nGood Heat Hot Bergine Hot Sauce (7,900); Heartbeat Hot Sauce Lion's Mane Piri Piri (8,000); Heartbeat Darkside Of The Grill Shiitake Szechuan Hot Sauce (8,000); Heartbeat Hot Sauce Caribbean Style Mango Habanero (8,000); Island Chef Pepper Co. Pineapple Express Hot Sauce (8,000)\n\n\n3\nPickled Garlic Sriracha\n18,000\n16\nMark's Fermented Kimchi Hot Sauce (18,000); Hot Ones Pickled Garlic Sriracha Hot Sauce (18,000); Neil's Real Deal Smoked Onion Hot Sauce (17,000); Pepper North Sweet Garlic & Habanero Hot Sauce (20,000); Marie Sharp's Belizean Heat Habanero Pepper Sauce (5oz) (20,000)\n\n\n4\nChickpotle\n32,000\n11\nAdoboloco Hamajang Smoked Ghost Pepper Hot Sauce (32,000); Black Eyed Susan Spice Co. Chickpotle Hot Sauce (32,000); Hot Ones Los Calientes Barbacoa Hot Sauce (33,000); Hot Ones Los Calientes Verde Hot Sauce (36,000); Alchemy Peppers Serrano Mango Hopp Sauce (27,000)\n\n\n5\nPikliz N Scorpion\n54,000\n10\nHot N Saucy Pikliz N Scorpion Hot Sauce (54,000); Good Heat Queso Sin Queso Hot Sauce (52,000); Dawson's Apple Caraway Hot Sauce (52,000); Torchbearer Headless Horseradish Hot Sauce (52,000); Hook & Arrow Spicier Sauerkraut & Mustard Hot Sauce (51,000)\n\n\n6\nTropical Amarillo\n69,000\n11\nHot Ones Tropical Amarillo Hot Sauce (69,000); Pepper North Jerk & Scotch Bonnet Hot Sauce (71,000); Heartbeat Hot Sauce Scorpion (66,000); Seed Ranch Hot Thai Green Hot Sauce (74,000); Microsaucerie Piko Peppers Volkano Hot Sauce (76,000)\n\n\n7\n8 Dragon\n102,000\n6\nAdoboloco Jalapeno Chico Hot Sauce (103,000); Karma Sauce Cosmic Disco Hot Sauce (103,000); Torchbearer Zombie Apocalypse Hot Sauce (100,000); Halogi Tyrfing's Curse Hot Sauce (99,000); Torchbearer Honey Badger Hot Sauce (99,000)\n\n\n8\nHot Ones #8\n135,600\n7\nHot Ones #8 Hot Sauce (135,600); Da Bomb Beyond Insanity Hot Sauce (135,600); La Pimenterie Forbidden Fruit Hot Sauce (124,000); Dawson's Sichuan Ghost Pepper Sauce (150,000); Funky's Hot Sauce Nirvana (120,000)\n\n\n9\nXXX Salsa Vibes\n820,000\n8\nFresco Sauce Arbol Scorpion Hot Sauce (820,000); Queen Majesty Sicilian Scorpion Hot Sauce (816,000); Butterfly Bakery Smoked Serrano Squash Reaper X Hot Sauce (720,000); Torchbearer Sucker Punch Hot Sauce (690,000); Karma Sauce Funken Hot Yellow Moruga Edition Hot Sauce (670,000)\n\n\n\n\n\nEvery wing has at least six candidates, and the milder wings have dozens. That gives us plenty to taste before we choose."
   },
   {
-    "objectID": "projects/index.html#featured-projects",
-    "href": "projects/index.html#featured-projects",
-    "title": "Projects",
-    "section": "Featured projects",
-    "text": "Featured projects\n\nRNA-seq Workflow Demo\nA Nextflow workflow structure for RNA-seq preprocessing, and a DESeq2 analysis on simulated counts where I know which genes really changed.\nCode: rna-seq-demo\nRelated concepts: reproducibility, quality control, differential expression, workflow design\nRelated pitfalls: Batch Effects, Wrong Genome Build\nRelated Crosswalk posts: When is a genetic association real?\n\n\n\nWhen is a genetic association real? (Shiny app)\nAn interactive app explaining odds ratios, confidence intervals and sample size in genetic association studies.\nOpen the app: live on shinyapps.io\nCode: genetic-association-shiny\nRelated concepts: uncertainty, confidence intervals, effect size, statistical significance\nRelated pitfalls: low counts and overinterpretation (coming soon)\nRelated Crosswalk posts: When is a genetic association real?"
+    "objectID": "crosswalk/posts/hot-ones-lineup/index.html#step-3-what-is-driving-the-price",
+    "href": "crosswalk/posts/hot-ones-lineup/index.html#step-3-what-is-driving-the-price",
+    "title": "Building a Hot Ones lineup from our local hot sauce shop",
+    "section": "Step 3: What is driving the price?",
+    "text": "Step 3: What is driving the price?\nShould we get more super spicy sauces, medium or mild? Are the vendors driving the price, or is it more expensive to make the extreme sauces? Let’s visualize it!\nFor this part I left out clearance bottles (their prices are discounted) and the gift packs, which leaves 150 sauces.\n\n\nShow the code for the correlation\ndf = sauces.dropna(subset=[\"scoville_shu\"])\ndf = df[~df[\"sauce_name\"].str.contains(\"CLEARANCE|Gift Pack|3-Pack\", case=False)].copy()\ndf[\"log_shu\"] = np.log10(df[\"scoville_shu\"])\n\nrho = stats.spearmanr(df[\"scoville_shu\"], df[\"price\"])\nfit = stats.linregress(df[\"log_shu\"], df[\"price\"])\npub = df[df[\"source_type\"] != \"Estimate\"]\nrho_pub = stats.spearmanr(pub[\"scoville_shu\"], pub[\"price\"])\n\nprint(f\"Spearman correlation, all sauces:   rho = {rho.statistic:.2f} (p = {rho.pvalue:.1g}, n = {len(df)})\")\nprint(f\"Spearman correlation, published only: rho = {rho_pub.statistic:.2f} (p = {rho_pub.pvalue:.1g}, n = {len(pub)})\")\nprint(f\"Price goes up ${fit.slope:.2f} for every 10x increase in Scoville (R2 = {fit.rvalue**2:.2f})\")\n\n\nSpearman correlation, all sauces:   rho = 0.47 (p = 1e-09, n = 150)\nSpearman correlation, published only: rho = 0.47 (p = 7e-06, n = 83)\nPrice goes up $3.05 for every 10x increase in Scoville (R2 = 0.24)\n\n\nThere is a correlation between heat and price, but it is moderate. A sauce that is ten times hotter costs about $3 more, and heat explains only about a quarter of the differences in price. I used Spearman’s correlation because it works on rankings, so the huge range of Scoville numbers doesn’t throw it off. The result is the same when I keep only the sauces with published ratings, so Claude’s estimates are not what is creating the pattern.\n\n\nShow the code for the price vs Scoville plot\nfig1 = px.scatter(\n    df, x=\"scoville_shu\", y=\"price\", color=\"heat_level\",\n    color_discrete_map=LEVEL_COLORS, category_orders={\"heat_level\": LEVEL_ORDER},\n    log_x=True, hover_name=\"sauce_name\",\n    hover_data={\"vendor\": True, \"scoville_shu\": \":,\", \"price\": \":$.2f\", \"heat_level\": False},\n    labels={\"scoville_shu\": \"Scoville heat units (log scale)\", \"price\": \"Price ($)\",\n            \"heat_level\": \"Heat level\", \"vendor\": \"Vendor\"},\n)\nfig1.update_traces(marker=dict(size=9, line=dict(width=1, color=\"white\")))\nline_x = np.logspace(np.log10(400), 6, 100)\nfig1.add_trace(go.Scatter(x=line_x, y=fit.intercept + fit.slope * np.log10(line_x),\n                          mode=\"lines\", name=\"Linear fit\", hoverinfo=\"skip\",\n                          line=dict(dash=\"dash\", color=\"#888780\")))\nfig1.update_layout(yaxis_tickprefix=\"$\", template=\"plotly_white\",\n                   legend_title_text=\"&lt;b&gt;Heat level&lt;/b&gt;\")\nfig1.show()\n\n\n                            \n                                            \n\n\nLook at the left side of the plot. Among the mild sauces alone, prices go from $4 to almost $24. Something other than heat is setting the price, and my guess was the brand.\n\nIs it the brand?\nTo test this, I compared three simple models: one that predicts price from heat only, one from the brand only, and one from both.\n\n\nShow the code for the brand models\ndef ols(X, y):\n    \"\"\"Least-squares fit: returns coefficients, R-squared and adjusted R-squared.\"\"\"\n    X = np.column_stack([np.ones(len(y)), X]).astype(float)\n    n, k = X.shape\n    beta, *_ = np.linalg.lstsq(X, y, rcond=None)\n    rss = float(((y - X @ beta) ** 2).sum())\n    tss = float(((y - y.mean()) ** 2).sum())\n    return beta, 1 - rss / tss, 1 - (rss / (n - k)) / (tss / (n - 1))\n\ny = df[\"price\"].to_numpy()\nbrand = pd.get_dummies(df[\"vendor\"], drop_first=True).to_numpy(dtype=float)\n_, r2_heat, adj_heat = ols(df[[\"log_shu\"]].to_numpy(), y)\n_, r2_brand, adj_brand = ols(brand, y)\nbeta_both, r2_both, adj_both = ols(np.column_stack([df[\"log_shu\"], brand]), y)\n\npd.DataFrame({\n    \"Model\": [\"Heat only\", \"Brand only\", \"Brand + heat\"],\n    \"Share of price differences explained (R²)\": [r2_heat, r2_brand, r2_both],\n    \"Adjusted R²\": [adj_heat, adj_brand, adj_both],\n}).style.hide(axis=\"index\").format(\"{:.0%}\", subset=[\"Share of price differences explained (R²)\", \"Adjusted R²\"])\n\n\n\n\n\n\n\nModel\nShare of price differences explained (R²)\nAdjusted R²\n\n\n\n\nHeat only\n24%\n24%\n\n\nBrand only\n90%\n86%\n\n\nBrand + heat\n92%\n89%\n\n\n\n\n\nYes, it is mostly the brand. Knowing the brand alone explains about 90% of the price differences. Adding heat on top of the brand only brings it to 92%. One caution: 40 brands means 40 numbers to fit with 150 sauces, and the 13 brands with a single sauce get their price exactly right for free. The adjusted R² corrects for that, and brand still explains about 87%. Within the same brand a sauce that is ten times hotter costs only about $1.35 more. Many brands simply charge one price for their whole line: every Heartbeat sauce is $13.99, whether it is the mild Dill Pickle Serrano or the Scorpion.\nTo see which brands charge more, I calculated a brand premium: how much more or less a brand’s sauces cost, on average, than the heat-only model predicts for their heat. The heatmap shows each brand’s average price at each heat level, with the premium on the right. It includes the 27 brands with at least two sauces in the store.\n\n\nShow the code for the brand heatmap\ndf[\"resid\"] = df[\"price\"] - (fit.intercept + fit.slope * df[\"log_shu\"])\nvendor_summary = (df.groupby(\"vendor\")\n                  .agg(n=(\"price\", \"size\"), mean_price=(\"price\", \"mean\"), premium=(\"resid\", \"mean\"))\n                  .query(\"n &gt;= 2\").sort_values(\"premium\").reset_index())\nvendor_order = vendor_summary[\"vendor\"].tolist()\n\ngrid = (df[df[\"vendor\"].isin(vendor_order)]\n        .pivot_table(index=\"vendor\", columns=\"heat_level\", values=\"price\", aggfunc=\"mean\")\n        .reindex(index=vendor_order, columns=LEVEL_ORDER))\nhover = [[f\"{v} · {lvl}&lt;br&gt;\" + (\"no sauces\" if np.isnan(p) else f\"${p:.2f}\")\n          for lvl, p in zip(LEVEL_ORDER, row)] for v, row in zip(grid.index, grid.to_numpy())]\n\nfig2 = make_subplots(rows=1, cols=2, column_widths=[0.6, 0.4], shared_yaxes=True,\n                     horizontal_spacing=0.03,\n                     subplot_titles=(\"Average price by heat level\", \"Brand premium\"))\nfig2.add_trace(go.Heatmap(z=grid.to_numpy(), x=LEVEL_ORDER, y=vendor_order, colorscale=\"Blues\",\n                          text=hover, hoverinfo=\"text\", xgap=2, ygap=2,\n                          colorbar=dict(title=\"Avg price\", tickprefix=\"$\", x=0.57)), row=1, col=1)\nfig2.add_trace(go.Bar(x=vendor_summary[\"premium\"], y=vendor_order, orientation=\"h\",\n                      showlegend=False,\n                      marker_color=np.where(vendor_summary[\"premium\"] &gt;= 0, \"#e34948\", \"#2a78d6\"),\n                      hovertext=[f\"{v}&lt;br&gt;{'+' if p &gt;= 0 else '−'}${abs(p):.2f} vs heat-predicted price\"\n                                 for v, p in zip(vendor_order, vendor_summary[\"premium\"])],\n                      hoverinfo=\"text\"), row=1, col=2)\nfig2.update_xaxes(title_text=\"Heat level\", row=1, col=1)\nfig2.update_xaxes(title_text=\"Brand premium ($)\", tickprefix=\"$\", row=1, col=2)\nfig2.update_layout(height=750, template=\"plotly_white\", margin=dict(l=200))\nfig2.show()\n\n\n                            \n                                            \n\n\nA few things stood out to me:\n\nThe priciest brands: Seed Ranch charges about $7 more than its heat would predict and Hot Ones about $6 more. Even the mild Hot Ones sauces cost around $20, so part of what you pay for is the show.\nThe cheapest brands: Valentina, El Yucateco and Marie Sharp’s cost $5 to $7 less than expected. These are big brands from Mexico and Belize that are made at a much larger scale.\nThe surprise: Pepper North, a small Ontario brand, makes some properly hot sauces (two of them have been on the show) and sells them for $10.50.\n\nSo to answer my own question: extreme sauces are not much more expensive to make, at least not in a way that shows up on the shelf. If we want to save money, the place to do it is by picking brands, not by skipping the hot end of the lineup.\nThere are a few limits to keep in mind. Bottle sizes range from 5 to 12 ounces and I didn’t have that information, so some of the “cheap brand” effect could just be bigger or smaller bottles. Many brands only have two or three sauces in the store, so their premiums are rough. And these are one store’s prices, not the whole market."
   },
   {
-    "objectID": "pitfalls/batch-effects.html",
-    "href": "pitfalls/batch-effects.html",
-    "title": "Batch Effects",
-    "section": "",
-    "text": "Treating technical structure in the data as biological signal.\nThe classic version: samples cluster cleanly, groups separate nicely, and the result looks convincing.\nBut the separation is driven by when, where or how the samples were processed, not by biology."
+    "objectID": "crosswalk/posts/hot-ones-lineup/index.html#whats-next",
+    "href": "crosswalk/posts/hot-ones-lineup/index.html#whats-next",
+    "title": "Building a Hot Ones lineup from our local hot sauce shop",
+    "section": "What’s next",
+    "text": "What’s next\nThis weekend we go to the store and taste. For each wing we’ll try a few of the candidates, pick the one with the best flavour at the right heat, and the lineup will be ready for Marco’s birthday. I’ll report back on whether he survived the last wing."
   },
   {
-    "objectID": "pitfalls/batch-effects.html#the-mistake",
-    "href": "pitfalls/batch-effects.html#the-mistake",
-    "title": "Batch Effects",
-    "section": "",
-    "text": "Treating technical structure in the data as biological signal.\nThe classic version: samples cluster cleanly, groups separate nicely, and the result looks convincing.\nBut the separation is driven by when, where or how the samples were processed, not by biology."
-  },
-  {
-    "objectID": "pitfalls/batch-effects.html#why-it-happens",
-    "href": "pitfalls/batch-effects.html#why-it-happens",
-    "title": "Batch Effects",
-    "section": "Why it happens",
-    "text": "Why it happens\nMost datasets are not generated under perfectly controlled conditions.\nCommon sources:\n\nsamples processed on different days\nsequencing runs split across lanes\nlibrary prep done in batches\ndifferent technicians or centers\ncase and control groups handled at different times\n\nThe critical failure is not the presence of batch effects.\nIt is when batch and biological condition overlap.\nAt that point, the data cannot tell you which is which."
-  },
-  {
-    "objectID": "pitfalls/batch-effects.html#what-breaks",
-    "href": "pitfalls/batch-effects.html#what-breaks",
-    "title": "Batch Effects",
-    "section": "What breaks",
-    "text": "What breaks\nBatch effects don’t just add noise. They add structure.\nThat structure can:\n\ncreate artificial separation between groups\ninflate differential expression results\nhide real biological signal\nmake models look more confident than they should be\n\nThe dangerous part is that everything can look “clean”:\n\nPCA plots show tight clusters\n\nvolcano plots show strong hits\n\nmodels converge without warnings\n\nBut the interpretation is wrong."
-  },
-  {
-    "objectID": "pitfalls/batch-effects.html#how-to-detect-it",
-    "href": "pitfalls/batch-effects.html#how-to-detect-it",
-    "title": "Batch Effects",
-    "section": "How to detect it",
-    "text": "How to detect it\nThis usually shows up during exploratory analysis.\nThings that have saved me more than once:\n\nPCA colored by both condition and batch\nchecking whether samples cluster by sequencing date instead of phenotype\nlooking at metadata early, not after modeling\ncounting how many batches exist per group\n\nA simple but critical question:\n\nIf I remove the condition labels, would I still see the same clusters?\n\nIf yes, something else is driving the structure."
-  },
-  {
-    "objectID": "pitfalls/batch-effects.html#how-to-prevent-it",
-    "href": "pitfalls/batch-effects.html#how-to-prevent-it",
-    "title": "Batch Effects",
-    "section": "How to prevent it",
-    "text": "How to prevent it\nSome problems are fixable. Some are not.\nGood habits:\n\nrecord batch variables in metadata (date, lane, center, prep)\nbalance cases and controls across batches when possible\ncheck for confounding before modeling\ninclude batch terms in the model only when design allows it\ndocument limitations when batch and condition are inseparable\n\nThe uncomfortable truth:\n\nIf batch and condition are perfectly confounded, no statistical method can fully recover the biology.\n\nAt that point, interpretation needs to be cautious, not clever."
-  },
-  {
-    "objectID": "pitfalls/batch-effects.html#tiny-demo",
-    "href": "pitfalls/batch-effects.html#tiny-demo",
-    "title": "Batch Effects",
-    "section": "Tiny demo",
-    "text": "Tiny demo\nA minimal example of how misleading structure can look:\n\n\n\nsample\ncondition\nbatch\nPC1 (sketch)\n\n\n\n\nS1\ncase\nbatch1\n-5\n\n\nS2\ncase\nbatch1\n-4\n\n\nS3\ncontrol\nbatch2\n4\n\n\nS4\ncontrol\nbatch2\n5\n\n\n\nIf you color by condition:\n\ncases cluster together\n\ncontrols cluster together\n\nLooks biological.\nIf you color by batch:\n\nbatch1 vs batch2 separation is identical\n\nThe plot did not lie.\nIt just answered a different question."
-  },
-  {
-    "objectID": "pitfalls/batch-effects.html#the-same-plot-colored-two-ways",
-    "href": "pitfalls/batch-effects.html#the-same-plot-colored-two-ways",
-    "title": "Batch Effects",
-    "section": "The same plot, colored two ways",
-    "text": "The same plot, colored two ways\n\n\n\nThe same PCA, colored by condition (left) and by batch (right). The separation is identical in both panels.\n\n\nThe same structure can support two different stories depending on what you color by.\nThe data here are simulated. All cases were processed in batch 1 and all controls in batch 2. The expression values contain a batch shift and no condition effect at all, so the clean separation on the left is entirely technical. The script that makes this figure is scripts/batch_effects_pca.py in the site repository."
-  },
-  {
-    "objectID": "pitfalls/batch-effects.html#related-project",
-    "href": "pitfalls/batch-effects.html#related-project",
-    "title": "Batch Effects",
-    "section": "Related project",
-    "text": "Related project\nRNA-seq Workflow Demo\nRelevant workflow section:\nStatistical analysis → interpretation\nThis is where patterns are interpreted and where batch effects can silently turn technical variation into biological claims."
-  },
-  {
-    "objectID": "pitfalls/batch-effects.html#related-crosswalk-post",
-    "href": "pitfalls/batch-effects.html#related-crosswalk-post",
-    "title": "Batch Effects",
-    "section": "Related Crosswalk post",
-    "text": "Related Crosswalk post\nComing soon: When patterns are not biology: the illusion of clean data"
-  },
-  {
-    "objectID": "pitfalls/batch-effects.html#related-concept-atlas-entries",
-    "href": "pitfalls/batch-effects.html#related-concept-atlas-entries",
-    "title": "Batch Effects",
-    "section": "Related Concept Atlas entries",
-    "text": "Related Concept Atlas entries\n\nBatch effect\n\nConfounding\n\nPCA\n\nExperimental design\n\nDifferential expression\n\nBiological interpretation"
-  },
-  {
-    "objectID": "pitfalls/wrong-genome-build.html",
-    "href": "pitfalls/wrong-genome-build.html",
-    "title": "Wrong Genome Build",
-    "section": "",
-    "text": "A workflow uses genomic coordinates, variants or annotations from one genome build while interpreting them against another.\nFor example, a file may contain coordinates based on GRCh37/hg19, but the analysis assumes GRCh38/hg38.\nThis can look harmless because the chromosome names and positions still appear valid. The problem is that the same coordinate can refer to a different genomic context depending on the reference build."
-  },
-  {
-    "objectID": "pitfalls/wrong-genome-build.html#the-mistake",
-    "href": "pitfalls/wrong-genome-build.html#the-mistake",
-    "title": "Wrong Genome Build",
-    "section": "",
-    "text": "A workflow uses genomic coordinates, variants or annotations from one genome build while interpreting them against another.\nFor example, a file may contain coordinates based on GRCh37/hg19, but the analysis assumes GRCh38/hg38.\nThis can look harmless because the chromosome names and positions still appear valid. The problem is that the same coordinate can refer to a different genomic context depending on the reference build."
-  },
-  {
-    "objectID": "pitfalls/wrong-genome-build.html#why-it-happens",
-    "href": "pitfalls/wrong-genome-build.html#why-it-happens",
-    "title": "Wrong Genome Build",
-    "section": "Why it happens",
-    "text": "Why it happens\nGenome build mismatches often happen when data are combined from multiple sources.\nCommon causes include:\n\ndownloading public data without checking the reference build\nmixing older variant resources with newer annotations\nreusing BED, GTF or VCF files from a previous project\nassuming chr1 versus 1 is the main compatibility issue\nlosing reference build information during file transfer or preprocessing\n\nThe mistake is easy to miss because many tools will still run."
-  },
-  {
-    "objectID": "pitfalls/wrong-genome-build.html#what-breaks",
-    "href": "pitfalls/wrong-genome-build.html#what-breaks",
-    "title": "Wrong Genome Build",
-    "section": "What breaks",
-    "text": "What breaks\nA wrong genome build can affect both technical outputs and biological interpretation.\nIt can lead to:\n\nvariants mapped to the wrong gene or regulatory region\nincorrect overlap with promoters, enhancers or exons\nmissing or false-positive intersections in BEDTools-style analyses\nmisleading annotation of genomic bins\nincorrect gene-level summaries\nbiological claims based on shifted genomic context\n\nThe most dangerous part is that the output may look clean. A table can have coordinates, gene names and p-values while still being built on the wrong reference assumption."
-  },
-  {
-    "objectID": "pitfalls/wrong-genome-build.html#how-to-detect-it",
-    "href": "pitfalls/wrong-genome-build.html#how-to-detect-it",
-    "title": "Wrong Genome Build",
-    "section": "How to detect it",
-    "text": "How to detect it\nUseful checks include:\n\nconfirm the reference build from the original data source\ninspect file headers, especially VCF headers\ncheck whether chromosome naming conventions match expected files\ncompare a few known loci against a genome browser\nexamine whether many overlaps unexpectedly disappear\ncheck whether coordinates exceed chromosome lengths for the assumed build\ndocument the genome build explicitly in the project README or config file\n\nA small sanity check is often more useful than trusting that the pipeline completed."
-  },
-  {
-    "objectID": "pitfalls/wrong-genome-build.html#how-to-prevent-it",
-    "href": "pitfalls/wrong-genome-build.html#how-to-prevent-it",
-    "title": "Wrong Genome Build",
-    "section": "How to prevent it",
-    "text": "How to prevent it\nPreventing this problem requires making the reference build a visible part of the workflow.\nGood habits include:\n\nstore genome build information in params.yaml or another config file\nkeep genome FASTA, annotation and index files in clearly named folders\navoid generic names like genome.fa or annotation.gtf\ninclude build names in file paths, for example GRCh38/\nvalidate that FASTA, GTF, BED and VCF files belong to the same build\nrecord reference sources and versions in documentation\navoid mixing downloaded resources unless their build compatibility is confirmed\n\nIn a reproducible workflow, the genome build should not live in someone’s memory. It should live in the project structure."
-  },
-  {
-    "objectID": "pitfalls/wrong-genome-build.html#tiny-demo",
-    "href": "pitfalls/wrong-genome-build.html#tiny-demo",
-    "title": "Wrong Genome Build",
-    "section": "Tiny demo",
-    "text": "Tiny demo\nImagine we are checking whether variants overlap a gene region.\nlibrary(tibble)\n\nvariants &lt;- tibble::tribble(\n  ~variant_id, ~chromosome, ~position, ~assumed_build,\n  \"var_001\", \"chr1\", 1000000, \"GRCh38\",\n  \"var_002\", \"chr1\", 2000000, \"GRCh38\",\n  \"var_003\", \"chr1\", 3000000, \"GRCh37\"\n)\n\nexpected_build &lt;- \"GRCh38\"\n\nvariants |&gt;\n  dplyr::mutate(\n    build_check = ifelse(\n      assumed_build == expected_build,\n      \"OK\",\n      \"Check build before interpretation\"\n    )\n  )\nThis only works if every row already carries its build label. Real files usually don’t, so the build has to be checked from the file itself.\nFor a VCF, the header is the first place to look. The length of chromosome 1 differs between builds: 249,250,621 bp in GRCh37 and 248,956,422 bp in GRCh38.\n# Print the reference line and the chr1 contig line from a VCF header\nbcftools view -h sample.vcf.gz | grep -E '^##reference|^##contig=&lt;ID=(chr)?1,'\nIf the contig line says length=249250621, the file is GRCh37 even if the file name says otherwise. If there are no contig lines at all, treat the build as unknown and stop until it is confirmed."
-  },
-  {
-    "objectID": "pitfalls/wrong-genome-build.html#related-project",
-    "href": "pitfalls/wrong-genome-build.html#related-project",
-    "title": "Wrong Genome Build",
-    "section": "Related project",
-    "text": "Related project\nRNA-seq Workflow Demo: the alignment step depends on the genome FASTA, index and annotation all coming from the same build.\nComing soon: an ancestry-aware clinical variant pipeline. Its first step checks that every input VCF and BED is on GRCh38 with the expected contig names, and stops with an error if not."
-  },
-  {
-    "objectID": "pitfalls/wrong-genome-build.html#related-crosswalk-post",
-    "href": "pitfalls/wrong-genome-build.html#related-crosswalk-post",
-    "title": "Wrong Genome Build",
-    "section": "Related Crosswalk post",
-    "text": "Related Crosswalk post\nComing soon."
-  },
-  {
-    "objectID": "pitfalls/wrong-genome-build.html#related-concept-atlas-entries",
-    "href": "pitfalls/wrong-genome-build.html#related-concept-atlas-entries",
-    "title": "Wrong Genome Build",
-    "section": "Related Concept Atlas entries",
-    "text": "Related Concept Atlas entries\nSee the Concept Atlas:\n\nGenome build\nAlignment\nAnnotation file\nGene ID"
-  },
-  {
-    "objectID": "atlas/index.html",
-    "href": "atlas/index.html",
-    "title": "Concept Atlas",
-    "section": "",
-    "text": "The Concept Atlas is a small concept map for the portfolio. It connects the ideas that appear across projects, Shiny apps, Crosswalk posts and the Bioinformatics Pitfalls Lab.\nProjects show what I can build.\nThe Crosswalk shows how I think.\nThe Pitfalls Lab shows my judgment.\nThe Atlas shows how the ideas connect."
-  },
-  {
-    "objectID": "atlas/index.html#how-to-read-the-atlas",
-    "href": "atlas/index.html#how-to-read-the-atlas",
-    "title": "Concept Atlas",
-    "section": "How to read the Atlas",
-    "text": "How to read the Atlas\nEach concept has two definitions:\n\na plain-language definition for quick understanding\na technical definition for more precise interpretation\n\nThe links are intentionally lightweight. A concept can point to related projects, Crosswalk posts or Pitfalls Lab modules without needing a separate page yet."
-  },
-  {
-    "objectID": "atlas/index.html#main-concept-groups",
-    "href": "atlas/index.html#main-concept-groups",
-    "title": "Concept Atlas",
-    "section": "Main concept groups",
-    "text": "Main concept groups\n\nStatistics and interpretation\nThese concepts support the genetic association Shiny app and Crosswalk posts about uncertainty, evidence and communication.\nExamples include odds ratio, confidence interval, statistical significance, effect size, sample size and uncertainty.\n\n\nBioinformatics and RNA-seq\nThese concepts support the RNA-seq pipeline demo and explain how raw sequencing data becomes structured output.\nExamples include quality control, read trimming, alignment, quantification, normalization and differential expression.\n\n\nPitfalls and data integrity\nThese concepts connect directly to the Bioinformatics Pitfalls Lab.\nExamples include genome build, annotation file, gene ID, batch effect, metadata, low counts, multiple testing and overinterpretation."
-  },
-  {
-    "objectID": "atlas/index.html#future-upgrades",
-    "href": "atlas/index.html#future-upgrades",
-    "title": "Concept Atlas",
-    "section": "Future upgrades",
-    "text": "Future upgrades\nVersion 1 is intentionally simple. Later, this Atlas could grow into:\n\ntag filters by topic or project\nindividual concept pages\na network map showing connections between concepts\nbacklinks from projects, Crosswalk posts and Pitfalls Lab modules"
-  },
-  {
-    "objectID": "about.html",
-    "href": "about.html",
-    "title": "About",
-    "section": "",
-    "text": "I analyse genomic data and focus on interpretation: what a result can support and what it can’t. A lot of my work deals with genetic ancestry and with people who are underrepresented in genomic reference data, including Latin American populations.\nEducation\n\nMSc, Medical Genetics, University of British Columbia (2025)\nHonours BSc, Genomic Sciences, UNAM, Mexico (2019)\n\nCurriculum (PDF)\nResearch areas: RNA-seq and ChIP-seq analysis, GWAS and polygenic risk scores, ancestry-aware analysis, Latin American and other underrepresented populations.\nTools: R (tidyverse, Shiny, DESeq2), Nextflow, Quarto, Git and GitHub, Unix shell. \nTeaching: more than five years of teaching and tutoring, from grade 10 students to graduate students.\nContact: paolaap@student.ubc.ca"
-  },
-  {
-    "objectID": "about.html#paola-arguello-pascualli",
-    "href": "about.html#paola-arguello-pascualli",
-    "title": "About",
-    "section": "",
-    "text": "I analyse genomic data and focus on interpretation: what a result can support and what it can’t. A lot of my work deals with genetic ancestry and with people who are underrepresented in genomic reference data, including Latin American populations.\nEducation\n\nMSc, Medical Genetics, University of British Columbia (2025)\nHonours BSc, Genomic Sciences, UNAM, Mexico (2019)\n\nCurriculum (PDF)\nResearch areas: RNA-seq and ChIP-seq analysis, GWAS and polygenic risk scores, ancestry-aware analysis, Latin American and other underrepresented populations.\nTools: R (tidyverse, Shiny, DESeq2), Nextflow, Quarto, Git and GitHub, Unix shell. \nTeaching: more than five years of teaching and tutoring, from grade 10 students to graduate students.\nContact: paolaap@student.ubc.ca"
-  },
-  {
-    "objectID": "about.html#the-core-of-lunaland",
-    "href": "about.html#the-core-of-lunaland",
-    "title": "About",
-    "section": "The core of Lunaland",
-    "text": "The core of Lunaland\nI am interested in how scientific knowledge is built, challenged, and sometimes misunderstood. My work sits at the intersection of biology, statistics, and computation, but my curiosity extends beyond any single field.\nThe same principles that shape genomics also shape physics, economics, and even theology: we observe, we model, we interpret, and we make decisions under uncertainty.\nHistory shows us that some of the most powerful ideas come from crossing boundaries. Einstein relied deeply on mathematics at a time when physics resisted it. Alan Turing, a mathematician, proposed a mechanism for biological pattern formation that was ignored for decades before becoming foundational.\nThese stories are not exceptions, they are reminders that knowledge advances when we allow ideas to move freely between disciplines.\nAt the same time, science is a human process. It carries bias, incentives, and limitations. Data can mislead, pipelines can break, and results can be overinterpreted.\nMy work focuses on making those weak points visible and turning them into opportunities for better reasoning, better tools, and clearer communication.\n\nMeet Luna\nAlso at the center of my work is Luna. She is the unofficial companion to all my projects, a patient listener during work rambles and a persistent reminder that the best thinking sometimes happens outside."
-  },
-  {
-    "objectID": "about.html#how-i-use-ai-tools",
-    "href": "about.html#how-i-use-ai-tools",
-    "title": "About",
-    "section": "How I use AI tools",
-    "text": "How I use AI tools"
-  },
-  {
-    "objectID": "about.html#how-i-use-ai-tools-1",
-    "href": "about.html#how-i-use-ai-tools-1",
-    "title": "About",
-    "section": "How I use AI tools",
-    "text": "How I use AI tools\nI think of AI as a form of extended cognition. Some researchers argue that a web-weaving spider uses its web as part of how it thinks: it tunes the threads to pick up vibrations better and catch more prey. I see these models the same way. They take on part of the work so I can spend my attention on harder questions, and they make more ambitious projects possible. For me they also open a real path to doing independent research.\nI know the common worry is that these tools will make people unnecessary, and that they take away originality, creativity and critical thinking. That concern is real. But if we only look at what AI can take from us, it gets harder to decide what role we want it to have. These tools are not going away. As Dewey from Malcolm in the Middle put it when he and his brothers finally beat their dad at basketball: “The future is now, old man.” I think the best way to have a say in how they are used, in research and elsewhere, is to use them openly. If we are transparent about how we use them, we can learn together what caveats, rules and guidelines they need.\nSo here is how I use them. I use AI assistants, including Claude by Anthropic, while building this site and the code behind it. They help me draft and edit text, write and review code, and check for broken links and inconsistencies.\nI decide what goes on the site and I review every change before it is published. The analyses, interpretations and any mistakes are mine. Results come from code in the linked repositories, and anything based on simulated data is labelled as simulated."
-  },
-  {
-    "objectID": "about.html#links",
-    "href": "about.html#links",
-    "title": "About",
-    "section": "Links",
-    "text": "Links\n\nGitHub\nLinkedIn"
-  },
-  {
-    "objectID": "pitfalls/index.html",
-    "href": "pitfalls/index.html",
-    "title": "Bioinformatics Pitfalls Lab",
-    "section": "",
-    "text": "The Bioinformatics Pitfalls Lab is a collection of short practical modules about common mistakes that can quietly distort biological interpretation.\nThese are not textbook chapters. They are debugging notes from the messy middle of analysis, where files, assumptions and metadata have to line up before results can be trusted."
-  },
-  {
-    "objectID": "pitfalls/index.html#modules",
-    "href": "pitfalls/index.html#modules",
-    "title": "Bioinformatics Pitfalls Lab",
-    "section": "Modules",
-    "text": "Modules\n\n\n\nModule\nFocus\nStatus\n\n\n\n\nWrong Genome Build\nReference genome mismatch\nIn progress\n\n\nBatch Effects\nTechnical structure mistaken for biology\nReady"
-  },
-  {
-    "objectID": "pitfalls/index.html#how-to-read-these-modules",
-    "href": "pitfalls/index.html#how-to-read-these-modules",
-    "title": "Bioinformatics Pitfalls Lab",
-    "section": "How to read these modules",
-    "text": "How to read these modules\nEach module follows the same structure:\n\nThe mistake\n\nWhy it happens\n\nWhat breaks\n\nHow to detect it\n\nHow to prevent it\n\nTiny demo, figure, table or code snippet\n\nRelated project\n\nRelated Crosswalk post\n\nRelated Concept Atlas entries"
-  },
-  {
-    "objectID": "projects/genetic-association.html",
-    "href": "projects/genetic-association.html",
-    "title": "When is a genetic association real?",
-    "section": "",
-    "text": "Tools: R, Shiny (Fisher’s exact and chi-square tests, Wald confidence intervals)\nCode: github.com/paola-arguello/genetic-association-shiny\nApp: open the live app"
-  },
-  {
-    "objectID": "projects/genetic-association.html#opening",
-    "href": "projects/genetic-association.html#opening",
-    "title": "When is a genetic association real?",
-    "section": "Opening",
-    "text": "Opening\nStatistical results often look precise, but their meaning depends on how we interpret uncertainty, sample size, and effect size.\nThis project uses a simple case-control example to show how the same kind of result can feel convincing, fragile or misleading depending on the data behind it."
-  },
-  {
-    "objectID": "projects/genetic-association.html#the-question",
-    "href": "projects/genetic-association.html#the-question",
-    "title": "When is a genetic association real?",
-    "section": "The Question",
-    "text": "The Question\nWhen can we trust that an observed difference between groups reflects a real association?"
-  },
-  {
-    "objectID": "projects/genetic-association.html#what-i-built",
-    "href": "projects/genetic-association.html#what-i-built",
-    "title": "When is a genetic association real?",
-    "section": "What I Built",
-    "text": "What I Built\nI built an interactive Shiny app that lets users explore a simplified genetic association scenario.\nThe app compares variant carriers between two groups:\n\ncases\ncontrols\n\nUsers can change the number of people in each group and the number of variant carriers observed.\nThe app then shows how those choices affect:\n\nodds ratio\nconfidence interval\np-value\ninterpretation\n\nThe goal is not to replace formal statistical analysis.\nThe goal is to make the logic of association testing easier to see."
-  },
-  {
-    "objectID": "projects/genetic-association.html#try-the-app",
-    "href": "projects/genetic-association.html#try-the-app",
-    "title": "When is a genetic association real?",
-    "section": "Try the App",
-    "text": "Try the App\nLive app: click here\n\nScreenshot: app overview\n\n\n\nScreenshot of the genetic association Shiny app overview\n\n\n\n\nScreenshot: interpretation panel\n\n\n\nScreenshot of the app interpretation panel"
-  },
-  {
-    "objectID": "projects/genetic-association.html#what-this-shows",
-    "href": "projects/genetic-association.html#what-this-shows",
-    "title": "When is a genetic association real?",
-    "section": "What This Shows",
-    "text": "What This Shows\nAn odds ratio compares how common an outcome or feature is between two groups.\nA value above 1 suggests the variant is more common in cases than controls.\nA value below 1 suggests the variant is less common in cases than controls.\nA confidence interval shows the range of values that are compatible with the observed data under the model.\nWide intervals usually mean the estimate is uncertain.\nNarrow intervals can look more stable, but they still depend on the assumptions behind the analysis.\nA result can be statistically significant without being biologically meaningful.\nA result can also be biologically interesting but too uncertain to support a strong claim.\nEffect size and significance answer different questions."
-  },
-  {
-    "objectID": "projects/genetic-association.html#where-interpretation-fails",
-    "href": "projects/genetic-association.html#where-interpretation-fails",
-    "title": "When is a genetic association real?",
-    "section": "Where Interpretation Fails",
-    "text": "Where Interpretation Fails\nSome interpretation failures happen when the result looks cleaner than the data really is.\nLow counts and overinterpretation happen when a small number of observations produces a large-looking effect. The odds ratio may look dramatic, but the uncertainty can be wide.\nMisleading statistical significance happens when a p-value is treated as the whole conclusion. A significant result still needs context, effect size, uncertainty and study design."
-  },
-  {
-    "objectID": "projects/genetic-association.html#connection-to-workflow",
-    "href": "projects/genetic-association.html#connection-to-workflow",
-    "title": "When is a genetic association real?",
-    "section": "Connection to Workflow",
-    "text": "Connection to Workflow\nThis statistical reasoning also applies to gene expression analysis.\nIn the RNA-seq Workflow Demo, differential expression results are not meaningful just because a table contains small adjusted p-values.\nThey need interpretation.\nGene expression results depend on count structure, sample metadata, normalization, model assumptions and uncertainty.\nThe same principle applies here: a result is not just a number. It is evidence shaped by context."
-  },
-  {
-    "objectID": "projects/genetic-association.html#key-concepts",
-    "href": "projects/genetic-association.html#key-concepts",
-    "title": "When is a genetic association real?",
-    "section": "Key Concepts",
-    "text": "Key Concepts\n\nOdds ratio — a comparison of how common something is between two groups\n\nConfidence interval — a range that shows uncertainty around an estimate\n\nSample size — the amount of data supporting the result\n\nUncertainty — the limits of what the data can tell us clearly\n\nStatistical significance — a signal that the observed pattern is unlikely under a specific model"
-  },
-  {
-    "objectID": "projects/genetic-association.html#limitations",
-    "href": "projects/genetic-association.html#limitations",
-    "title": "When is a genetic association real?",
-    "section": "Limitations",
-    "text": "Limitations\nThis app is intentionally simplified.\n\nIt uses a basic case-control scenario\n\nIt is not a full statistical inference pipeline\n\nIt does not include multiple testing correction\n\nIt does not account for ancestry, covariates, population structure or study design complexity\n\nThe purpose is interpretation, not exhaustive modeling."
-  },
-  {
-    "objectID": "projects/genetic-association.html#final-thoughts",
-    "href": "projects/genetic-association.html#final-thoughts",
-    "title": "When is a genetic association real?",
-    "section": "Final thoughts",
-    "text": "Final thoughts\nUnderstanding statistical results is not just about calculation. It is about recognizing uncertainty and limits of evidence."
+    "objectID": "crosswalk/posts/hot-ones-lineup/index.html#sources",
+    "href": "crosswalk/posts/hot-ones-lineup/index.html#sources",
+    "title": "Building a Hot Ones lineup from our local hot sauce shop",
+    "section": "Sources",
+    "text": "Sources\n\nProduct data: Lucifer’s House of Heat, downloaded November 2026.\nHot Ones lineups and Scoville ratings, seasons 1 to 22: Hot Ones on Wikipedia.\nHot Ones lineups, seasons 22 to 28: Flower City Flavor.\nHot Ones Season 29 and 30 lineups: Heatonist, Heatonist.\nEl Yucateco heat ranges: El Yucateco on Wikipedia.\nFull table with every sauce’s rating and source: data/sauces_scoville.csv in the folder for this post."
   },
   {
     "objectID": "projects/rnaseq-workflow.html",
@@ -446,6 +145,342 @@
     "title": "RNA-seq Workflow Demo: From Raw Reads to Interpretation",
     "section": "Final thoughts",
     "text": "Final thoughts\nUnderstanding data is not just about building pipelines. It is about knowing where results come from, what assumptions they carry and how easily they can be mislead."
+  },
+  {
+    "objectID": "projects/genetic-association.html",
+    "href": "projects/genetic-association.html",
+    "title": "When is a genetic association real?",
+    "section": "",
+    "text": "Tools: R, Shiny (Fisher’s exact and chi-square tests, Wald confidence intervals)\nCode: github.com/paola-arguello/genetic-association-shiny\nApp: open the live app"
+  },
+  {
+    "objectID": "projects/genetic-association.html#opening",
+    "href": "projects/genetic-association.html#opening",
+    "title": "When is a genetic association real?",
+    "section": "Opening",
+    "text": "Opening\nStatistical results often look precise, but their meaning depends on how we interpret uncertainty, sample size, and effect size.\nThis project uses a simple case-control example to show how the same kind of result can feel convincing, fragile or misleading depending on the data behind it."
+  },
+  {
+    "objectID": "projects/genetic-association.html#the-question",
+    "href": "projects/genetic-association.html#the-question",
+    "title": "When is a genetic association real?",
+    "section": "The Question",
+    "text": "The Question\nWhen can we trust that an observed difference between groups reflects a real association?"
+  },
+  {
+    "objectID": "projects/genetic-association.html#what-i-built",
+    "href": "projects/genetic-association.html#what-i-built",
+    "title": "When is a genetic association real?",
+    "section": "What I Built",
+    "text": "What I Built\nI built an interactive Shiny app that lets users explore a simplified genetic association scenario.\nThe app compares variant carriers between two groups:\n\ncases\ncontrols\n\nUsers can change the number of people in each group and the number of variant carriers observed.\nThe app then shows how those choices affect:\n\nodds ratio\nconfidence interval\np-value\ninterpretation\n\nThe goal is not to replace formal statistical analysis.\nThe goal is to make the logic of association testing easier to see."
+  },
+  {
+    "objectID": "projects/genetic-association.html#try-the-app",
+    "href": "projects/genetic-association.html#try-the-app",
+    "title": "When is a genetic association real?",
+    "section": "Try the App",
+    "text": "Try the App\nLive app: click here\n\nScreenshot: app overview\n\n\n\nScreenshot of the genetic association Shiny app overview\n\n\n\n\nScreenshot: interpretation panel\n\n\n\nScreenshot of the app interpretation panel"
+  },
+  {
+    "objectID": "projects/genetic-association.html#what-this-shows",
+    "href": "projects/genetic-association.html#what-this-shows",
+    "title": "When is a genetic association real?",
+    "section": "What This Shows",
+    "text": "What This Shows\nAn odds ratio compares how common an outcome or feature is between two groups.\nA value above 1 suggests the variant is more common in cases than controls.\nA value below 1 suggests the variant is less common in cases than controls.\nA confidence interval shows the range of values that are compatible with the observed data under the model.\nWide intervals usually mean the estimate is uncertain.\nNarrow intervals can look more stable, but they still depend on the assumptions behind the analysis.\nA result can be statistically significant without being biologically meaningful.\nA result can also be biologically interesting but too uncertain to support a strong claim.\nEffect size and significance answer different questions."
+  },
+  {
+    "objectID": "projects/genetic-association.html#where-interpretation-fails",
+    "href": "projects/genetic-association.html#where-interpretation-fails",
+    "title": "When is a genetic association real?",
+    "section": "Where Interpretation Fails",
+    "text": "Where Interpretation Fails\nSome interpretation failures happen when the result looks cleaner than the data really is.\nLow counts and overinterpretation happen when a small number of observations produces a large-looking effect. The odds ratio may look dramatic, but the uncertainty can be wide.\nMisleading statistical significance happens when a p-value is treated as the whole conclusion. A significant result still needs context, effect size, uncertainty and study design."
+  },
+  {
+    "objectID": "projects/genetic-association.html#connection-to-workflow",
+    "href": "projects/genetic-association.html#connection-to-workflow",
+    "title": "When is a genetic association real?",
+    "section": "Connection to Workflow",
+    "text": "Connection to Workflow\nThis statistical reasoning also applies to gene expression analysis.\nIn the RNA-seq Workflow Demo, differential expression results are not meaningful just because a table contains small adjusted p-values.\nThey need interpretation.\nGene expression results depend on count structure, sample metadata, normalization, model assumptions and uncertainty.\nThe same principle applies here: a result is not just a number. It is evidence shaped by context."
+  },
+  {
+    "objectID": "projects/genetic-association.html#key-concepts",
+    "href": "projects/genetic-association.html#key-concepts",
+    "title": "When is a genetic association real?",
+    "section": "Key Concepts",
+    "text": "Key Concepts\n\nOdds ratio — a comparison of how common something is between two groups\n\nConfidence interval — a range that shows uncertainty around an estimate\n\nSample size — the amount of data supporting the result\n\nUncertainty — the limits of what the data can tell us clearly\n\nStatistical significance — a signal that the observed pattern is unlikely under a specific model"
+  },
+  {
+    "objectID": "projects/genetic-association.html#limitations",
+    "href": "projects/genetic-association.html#limitations",
+    "title": "When is a genetic association real?",
+    "section": "Limitations",
+    "text": "Limitations\nThis app is intentionally simplified.\n\nIt uses a basic case-control scenario\n\nIt is not a full statistical inference pipeline\n\nIt does not include multiple testing correction\n\nIt does not account for ancestry, covariates, population structure or study design complexity\n\nThe purpose is interpretation, not exhaustive modeling."
+  },
+  {
+    "objectID": "projects/genetic-association.html#final-thoughts",
+    "href": "projects/genetic-association.html#final-thoughts",
+    "title": "When is a genetic association real?",
+    "section": "Final thoughts",
+    "text": "Final thoughts\nUnderstanding statistical results is not just about calculation. It is about recognizing uncertainty and limits of evidence."
+  },
+  {
+    "objectID": "pitfalls/index.html",
+    "href": "pitfalls/index.html",
+    "title": "Bioinformatics Pitfalls Lab",
+    "section": "",
+    "text": "The Bioinformatics Pitfalls Lab is a collection of short practical modules about common mistakes that can quietly distort biological interpretation.\nThese are not textbook chapters. They are debugging notes from the messy middle of analysis, where files, assumptions and metadata have to line up before results can be trusted."
+  },
+  {
+    "objectID": "pitfalls/index.html#modules",
+    "href": "pitfalls/index.html#modules",
+    "title": "Bioinformatics Pitfalls Lab",
+    "section": "Modules",
+    "text": "Modules\n\n\n\nModule\nFocus\nStatus\n\n\n\n\nWrong Genome Build\nReference genome mismatch\nIn progress\n\n\nBatch Effects\nTechnical structure mistaken for biology\nReady"
+  },
+  {
+    "objectID": "pitfalls/index.html#how-to-read-these-modules",
+    "href": "pitfalls/index.html#how-to-read-these-modules",
+    "title": "Bioinformatics Pitfalls Lab",
+    "section": "How to read these modules",
+    "text": "How to read these modules\nEach module follows the same structure:\n\nThe mistake\n\nWhy it happens\n\nWhat breaks\n\nHow to detect it\n\nHow to prevent it\n\nTiny demo, figure, table or code snippet\n\nRelated project\n\nRelated Crosswalk post\n\nRelated Concept Atlas entries"
+  },
+  {
+    "objectID": "about.html",
+    "href": "about.html",
+    "title": "About",
+    "section": "",
+    "text": "I analyse genomic data and focus on interpretation: what a result can support and what it can’t. A lot of my work deals with genetic ancestry and with people who are underrepresented in genomic reference data, including Latin American populations.\nEducation\n\nMSc, Medical Genetics, University of British Columbia (2025)\nHonours BSc, Genomic Sciences, UNAM, Mexico (2019)\n\nCurriculum (PDF)\nResearch areas: RNA-seq and ChIP-seq analysis, GWAS and polygenic risk scores, ancestry-aware analysis, Latin American and other underrepresented populations.\nTools: R (tidyverse, Shiny, DESeq2), Nextflow, Quarto, Git and GitHub, Unix shell. \nTeaching: more than five years of teaching and tutoring, from grade 10 students to graduate students.\nContact: paolaap@student.ubc.ca"
+  },
+  {
+    "objectID": "about.html#paola-arguello-pascualli",
+    "href": "about.html#paola-arguello-pascualli",
+    "title": "About",
+    "section": "",
+    "text": "I analyse genomic data and focus on interpretation: what a result can support and what it can’t. A lot of my work deals with genetic ancestry and with people who are underrepresented in genomic reference data, including Latin American populations.\nEducation\n\nMSc, Medical Genetics, University of British Columbia (2025)\nHonours BSc, Genomic Sciences, UNAM, Mexico (2019)\n\nCurriculum (PDF)\nResearch areas: RNA-seq and ChIP-seq analysis, GWAS and polygenic risk scores, ancestry-aware analysis, Latin American and other underrepresented populations.\nTools: R (tidyverse, Shiny, DESeq2), Nextflow, Quarto, Git and GitHub, Unix shell. \nTeaching: more than five years of teaching and tutoring, from grade 10 students to graduate students.\nContact: paolaap@student.ubc.ca"
+  },
+  {
+    "objectID": "about.html#the-core-of-lunaland",
+    "href": "about.html#the-core-of-lunaland",
+    "title": "About",
+    "section": "The core of Lunaland",
+    "text": "The core of Lunaland\nI am interested in how scientific knowledge is built, challenged, and sometimes misunderstood. My work sits at the intersection of biology, statistics, and computation, but my curiosity extends beyond any single field.\nThe same principles that shape genomics also shape physics, economics, and even theology: we observe, we model, we interpret, and we make decisions under uncertainty.\nHistory shows us that some of the most powerful ideas come from crossing boundaries. Einstein relied deeply on mathematics at a time when physics resisted it. Alan Turing, a mathematician, proposed a mechanism for biological pattern formation that was ignored for decades before becoming foundational.\nThese stories are not exceptions, they are reminders that knowledge advances when we allow ideas to move freely between disciplines.\nAt the same time, science is a human process. It carries bias, incentives, and limitations. Data can mislead, pipelines can break, and results can be overinterpreted.\nMy work focuses on making those weak points visible and turning them into opportunities for better reasoning, better tools, and clearer communication.\n\nMeet Luna\nAlso at the center of my work is Luna. She is the unofficial companion to all my projects, a patient listener during work rambles and a persistent reminder that the best thinking sometimes happens outside."
+  },
+  {
+    "objectID": "about.html#how-i-use-ai-tools",
+    "href": "about.html#how-i-use-ai-tools",
+    "title": "About",
+    "section": "How I use AI tools",
+    "text": "How I use AI tools\nI think of AI as a form of extended cognition. Some researchers argue that a web-weaving spider uses its web as part of how it thinks: it tunes the threads to pick up vibrations better and catch more prey. I see these models the same way. They take on part of the work so I can spend my attention on harder questions, and they make more ambitious projects possible. For me they also open a real path to doing independent research.\nI know the common worry is that these tools will make people unnecessary, and that they take away originality, creativity and critical thinking. That concern is real. But if we only look at what AI can take from us, it gets harder to decide what role we want it to have. These tools are not going away. As Dewey from Malcolm in the Middle put it when he and his brothers finally beat their dad at basketball: “The future is now, old man.” I think the best way to have a say in how they are used, in research and elsewhere, is to use them openly. If we are transparent about how we use them, we can learn together what caveats, rules and guidelines they need.\nSo here is how I use them. I use AI assistants, including Claude by Anthropic, while building this site and the code behind it. They help me draft and edit text, write and review code, and check for broken links and inconsistencies.\nI decide what goes on the site and I review every change before it is published. The analyses, interpretations and any mistakes are mine. Results come from code in the linked repositories, and anything based on simulated data is labelled as simulated."
+  },
+  {
+    "objectID": "about.html#links",
+    "href": "about.html#links",
+    "title": "About",
+    "section": "Links",
+    "text": "Links\n\nGitHub\nLinkedIn"
+  },
+  {
+    "objectID": "atlas/index.html",
+    "href": "atlas/index.html",
+    "title": "Concept Atlas",
+    "section": "",
+    "text": "The Concept Atlas is a small concept map for the portfolio. It connects the ideas that appear across projects, Shiny apps, Crosswalk posts and the Bioinformatics Pitfalls Lab.\nProjects show what I can build.\nThe Crosswalk shows how I think.\nThe Pitfalls Lab shows my judgment.\nThe Atlas shows how the ideas connect."
+  },
+  {
+    "objectID": "atlas/index.html#how-to-read-the-atlas",
+    "href": "atlas/index.html#how-to-read-the-atlas",
+    "title": "Concept Atlas",
+    "section": "How to read the Atlas",
+    "text": "How to read the Atlas\nEach concept has two definitions:\n\na plain-language definition for quick understanding\na technical definition for more precise interpretation\n\nThe links are intentionally lightweight. A concept can point to related projects, Crosswalk posts or Pitfalls Lab modules without needing a separate page yet."
+  },
+  {
+    "objectID": "atlas/index.html#main-concept-groups",
+    "href": "atlas/index.html#main-concept-groups",
+    "title": "Concept Atlas",
+    "section": "Main concept groups",
+    "text": "Main concept groups\n\nStatistics and interpretation\nThese concepts support the genetic association Shiny app and Crosswalk posts about uncertainty, evidence and communication.\nExamples include odds ratio, confidence interval, statistical significance, effect size, sample size and uncertainty.\n\n\nBioinformatics and RNA-seq\nThese concepts support the RNA-seq pipeline demo and explain how raw sequencing data becomes structured output.\nExamples include quality control, read trimming, alignment, quantification, normalization and differential expression.\n\n\nPitfalls and data integrity\nThese concepts connect directly to the Bioinformatics Pitfalls Lab.\nExamples include genome build, annotation file, gene ID, batch effect, metadata, low counts, multiple testing and overinterpretation."
+  },
+  {
+    "objectID": "atlas/index.html#future-upgrades",
+    "href": "atlas/index.html#future-upgrades",
+    "title": "Concept Atlas",
+    "section": "Future upgrades",
+    "text": "Future upgrades\nVersion 1 is intentionally simple. Later, this Atlas could grow into:\n\ntag filters by topic or project\nindividual concept pages\na network map showing connections between concepts\nbacklinks from projects, Crosswalk posts and Pitfalls Lab modules"
+  },
+  {
+    "objectID": "pitfalls/wrong-genome-build.html",
+    "href": "pitfalls/wrong-genome-build.html",
+    "title": "Wrong Genome Build",
+    "section": "",
+    "text": "A workflow uses genomic coordinates, variants or annotations from one genome build while interpreting them against another.\nFor example, a file may contain coordinates based on GRCh37/hg19, but the analysis assumes GRCh38/hg38.\nThis can look harmless because the chromosome names and positions still appear valid. The problem is that the same coordinate can refer to a different genomic context depending on the reference build."
+  },
+  {
+    "objectID": "pitfalls/wrong-genome-build.html#the-mistake",
+    "href": "pitfalls/wrong-genome-build.html#the-mistake",
+    "title": "Wrong Genome Build",
+    "section": "",
+    "text": "A workflow uses genomic coordinates, variants or annotations from one genome build while interpreting them against another.\nFor example, a file may contain coordinates based on GRCh37/hg19, but the analysis assumes GRCh38/hg38.\nThis can look harmless because the chromosome names and positions still appear valid. The problem is that the same coordinate can refer to a different genomic context depending on the reference build."
+  },
+  {
+    "objectID": "pitfalls/wrong-genome-build.html#why-it-happens",
+    "href": "pitfalls/wrong-genome-build.html#why-it-happens",
+    "title": "Wrong Genome Build",
+    "section": "Why it happens",
+    "text": "Why it happens\nGenome build mismatches often happen when data are combined from multiple sources.\nCommon causes include:\n\ndownloading public data without checking the reference build\nmixing older variant resources with newer annotations\nreusing BED, GTF or VCF files from a previous project\nassuming chr1 versus 1 is the main compatibility issue\nlosing reference build information during file transfer or preprocessing\n\nThe mistake is easy to miss because many tools will still run."
+  },
+  {
+    "objectID": "pitfalls/wrong-genome-build.html#what-breaks",
+    "href": "pitfalls/wrong-genome-build.html#what-breaks",
+    "title": "Wrong Genome Build",
+    "section": "What breaks",
+    "text": "What breaks\nA wrong genome build can affect both technical outputs and biological interpretation.\nIt can lead to:\n\nvariants mapped to the wrong gene or regulatory region\nincorrect overlap with promoters, enhancers or exons\nmissing or false-positive intersections in BEDTools-style analyses\nmisleading annotation of genomic bins\nincorrect gene-level summaries\nbiological claims based on shifted genomic context\n\nThe most dangerous part is that the output may look clean. A table can have coordinates, gene names and p-values while still being built on the wrong reference assumption."
+  },
+  {
+    "objectID": "pitfalls/wrong-genome-build.html#how-to-detect-it",
+    "href": "pitfalls/wrong-genome-build.html#how-to-detect-it",
+    "title": "Wrong Genome Build",
+    "section": "How to detect it",
+    "text": "How to detect it\nUseful checks include:\n\nconfirm the reference build from the original data source\ninspect file headers, especially VCF headers\ncheck whether chromosome naming conventions match expected files\ncompare a few known loci against a genome browser\nexamine whether many overlaps unexpectedly disappear\ncheck whether coordinates exceed chromosome lengths for the assumed build\ndocument the genome build explicitly in the project README or config file\n\nA small sanity check is often more useful than trusting that the pipeline completed."
+  },
+  {
+    "objectID": "pitfalls/wrong-genome-build.html#how-to-prevent-it",
+    "href": "pitfalls/wrong-genome-build.html#how-to-prevent-it",
+    "title": "Wrong Genome Build",
+    "section": "How to prevent it",
+    "text": "How to prevent it\nPreventing this problem requires making the reference build a visible part of the workflow.\nGood habits include:\n\nstore genome build information in params.yaml or another config file\nkeep genome FASTA, annotation and index files in clearly named folders\navoid generic names like genome.fa or annotation.gtf\ninclude build names in file paths, for example GRCh38/\nvalidate that FASTA, GTF, BED and VCF files belong to the same build\nrecord reference sources and versions in documentation\navoid mixing downloaded resources unless their build compatibility is confirmed\n\nIn a reproducible workflow, the genome build should not live in someone’s memory. It should live in the project structure."
+  },
+  {
+    "objectID": "pitfalls/wrong-genome-build.html#tiny-demo",
+    "href": "pitfalls/wrong-genome-build.html#tiny-demo",
+    "title": "Wrong Genome Build",
+    "section": "Tiny demo",
+    "text": "Tiny demo\nImagine we are checking whether variants overlap a gene region.\nlibrary(tibble)\n\nvariants &lt;- tibble::tribble(\n  ~variant_id, ~chromosome, ~position, ~assumed_build,\n  \"var_001\", \"chr1\", 1000000, \"GRCh38\",\n  \"var_002\", \"chr1\", 2000000, \"GRCh38\",\n  \"var_003\", \"chr1\", 3000000, \"GRCh37\"\n)\n\nexpected_build &lt;- \"GRCh38\"\n\nvariants |&gt;\n  dplyr::mutate(\n    build_check = ifelse(\n      assumed_build == expected_build,\n      \"OK\",\n      \"Check build before interpretation\"\n    )\n  )\nThis only works if every row already carries its build label. Real files usually don’t, so the build has to be checked from the file itself.\nFor a VCF, the header is the first place to look. The length of chromosome 1 differs between builds: 249,250,621 bp in GRCh37 and 248,956,422 bp in GRCh38.\n# Print the reference line and the chr1 contig line from a VCF header\nbcftools view -h sample.vcf.gz | grep -E '^##reference|^##contig=&lt;ID=(chr)?1,'\nIf the contig line says length=249250621, the file is GRCh37 even if the file name says otherwise. If there are no contig lines at all, treat the build as unknown and stop until it is confirmed."
+  },
+  {
+    "objectID": "pitfalls/wrong-genome-build.html#related-project",
+    "href": "pitfalls/wrong-genome-build.html#related-project",
+    "title": "Wrong Genome Build",
+    "section": "Related project",
+    "text": "Related project\nRNA-seq Workflow Demo: the alignment step depends on the genome FASTA, index and annotation all coming from the same build.\nComing soon: an ancestry-aware clinical variant pipeline. Its first step checks that every input VCF and BED is on GRCh38 with the expected contig names, and stops with an error if not."
+  },
+  {
+    "objectID": "pitfalls/wrong-genome-build.html#related-crosswalk-post",
+    "href": "pitfalls/wrong-genome-build.html#related-crosswalk-post",
+    "title": "Wrong Genome Build",
+    "section": "Related Crosswalk post",
+    "text": "Related Crosswalk post\nComing soon."
+  },
+  {
+    "objectID": "pitfalls/wrong-genome-build.html#related-concept-atlas-entries",
+    "href": "pitfalls/wrong-genome-build.html#related-concept-atlas-entries",
+    "title": "Wrong Genome Build",
+    "section": "Related Concept Atlas entries",
+    "text": "Related Concept Atlas entries\nSee the Concept Atlas:\n\nGenome build\nAlignment\nAnnotation file\nGene ID"
+  },
+  {
+    "objectID": "pitfalls/batch-effects.html",
+    "href": "pitfalls/batch-effects.html",
+    "title": "Batch Effects",
+    "section": "",
+    "text": "Treating technical structure in the data as biological signal.\nThe classic version: samples cluster cleanly, groups separate nicely, and the result looks convincing.\nBut the separation is driven by when, where or how the samples were processed, not by biology."
+  },
+  {
+    "objectID": "pitfalls/batch-effects.html#the-mistake",
+    "href": "pitfalls/batch-effects.html#the-mistake",
+    "title": "Batch Effects",
+    "section": "",
+    "text": "Treating technical structure in the data as biological signal.\nThe classic version: samples cluster cleanly, groups separate nicely, and the result looks convincing.\nBut the separation is driven by when, where or how the samples were processed, not by biology."
+  },
+  {
+    "objectID": "pitfalls/batch-effects.html#why-it-happens",
+    "href": "pitfalls/batch-effects.html#why-it-happens",
+    "title": "Batch Effects",
+    "section": "Why it happens",
+    "text": "Why it happens\nMost datasets are not generated under perfectly controlled conditions.\nCommon sources:\n\nsamples processed on different days\nsequencing runs split across lanes\nlibrary prep done in batches\ndifferent technicians or centers\ncase and control groups handled at different times\n\nThe critical failure is not the presence of batch effects.\nIt is when batch and biological condition overlap.\nAt that point, the data cannot tell you which is which."
+  },
+  {
+    "objectID": "pitfalls/batch-effects.html#what-breaks",
+    "href": "pitfalls/batch-effects.html#what-breaks",
+    "title": "Batch Effects",
+    "section": "What breaks",
+    "text": "What breaks\nBatch effects don’t just add noise. They add structure.\nThat structure can:\n\ncreate artificial separation between groups\ninflate differential expression results\nhide real biological signal\nmake models look more confident than they should be\n\nThe dangerous part is that everything can look “clean”:\n\nPCA plots show tight clusters\n\nvolcano plots show strong hits\n\nmodels converge without warnings\n\nBut the interpretation is wrong."
+  },
+  {
+    "objectID": "pitfalls/batch-effects.html#how-to-detect-it",
+    "href": "pitfalls/batch-effects.html#how-to-detect-it",
+    "title": "Batch Effects",
+    "section": "How to detect it",
+    "text": "How to detect it\nThis usually shows up during exploratory analysis.\nThings that have saved me more than once:\n\nPCA colored by both condition and batch\nchecking whether samples cluster by sequencing date instead of phenotype\nlooking at metadata early, not after modeling\ncounting how many batches exist per group\n\nA simple but critical question:\n\nIf I remove the condition labels, would I still see the same clusters?\n\nIf yes, something else is driving the structure."
+  },
+  {
+    "objectID": "pitfalls/batch-effects.html#how-to-prevent-it",
+    "href": "pitfalls/batch-effects.html#how-to-prevent-it",
+    "title": "Batch Effects",
+    "section": "How to prevent it",
+    "text": "How to prevent it\nSome problems are fixable. Some are not.\nGood habits:\n\nrecord batch variables in metadata (date, lane, center, prep)\nbalance cases and controls across batches when possible\ncheck for confounding before modeling\ninclude batch terms in the model only when design allows it\ndocument limitations when batch and condition are inseparable\n\nThe uncomfortable truth:\n\nIf batch and condition are perfectly confounded, no statistical method can fully recover the biology.\n\nAt that point, interpretation needs to be cautious, not clever."
+  },
+  {
+    "objectID": "pitfalls/batch-effects.html#tiny-demo",
+    "href": "pitfalls/batch-effects.html#tiny-demo",
+    "title": "Batch Effects",
+    "section": "Tiny demo",
+    "text": "Tiny demo\nA minimal example of how misleading structure can look:\n\n\n\nsample\ncondition\nbatch\nPC1 (sketch)\n\n\n\n\nS1\ncase\nbatch1\n-5\n\n\nS2\ncase\nbatch1\n-4\n\n\nS3\ncontrol\nbatch2\n4\n\n\nS4\ncontrol\nbatch2\n5\n\n\n\nIf you color by condition:\n\ncases cluster together\n\ncontrols cluster together\n\nLooks biological.\nIf you color by batch:\n\nbatch1 vs batch2 separation is identical\n\nThe plot did not lie.\nIt just answered a different question."
+  },
+  {
+    "objectID": "pitfalls/batch-effects.html#the-same-plot-colored-two-ways",
+    "href": "pitfalls/batch-effects.html#the-same-plot-colored-two-ways",
+    "title": "Batch Effects",
+    "section": "The same plot, colored two ways",
+    "text": "The same plot, colored two ways\n\n\n\nThe same PCA, colored by condition (left) and by batch (right). The separation is identical in both panels.\n\n\nThe same structure can support two different stories depending on what you color by.\nThe data here are simulated. All cases were processed in batch 1 and all controls in batch 2. The expression values contain a batch shift and no condition effect at all, so the clean separation on the left is entirely technical. The script that makes this figure is scripts/batch_effects_pca.py in the site repository."
+  },
+  {
+    "objectID": "pitfalls/batch-effects.html#related-project",
+    "href": "pitfalls/batch-effects.html#related-project",
+    "title": "Batch Effects",
+    "section": "Related project",
+    "text": "Related project\nRNA-seq Workflow Demo\nRelevant workflow section:\nStatistical analysis → interpretation\nThis is where patterns are interpreted and where batch effects can silently turn technical variation into biological claims."
+  },
+  {
+    "objectID": "pitfalls/batch-effects.html#related-crosswalk-post",
+    "href": "pitfalls/batch-effects.html#related-crosswalk-post",
+    "title": "Batch Effects",
+    "section": "Related Crosswalk post",
+    "text": "Related Crosswalk post\nComing soon: When patterns are not biology: the illusion of clean data"
+  },
+  {
+    "objectID": "pitfalls/batch-effects.html#related-concept-atlas-entries",
+    "href": "pitfalls/batch-effects.html#related-concept-atlas-entries",
+    "title": "Batch Effects",
+    "section": "Related Concept Atlas entries",
+    "text": "Related Concept Atlas entries\n\nBatch effect\n\nConfounding\n\nPCA\n\nExperimental design\n\nDifferential expression\n\nBiological interpretation"
+  },
+  {
+    "objectID": "projects/index.html",
+    "href": "projects/index.html",
+    "title": "Projects",
+    "section": "",
+    "text": "Projects are the build layer of Lunaland: reproducible workflows, statistical explainers and interactive tools."
+  },
+  {
+    "objectID": "projects/index.html#featured-projects",
+    "href": "projects/index.html#featured-projects",
+    "title": "Projects",
+    "section": "Featured projects",
+    "text": "Featured projects\n\nRNA-seq Workflow Demo\nA Nextflow workflow structure for RNA-seq preprocessing, and a DESeq2 analysis on simulated counts where I know which genes really changed.\nCode: rna-seq-demo\nRelated concepts: reproducibility, quality control, differential expression, workflow design\nRelated pitfalls: Batch Effects, Wrong Genome Build\nRelated Crosswalk posts: When is a genetic association real?\n\n\n\nWhen is a genetic association real? (Shiny app)\nAn interactive app explaining odds ratios, confidence intervals and sample size in genetic association studies.\nOpen the app: live on shinyapps.io\nCode: genetic-association-shiny\nRelated concepts: uncertainty, confidence intervals, effect size, statistical significance\nRelated pitfalls: low counts and overinterpretation (coming soon)\nRelated Crosswalk posts: When is a genetic association real?"
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Lunaland",
+    "section": "",
+    "text": "Lunaland is a portfolio ecosystem about turning complex biological data into interpretable, usable insight.\nIt connects workflow development, statistical interpretation, bioinformatics judgment and science communication into one coherent story."
+  },
+  {
+    "objectID": "index.html#explore",
+    "href": "index.html#explore",
+    "title": "Lunaland",
+    "section": "Explore",
+    "text": "Explore\n\n\nProjects\nReproducible workflows, Shiny apps and practical data interpretation tools.\nProjects show what I can build.\n\n\nBioinformatics Pitfalls Lab\nSmall practical modules about common mistakes in bioinformatics analysis.\nThe Pitfalls Lab shows where things break.\n\n\nThe Crosswalk\nShort field notes from the intersections of biology, data, statistics and curiosity.\nThe Crosswalk shows how I think through ideas.\n\n\nConcept Atlas\nA lightweight map of recurring concepts across the portfolio.\nThe Atlas shows how ideas connect."
   },
   {
     "objectID": "crosswalk/posts/genetic-association-real.html",
