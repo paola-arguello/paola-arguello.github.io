@@ -1,0 +1,310 @@
+---
+title: "Building a Hot Ones lineup from our local hot sauce shop"
+subtitle: "Parsing a store catalog, estimating Scoville units, and figuring out what drives the price of a bottle"
+author: "Paola Arguello Pascualli"
+date: "2026-11-06"
+categories: [Cross-Discipline Curiosity]
+format:
+  html:
+    code-fold: true
+    code-summary: "Show the code"
+    code-tools: true
+    toc: true
+jupyter: python3
+execute:
+  warning: false
+  message: false
+---
+
+```{python}
+#| include: false
+import numpy as np
+import pandas as pd
+from scipy import stats
+import plotly.express as px
+import plotly.graph_objects as go
+import plotly.io as pio
+from plotly.subplots import make_subplots
+
+pio.renderers.default = "plotly_mimetype+notebook_connected"
+
+LEVEL_ORDER = ["Mild", "Medium", "Hot", "Extra Hot", "Extreme"]
+LEVEL_COLORS = {"Mild": "#1baf7a", "Medium": "#eda100", "Hot": "#eb6834",
+                "Extra Hot": "#e34948", "Extreme": "#791F1F"}
+
+sauces = pd.read_csv("data/sauces_scoville.csv")
+```
+
+I am planning a Hot Ones challenge for my partner Marco's birthday. I needed to know which sauces I could use and how to arrange them so the experience would be as close to the real show as possible.
+
+One way of doing it is buying the same sauces the Hot Ones team has expertly put together. But Marco is a hot sauce lover. He appreciates both the flavour and the spiciness, and while Da Bomb has given amazing laughs on the show (and earned its reputation for brutally burning everything it touches), I wanted to give Marco a list of sauces we could try and choose from for each level.
+
+## Step 1: Turning a store website into a table
+
+The first step was to search the catalog of our favourite hot sauce store: [Lucifer's House of Heat](https://lucifershouseofheat.com/collections/hot-sauce). We are going there this weekend to sample the candidates I am putting together. To do this, I downloaded the source HTML code of their product pages and parsed it into a table with the sauce name, vendor and price. The parsing code is in the [folder for this post](https://github.com/paola-arguello/paola-arguello.github.io/tree/main/crosswalk/posts/hot-ones-lineup) on GitHub.
+
+HTML is the language web pages are written in. It has a specific grammar that tells your browser how to read the information. A great feature of this language is that every element is wrapped in an opening tag `<...>` and a closing tag `</...>`. Each tag can also carry a `class`, which is a label the website uses to style things. On this page, every product name sits inside a tag with the class `grid-product__title`, and every vendor inside `grid-product__vendor`. For example:
+
+```html
+<div class="grid-product__title">Heartbeat Hot Sauce Pineapple Habanero</div>
+<div class="grid-product__vendor">Heartbeat Hot Sauce</div>
+```
+
+If we look carefully and tune out the specifics of the grammar, there is a pattern we can exploit. Every product on the page sits inside a block with the class `product-grid-item`, and inside each block the name, vendor and price always live under the same labels. So we can tell a script to go block by block and pick out those three pieces.
+
+I used Python with the [Beautiful Soup](https://www.crummy.com/software/BeautifulSoup/) library, which reads HTML and lets you search it by tag and class. A few things needed cleaning along the way:
+
+- **Repeated products.** The page shows the first few products twice (a featured strip above the main grid), so the script keeps track of each product's ID and skips repeats.
+- **Messy prices.** The page writes prices as `$17<sup>99</sup>` so the cents look small. Read as plain text, that becomes "$17 99". The page also hides a clean copy (`$17.99`) for screen readers, so the script grabs that one.
+- **Sale prices.** For sauces on sale, the "current" price is the sale price, which is what we would actually pay.
+
+```{python}
+#| code-fold: false
+#| eval: false
+#| filename: scripts/parse_sauces.py
+import sys, csv, re
+from bs4 import BeautifulSoup
+
+# Read the saved HTML page
+soup = BeautifulSoup(open(sys.argv[1], encoding="utf-8"), "html.parser")
+
+# Helper: get the text inside a tag and squash extra spaces
+t = lambda el: re.sub(r"\s+", " ", el.get_text(" ", strip=True)) if el else ""
+
+rows, seen = [], set()
+for item in soup.select(".product-grid-item"):        # one block per product
+    pid = item.get("data-product-id")
+    if pid in seen:                                    # skip repeated products
+        continue
+    seen.add(pid)
+    # Find the clean "$17.99" style price and keep the number
+    m = re.findall(r"\$\d+\.\d{2}", t(item.select_one(".grid-product__price--current")))
+    rows.append({"sauce_name": t(item.select_one(".grid-product__title")),
+                 "price": float(m[-1][1:]) if m else "",
+                 "vendor": t(item.select_one(".grid-product__vendor"))})
+
+# Save the table
+with open(sys.argv[2], "w", newline="", encoding="utf-8") as f:
+    w = csv.DictWriter(f, fieldnames=["sauce_name", "price", "vendor"])
+    w.writeheader()
+    w.writerows(rows)
+```
+
+To run it on a saved page: `python scripts/parse_sauces.py sauces_page1.html sauces_page1.csv`. I ran it on each page of the catalog and combined the results. After removing repeats, the store had **160 different sauces** from 41 vendors.
+
+## Step 2: How hot is each sauce?
+
+To build a lineup that climbs like the show, I needed a heat rating for every sauce. Heat is measured in Scoville heat units (SHU): how many times a pepper extract has to be diluted before you can't taste the heat anymore. A jalapeño is a few thousand SHU, a habanero is in the hundreds of thousands, and the peppers behind The Last Dab go past two million.
+
+The store doesn't list Scoville ratings, so I asked Claude (Anthropic's AI assistant) to find them for me. Here is what it did, at a high level:
+
+- **It searched for published ratings first.** Many of these brands have been on Hot Ones, and the show publishes a rating for every sauce in each season's lineup. That covered 73 sauces. El Yucateco publishes its own heat ranges, which covered 10 more, and a store or reviewer listing covered 2.
+- **It estimated the rest.** Most small brands simply don't publish a Scoville number. For the remaining 73 sauces, Claude estimated a rating from the peppers in the ingredient list and from the brand's own heat scale (for example "5 out of 10" or "mild"). Every row in the table says whether its number is published or estimated.
+- **It grouped the sauces into five heat levels:** Mild (under 5,000 SHU), Medium (5,000 to 25,000), Hot (25,000 to 100,000), Extra Hot (100,000 to 500,000) and Extreme (500,000 and up).
+
+A word of caution: Scoville numbers are rough even when they are published. Peppers vary from batch to batch, and the same sauce has been listed with different ratings in different seasons of the show. The estimates are rougher still. Our tasting this weekend will be the real test.
+
+```{python}
+#| code-summary: "Show how many sauces came from each source"
+(sauces["source_type"].value_counts()
+ .rename_axis("Where the rating came from").reset_index(name="Sauces"))
+```
+
+Here are all the sauces, sorted from mildest to hottest. Hover over a point to see the sauce, its vendor and where its rating came from. You can click a heat level in the legend to hide or show it.
+
+```{python}
+#| code-summary: "Show the code for the Scoville plot"
+plot_df = (sauces.dropna(subset=["scoville_shu"])          # drops 2 gift packs
+           .sort_values("scoville_shu", kind="stable"))
+
+fig = px.scatter(
+    plot_df, x="sauce_name", y="scoville_shu",
+    color="heat_level", color_discrete_map=LEVEL_COLORS,
+    category_orders={"heat_level": LEVEL_ORDER,
+                     "sauce_name": plot_df["sauce_name"].tolist()},
+    log_y=True, hover_name="sauce_name",
+    hover_data={"sauce_name": False, "vendor": True, "scoville_shu": ":,",
+                "heat_level": True, "source_type": True, "price": ":$.2f"},
+    labels={"scoville_shu": "Scoville (SHU)", "heat_level": "Heat level",
+            "source_type": "Source", "vendor": "Vendor", "price": "Price"},
+)
+fig.update_traces(marker=dict(size=9, line=dict(width=1, color="white")))
+fig.update_layout(xaxis=dict(title="Sauce (sorted mild to hot)", showticklabels=False),
+                  yaxis_title="Scoville heat units (log scale)",
+                  legend_title_text="<b>Heat level</b>", template="plotly_white")
+fig.show()
+```
+
+The y-axis is on a log scale, which means each gridline is ten times hotter than the one below it. Without it, the ratings run from 500 to 820,000 and every sauce under about 50,000 would be squashed into a flat line at the bottom.
+
+### Matching the show's ten wings
+
+On the show, each wing is hotter than the one before. In Season 30 the step goes from about 1.3 times to 6 times hotter. To copy that, I took the most recent lineup (Season 30) and matched each sauce in the store to the wing whose rating is closest to its own. Because heat climbs by multiples, "closest" is measured on the log scale too. Wing 10 is The Last Dab, and nothing in the store comes close to it, so our finale will be whatever wins wing 9.
+
+```{python}
+#| code-summary: "Show the code for matching sauces to wings"
+lineup = pd.DataFrame({
+    "Wing": range(1, 10),
+    "Show sauce (Season 30)": ["That's What Shishito Said", "Hot Bergine",
+                               "Pickled Garlic Sriracha", "Chickpotle",
+                               "Pikliz N Scorpion", "Tropical Amarillo", "8 Dragon",
+                               "Hot Ones #8", "XXX Salsa Vibes"],
+    "Show SHU": [2100, 7900, 18000, 32000, 54000, 69000, 102000, 135600, 820000],
+})
+
+# Leave out gift packs and clearance bottles
+candidates = sauces.dropna(subset=["scoville_shu"])
+candidates = candidates[~candidates["sauce_name"].str.contains("CLEARANCE|Gift Pack|3-Pack", case=False)].copy()
+
+# Distance between each sauce and each wing, on the log scale
+dist = np.abs(np.log10(candidates["scoville_shu"].to_numpy())[:, None]
+              - np.log10(lineup["Show SHU"].to_numpy())[None, :])
+candidates["wing"] = dist.argmin(axis=1) + 1
+candidates["distance"] = dist.min(axis=1)
+
+def closest(group, k=5):
+    top = group.nsmallest(k, "distance")
+    return "; ".join(f"{n} ({s:,.0f})" for n, s in zip(top["sauce_name"], top["scoville_shu"]))
+
+summary = candidates.groupby("wing").apply(
+    lambda g: pd.Series({"Candidates in store": len(g),
+                         "Closest 5 (SHU)": closest(g)}),
+    include_groups=False)
+lineup.merge(summary, left_on="Wing", right_index=True).style.hide(axis="index").format({"Show SHU": "{:,}"})
+```
+
+Every wing has at least six candidates, and the milder wings have dozens. That gives us plenty to taste before we choose.
+
+## Step 3: What is driving the price?
+
+Should we get more super spicy sauces, medium or mild? Are the vendors driving the price, or is it more expensive to make the extreme sauces? Let's visualize it!
+
+For this part I left out clearance bottles (their prices are discounted) and the gift packs, which leaves 150 sauces.
+
+```{python}
+#| code-summary: "Show the code for the correlation"
+df = sauces.dropna(subset=["scoville_shu"])
+df = df[~df["sauce_name"].str.contains("CLEARANCE|Gift Pack|3-Pack", case=False)].copy()
+df["log_shu"] = np.log10(df["scoville_shu"])
+
+rho = stats.spearmanr(df["scoville_shu"], df["price"])
+fit = stats.linregress(df["log_shu"], df["price"])
+pub = df[df["source_type"] != "Estimate"]
+rho_pub = stats.spearmanr(pub["scoville_shu"], pub["price"])
+
+print(f"Spearman correlation, all sauces:   rho = {rho.statistic:.2f} (p = {rho.pvalue:.1g}, n = {len(df)})")
+print(f"Spearman correlation, published only: rho = {rho_pub.statistic:.2f} (p = {rho_pub.pvalue:.1g}, n = {len(pub)})")
+print(f"Price goes up ${fit.slope:.2f} for every 10x increase in Scoville (R2 = {fit.rvalue**2:.2f})")
+```
+
+There is a correlation between heat and price, but it is moderate. A sauce that is ten times hotter costs about $3 more, and heat explains only about a quarter of the differences in price. I used Spearman's correlation because it works on rankings, so the huge range of Scoville numbers doesn't throw it off. The result is the same when I keep only the sauces with published ratings, so Claude's estimates are not what is creating the pattern.
+
+```{python}
+#| code-summary: "Show the code for the price vs Scoville plot"
+fig1 = px.scatter(
+    df, x="scoville_shu", y="price", color="heat_level",
+    color_discrete_map=LEVEL_COLORS, category_orders={"heat_level": LEVEL_ORDER},
+    log_x=True, hover_name="sauce_name",
+    hover_data={"vendor": True, "scoville_shu": ":,", "price": ":$.2f", "heat_level": False},
+    labels={"scoville_shu": "Scoville heat units (log scale)", "price": "Price ($)",
+            "heat_level": "Heat level", "vendor": "Vendor"},
+)
+fig1.update_traces(marker=dict(size=9, line=dict(width=1, color="white")))
+line_x = np.logspace(np.log10(400), 6, 100)
+fig1.add_trace(go.Scatter(x=line_x, y=fit.intercept + fit.slope * np.log10(line_x),
+                          mode="lines", name="Linear fit", hoverinfo="skip",
+                          line=dict(dash="dash", color="#888780")))
+fig1.update_layout(yaxis_tickprefix="$", template="plotly_white",
+                   legend_title_text="<b>Heat level</b>")
+fig1.show()
+```
+
+Look at the left side of the plot. Among the mild sauces alone, prices go from $4 to almost $24. Something other than heat is setting the price, and my guess was the brand.
+
+### Is it the brand?
+
+To test this, I compared three simple models: one that predicts price from heat only, one from the brand only, and one from both.
+
+```{python}
+#| code-summary: "Show the code for the brand models"
+def ols(X, y):
+    """Least-squares fit: returns coefficients, R-squared and adjusted R-squared."""
+    X = np.column_stack([np.ones(len(y)), X]).astype(float)
+    n, k = X.shape
+    beta, *_ = np.linalg.lstsq(X, y, rcond=None)
+    rss = float(((y - X @ beta) ** 2).sum())
+    tss = float(((y - y.mean()) ** 2).sum())
+    return beta, 1 - rss / tss, 1 - (rss / (n - k)) / (tss / (n - 1))
+
+y = df["price"].to_numpy()
+brand = pd.get_dummies(df["vendor"], drop_first=True).to_numpy(dtype=float)
+_, r2_heat, adj_heat = ols(df[["log_shu"]].to_numpy(), y)
+_, r2_brand, adj_brand = ols(brand, y)
+beta_both, r2_both, adj_both = ols(np.column_stack([df["log_shu"], brand]), y)
+
+pd.DataFrame({
+    "Model": ["Heat only", "Brand only", "Brand + heat"],
+    "Share of price differences explained (R²)": [r2_heat, r2_brand, r2_both],
+    "Adjusted R²": [adj_heat, adj_brand, adj_both],
+}).style.hide(axis="index").format("{:.0%}", subset=["Share of price differences explained (R²)", "Adjusted R²"])
+```
+
+Yes, it is mostly the brand. Knowing the brand alone explains about 90% of the price differences. Adding heat on top of the brand only brings it to 92%. One caution: 40 brands means 40 numbers to fit with 150 sauces, and the 13 brands with a single sauce get their price exactly right for free. The adjusted R² corrects for that, and brand still explains about 87%. Within the same brand a sauce that is ten times hotter costs only about $1.35 more. Many brands simply charge one price for their whole line: every Heartbeat sauce is $13.99, whether it is the mild Dill Pickle Serrano or the Scorpion.
+
+To see which brands charge more, I calculated a **brand premium**: how much more or less a brand's sauces cost, on average, than the heat-only model predicts for their heat. The heatmap shows each brand's average price at each heat level, with the premium on the right. It includes the 27 brands with at least two sauces in the store.
+
+```{python}
+#| code-summary: "Show the code for the brand heatmap"
+#| fig-height: 9
+df["resid"] = df["price"] - (fit.intercept + fit.slope * df["log_shu"])
+vendor_summary = (df.groupby("vendor")
+                  .agg(n=("price", "size"), mean_price=("price", "mean"), premium=("resid", "mean"))
+                  .query("n >= 2").sort_values("premium").reset_index())
+vendor_order = vendor_summary["vendor"].tolist()
+
+grid = (df[df["vendor"].isin(vendor_order)]
+        .pivot_table(index="vendor", columns="heat_level", values="price", aggfunc="mean")
+        .reindex(index=vendor_order, columns=LEVEL_ORDER))
+hover = [[f"{v} · {lvl}<br>" + ("no sauces" if np.isnan(p) else f"${p:.2f}")
+          for lvl, p in zip(LEVEL_ORDER, row)] for v, row in zip(grid.index, grid.to_numpy())]
+
+fig2 = make_subplots(rows=1, cols=2, column_widths=[0.6, 0.4], shared_yaxes=True,
+                     horizontal_spacing=0.03,
+                     subplot_titles=("Average price by heat level", "Brand premium"))
+fig2.add_trace(go.Heatmap(z=grid.to_numpy(), x=LEVEL_ORDER, y=vendor_order, colorscale="Blues",
+                          text=hover, hoverinfo="text", xgap=2, ygap=2,
+                          colorbar=dict(title="Avg price", tickprefix="$", x=0.57)), row=1, col=1)
+fig2.add_trace(go.Bar(x=vendor_summary["premium"], y=vendor_order, orientation="h",
+                      showlegend=False,
+                      marker_color=np.where(vendor_summary["premium"] >= 0, "#e34948", "#2a78d6"),
+                      hovertext=[f"{v}<br>{'+' if p >= 0 else '−'}${abs(p):.2f} vs heat-predicted price"
+                                 for v, p in zip(vendor_order, vendor_summary["premium"])],
+                      hoverinfo="text"), row=1, col=2)
+fig2.update_xaxes(title_text="Heat level", row=1, col=1)
+fig2.update_xaxes(title_text="Brand premium ($)", tickprefix="$", row=1, col=2)
+fig2.update_layout(height=750, template="plotly_white", margin=dict(l=200))
+fig2.show()
+```
+
+A few things stood out to me:
+
+- **The priciest brands:** Seed Ranch charges about $7 more than its heat would predict and Hot Ones about $6 more. Even the mild Hot Ones sauces cost around $20, so part of what you pay for is the show.
+- **The cheapest brands:** Valentina, El Yucateco and Marie Sharp's cost $5 to $7 less than expected. These are big brands from Mexico and Belize that are made at a much larger scale.
+- **The surprise:** Pepper North, a small Ontario brand, makes some properly hot sauces (two of them have been on the show) and sells them for $10.50.
+
+So to answer my own question: extreme sauces are not much more expensive to make, at least not in a way that shows up on the shelf. If we want to save money, the place to do it is by picking brands, not by skipping the hot end of the lineup.
+
+There are a few limits to keep in mind. Bottle sizes range from 5 to 12 ounces and I didn't have that information, so some of the "cheap brand" effect could just be bigger or smaller bottles. Many brands only have two or three sauces in the store, so their premiums are rough. And these are one store's prices, not the whole market.
+
+## What's next
+
+This weekend we go to the store and taste. For each wing we'll try a few of the candidates, pick the one with the best flavour at the right heat, and the lineup will be ready for Marco's birthday. I'll report back on whether he survived the last wing.
+
+## Sources
+
+- Product data: [Lucifer's House of Heat](https://lucifershouseofheat.com/collections/hot-sauce), downloaded November 2026.
+- Hot Ones lineups and Scoville ratings, seasons 1 to 22: [Hot Ones on Wikipedia](https://en.wikipedia.org/wiki/Hot_Ones).
+- Hot Ones lineups, seasons 22 to 28: [Flower City Flavor](https://flowercityflavor.com/list-of-hot-ones-hot-sauces).
+- Hot Ones Season 29 and 30 lineups: [Heatonist](https://heatonist.com/collections/hot-ones-hot-sauce-lineup-season-29), [Heatonist](https://heatonist.com/collections/hot-ones-hot-sauces-season-30).
+- El Yucateco heat ranges: [El Yucateco on Wikipedia](https://en.wikipedia.org/wiki/El_Yucateco).
+- Full table with every sauce's rating and source: `data/sauces_scoville.csv` in the [folder for this post](https://github.com/paola-arguello/paola-arguello.github.io/tree/main/crosswalk/posts/hot-ones-lineup).

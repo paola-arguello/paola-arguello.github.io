@@ -19,7 +19,17 @@ A field note on why odds ratios alone are not enough, and how uncertainty and sa
 **Related concepts:** Odds Ratio, Confidence Interval, Sample Size  
 **Related projects:** [When is a genetic association real? (Shiny app page)](../projects/genetic-association.qmd), [RNA-seq Workflow Demo](../projects/rnaseq-workflow.qmd)  
 **Related app:** [*When is a genetic association real?*](https://paola-arguello-pascualli.shinyapps.io/genetic-association-shiny/) (live Shiny app)  
-**Related pitfalls:** Overinterpreting small datasets *(coming soon)*  
+**Related pitfalls:** Overinterpreting small datasets *(coming soon)*
+
+---
+
+### [Building a Hot Ones lineup from our local hot sauce shop](posts/hot-ones-lineup/index.qmd)
+
+A side project in Python: parsing a store catalog into a table, matching sauces to the show's ten wings by Scoville rating, and asking whether heat or brand sets the price of a bottle.
+
+**Category:** Cross-Discipline Curiosity
+**Related concepts:** web scraping, log scales, Spearman correlation, R² and adjusted R²
+**Code and data:** [folder on GitHub](https://github.com/paola-arguello/paola-arguello.github.io/tree/main/crosswalk/posts/hot-ones-lineup)
 
 ---
 
