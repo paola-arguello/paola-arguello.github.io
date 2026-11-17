@@ -189,7 +189,7 @@ Aun así, los números se pueden contar de formas que engañan. Decir que hay ca
 
 Esa capa no la puedo quitar desde mi trinchera. Pero espero que, con la información que ya existe ordenada en un solo lugar, sea más fácil para nuestros seres queridos llamar, preguntar y acercarse a lo que necesitan, para cuidar su salud y también para divertirse, ¿por qué no?
 
-<!-- PAOLA: aquí puede ir cómo reportar errores (correo, formulario o GitHub). -->
+Si encuentras un lugar que ya no da descuento, un error en el buscador o tienes alguna idea, escríbeme a [pao.arguello.pascualli@gmail.com](mailto:pao.arguello.pascualli@gmail.com).
 ## Fuentes
 
 - Directorio de Beneficios con Credencial INAPAM, octubre de 2026: [gob.mx/inapam](https://www.gob.mx/inapam).
