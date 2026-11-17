@@ -44,14 +44,13 @@ total = int(tipos.lugares.sum())
 pob = int(estados.POB_60_MAS.sum())
 ```
 
-<!-- PAOLA: aquí va tu historia personal. Tus papás, el flyer, por qué decidiste hacer esto.
-     Lo de abajo es solo un puente para conectar con el resto; cámbialo o bórralo. -->
+Hoy estaba hablando con mi papá de lo mucho que disfruta encontrar lugares donde usar el descuento de su nueva credencial del INAPAM (Instituto Nacional de las Personas Adultas Mayores), un descuento bien merecido. Comparto con él el espíritu de cazar el ofertón, y me encanta cómo se está volviendo una búsqueda del tesoro: va caminando a media jornada de trabajo, o en camino a algún lado, y sabe que en tal lugar aceptan su credencial.
 
-::: {.callout-warning}
-**[HISTORIA PERSONAL: la escribe Paola]**
-:::
+Mi mamá, en cambio, lleva más de un mes con dolor en el tobillo y no ha encontrado un fisioterapeuta de confianza, a buen precio y que le quede cerca. Además, para ella enfermarse no es opción. Como buena mamá mexicana, si no hay problema no hay nada que arreglar. Así que me pregunté si entre todos estos descuentazos de su credencial podía encontrarle un fisioterapeuta cerca que la pudiera ayudar.
 
-Lo que empezó como un flyer para la familia se convirtió en una pregunta más grande. Si a mí me costó trabajo encontrar qué descuentos había cerca de la casa de mis papás, ¿qué tan fácil es para cualquier persona mayor en México?
+Eso me llevó a la página del gobierno. El directorio está dividido en siete PDFs difíciles de buscar y tiene muchos errores de dedo. Lo ponen mucho más difícil justo para las personas que lo necesitan. Por eso me tomé un par de horas para juntar la información y hacerla fácil de usar para mis papás. Y ya que estaba en eso, no era mucho más trabajo dejarla disponible para más personas. (Sí había: tres lugares de rehabilitación en Ecatepec, uno con 45% de descuento.)
+
+Con los datos en la mano, mi corazón estadístico quiso ver qué más decían, y lo que encontré me puso un poco triste. De los casi 9,900 lugares del directorio, 1 de cada 4 es sucursal de unas pocas cadenas como Smart Fit, Estafeta, Devlyn o +Visión. En salud, casi 7 de cada 10 ópticas son de cadena, y hay estados sin un solo lugar con descuento en psicología o en aparatos auditivos. Esto no dice qué servicios existen en cada estado. Lo que sí sugiere es que el directorio depende mucho de convenios con empresas grandes, y que hay servicios que casi no llegan a él.
 
 ## Paso 1: de 475 páginas de PDF a una tabla
 
