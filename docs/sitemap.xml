@@ -2,38 +2,14 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://paola-arguello.github.io/crosswalk/index.html</loc>
-    <lastmod>2026-11-06T19:45:17.834Z</lastmod>
+    <lastmod>2026-11-20T20:47:16.931Z</lastmod>
   </url>
   <url>
-    <loc>https://paola-arguello.github.io/crosswalk/posts/hot-ones-lineup/index.html</loc>
-    <lastmod>2026-11-06T19:45:17.835Z</lastmod>
-  </url>
-  <url>
-    <loc>https://paola-arguello.github.io/projects/rnaseq-workflow.html</loc>
-    <lastmod>2026-11-05T23:43:13.850Z</lastmod>
-  </url>
-  <url>
-    <loc>https://paola-arguello.github.io/projects/genetic-association.html</loc>
-    <lastmod>2026-11-05T23:43:13.850Z</lastmod>
-  </url>
-  <url>
-    <loc>https://paola-arguello.github.io/pitfalls/index.html</loc>
-    <lastmod>2026-05-04T21:09:10.036Z</lastmod>
-  </url>
-  <url>
-    <loc>https://paola-arguello.github.io/about.html</loc>
-    <lastmod>2026-11-05T23:44:22.246Z</lastmod>
-  </url>
-  <url>
-    <loc>https://paola-arguello.github.io/atlas/index.html</loc>
+    <loc>https://paola-arguello.github.io/crosswalk/posts/genetic-association-real.html</loc>
     <lastmod>2026-11-05T23:40:00.419Z</lastmod>
   </url>
   <url>
-    <loc>https://paola-arguello.github.io/pitfalls/wrong-genome-build.html</loc>
-    <lastmod>2026-11-05T23:40:00.424Z</lastmod>
-  </url>
-  <url>
-    <loc>https://paola-arguello.github.io/pitfalls/batch-effects.html</loc>
+    <loc>https://paola-arguello.github.io/index.html</loc>
     <lastmod>2026-11-05T23:40:00.424Z</lastmod>
   </url>
   <url>
@@ -41,11 +17,39 @@
     <lastmod>2026-11-05T23:40:00.425Z</lastmod>
   </url>
   <url>
-    <loc>https://paola-arguello.github.io/index.html</loc>
+    <loc>https://paola-arguello.github.io/pitfalls/batch-effects.html</loc>
     <lastmod>2026-11-05T23:40:00.424Z</lastmod>
   </url>
   <url>
-    <loc>https://paola-arguello.github.io/crosswalk/posts/genetic-association-real.html</loc>
+    <loc>https://paola-arguello.github.io/pitfalls/wrong-genome-build.html</loc>
+    <lastmod>2026-11-05T23:40:00.424Z</lastmod>
+  </url>
+  <url>
+    <loc>https://paola-arguello.github.io/atlas/index.html</loc>
     <lastmod>2026-11-05T23:40:00.419Z</lastmod>
+  </url>
+  <url>
+    <loc>https://paola-arguello.github.io/about.html</loc>
+    <lastmod>2026-11-05T23:44:22.246Z</lastmod>
+  </url>
+  <url>
+    <loc>https://paola-arguello.github.io/pitfalls/index.html</loc>
+    <lastmod>2026-05-04T21:09:10.036Z</lastmod>
+  </url>
+  <url>
+    <loc>https://paola-arguello.github.io/projects/genetic-association.html</loc>
+    <lastmod>2026-11-05T23:43:13.850Z</lastmod>
+  </url>
+  <url>
+    <loc>https://paola-arguello.github.io/projects/rnaseq-workflow.html</loc>
+    <lastmod>2026-11-05T23:43:13.850Z</lastmod>
+  </url>
+  <url>
+    <loc>https://paola-arguello.github.io/crosswalk/posts/hot-ones-lineup/index.html</loc>
+    <lastmod>2026-11-06T19:45:17.835Z</lastmod>
+  </url>
+  <url>
+    <loc>https://paola-arguello.github.io/crosswalk/posts/inapam-salud/index.html</loc>
+    <lastmod>2026-11-20T20:52:47.087Z</lastmod>
   </url>
 </urlset>
