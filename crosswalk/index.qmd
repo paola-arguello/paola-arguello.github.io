@@ -33,6 +33,17 @@ A side project in Python: parsing a store catalog into a table, matching sauces 
 
 ---
 
+### [¿Qué tan fácil es usar la credencial INAPAM para cuidar tu salud?](posts/inapam-salud/index.qmd)
+
+*In Spanish.* Mexico's discount directory for people aged 60 and over is 475 pages of PDF. I turned it into a search page and counted the health providers in it: what kind, how big the discounts are, and how many per 1,000 older adults in each state.
+
+**Category:** Cross-Discipline Curiosity, Scientific Communication
+**Related concepts:** rates per population, data cleaning, rule-based classification
+**Search page:** [Buscador de descuentos INAPAM](https://paola-arguello.github.io/inapam-descuentos/)
+**Code and data:** [inapam-descuentos on GitHub](https://github.com/paola-arguello/inapam-descuentos)
+
+---
+
 ## Categories
 
 - Evidence & Uncertainty

@@ -1,0 +1,201 @@
+---
+title: "¿Qué tan fácil es usar la credencial INAPAM para cuidar tu salud?"
+subtitle: "Convertí un directorio de 475 páginas en un buscador y conté qué servicios de salud ofrece, dónde y con cuánto descuento"
+author: "Paola Arguello Pascualli"
+date: "2026-11-17"
+lang: es
+categories: [Cross-Discipline Curiosity, Scientific Communication]
+format:
+  html:
+    code-fold: true
+    code-summary: "Ver el código"
+    code-tools: true
+    toc: true
+jupyter: python3
+execute:
+  warning: false
+  message: false
+---
+
+::: {.callout-note appearance="simple"}
+**In English:** Mexico's discount card for people aged 60 and over (INAPAM) comes with a directory of businesses that give discounts, published as 475 pages of PDF. I turned it into a searchable page and looked at the 4,536 health providers in it: what kind they are, how big the discounts are, and how many there are for each state's older population. This post is in Spanish because the people who can use it read Spanish.
+:::
+
+**¿Buscas un descuento?** El buscador está aquí: [paola-arguello.github.io/inapam-descuentos](https://paola-arguello.github.io/inapam-descuentos/). Eliges qué quieres hacer, tu estado y tu municipio, y ves los lugares ordenados de mayor a menor descuento.
+
+```{python}
+#| include: false
+import pandas as pd
+import plotly.graph_objects as go
+import plotly.io as pio
+
+pio.renderers.default = "plotly_mimetype+notebook_connected"
+
+TEAL = "#008F84"   # color principal
+GOLD = "#B87A00"   # resaltado
+GRIS = "#5F6B6D"
+
+tipos = pd.read_csv("data/salud_por_tipo.csv")
+estados = pd.read_csv("data/salud_por_estado.csv")
+cadenas = pd.read_csv("data/salud_cadenas.csv")
+formas = pd.read_csv("data/salud_forma_descuento.csv")
+
+total = int(tipos.lugares.sum())
+pob = int(estados.POB_60_MAS.sum())
+```
+
+Hoy estaba hablando con mi papá de lo mucho que disfruta encontrar lugares donde usar el descuento de su nueva credencial del INAPAM (Instituto Nacional de las Personas Adultas Mayores), un descuento bien merecido. Comparto con él el espíritu de cazar el ofertón, y me encanta cómo se está volviendo una búsqueda del tesoro: va caminando a media jornada de trabajo, o en camino a algún lado, y sabe que en tal lugar aceptan su credencial.
+
+Mi mamá, en cambio, lleva más de un mes con dolor en el tobillo y no ha encontrado un fisioterapeuta de confianza, a buen precio y que le quede cerca. Además, para ella enfermarse no es opción. Como buena mamá mexicana, si no hay problema no hay nada que arreglar. Así que me pregunté si entre todos estos descuentazos de su credencial podía encontrarle un fisioterapeuta cerca que la pudiera ayudar.
+
+Eso me llevó a la página del gobierno. El directorio está dividido en siete PDFs difíciles de buscar y tiene muchos errores de dedo. Lo ponen mucho más difícil justo para las personas que lo necesitan. Por eso me tomé un par de horas para juntar la información y hacerla fácil de usar para mis papás. Y ya que estaba en eso, no era mucho más trabajo dejarla disponible para más personas. (Sí había: tres lugares de rehabilitación en Ecatepec, uno con 45% de descuento.)
+
+Con los datos en la mano, mi corazón estadístico quiso ver qué más decían, y lo que encontré me puso un poco triste. De los casi 9,900 lugares del directorio, 1 de cada 4 es sucursal de unas pocas cadenas como Smart Fit, Estafeta, Devlyn o +Visión. En salud, casi 7 de cada 10 ópticas son de cadena, y hay estados sin un solo lugar con descuento en psicología o en aparatos auditivos. Esto no dice qué servicios existen en cada estado. Lo que sí sugiere es que el directorio depende mucho de convenios con empresas grandes, y que hay servicios que casi no llegan a él.
+
+## Paso 1: de 475 páginas de PDF a una tabla
+
+El INAPAM publica su Directorio de Beneficios como siete PDFs, uno por categoría: Salud, Vestido y hogar, Alimentación, Educación, Asesoría legal, Predial y Transporte. La versión de octubre de 2026 tiene 475 páginas y 9,874 lugares en los 32 estados. Si quieres encontrar un dentista con descuento en tu municipio, tienes que abrir el PDF de Salud y recorrer 190 páginas.
+
+Los PDFs tienen texto real, así que no hizo falta reconocer letras en imágenes, pero las tablas no tienen líneas verticales. Con Python y [pdfplumber](https://github.com/jsvine/pdfplumber) separé las filas usando las líneas horizontales y las columnas usando los huecos sin texto. Después vino la limpieza:
+
+- **Municipios escritos de muchas formas.** "ECATEPEC", "ECATEPEC DE MORELOS" y hasta "ECATEPEC DE LT" son el mismo lugar. En CDMX y Estado de México los corregí a mano con la dirección y el código postal.
+- **El descuento como número.** El directorio dice cosas como "40%, 20% Ó 10%" o "TARIFA PREFERENCIAL". Para ordenar los lugares tomé el porcentaje más alto del texto. Esto infla un poco los números, y más abajo explico cuánto.
+- **Qué tipo de lugar es cada uno.** Las categorías del PDF son muy amplias. "Salud" incluye ópticas, dentistas, laboratorios y también funerarias. Asigné un tipo a cada lugar con palabras clave en el nombre del negocio.
+
+Las palabras clave tienen trampas. Mi regla para gimnasios buscaba "SPORT", y "TRAN**SPORT**E" la cumple, así que varias rutas de transporte público acabaron como gimnasios. La regla de aparatos auditivos buscaba "AUDI", y ahí cayeron todas las Cl**audi**as: una mercería, una boutique y varios consultorios. Las encontré revisando el buscador a mano y las corregí, pero seguro quedan otras. Por eso el buscador y este post dicen que la clasificación puede tener errores.
+
+Todo el código, la tabla completa y las decisiones que tomé están en el repo [inapam-descuentos](https://github.com/paola-arguello/inapam-descuentos).
+
+A partir de aquí me enfoco en salud. Quité las veterinarias (60) y las funerarias que venían en el PDF de Salud (154). Quedan **4,536 lugares de salud**.
+
+## Paso 2: ¿qué tipo de lugares de salud hay?
+
+```{python}
+#| code-summary: "Ver el código de la gráfica por tipo"
+t = tipos.sort_values("lugares")
+t["cadena"] = (t.lugares * t.pct_de_cadena / 100).round()
+t["independiente"] = t.lugares - t.cadena
+
+fig = go.Figure()
+fig.add_bar(y=t.SUB, x=t.independiente, orientation="h", name="Independientes",
+            marker=dict(color=TEAL, line=dict(color="white", width=2)),
+            hovertemplate="%{y}<br>Independientes: %{x:,.0f}<extra></extra>")
+fig.add_bar(y=t.SUB, x=t.cadena, orientation="h", name="De cadena",
+            marker=dict(color=GOLD, line=dict(color="white", width=2)),
+            hovertemplate="%{y}<br>De cadena: %{x:,.0f}<extra></extra>")
+for _, r in t.iterrows():
+    fig.add_annotation(x=r.lugares, y=r.SUB, text=f"{r.lugares:,}", showarrow=False,
+                       xanchor="left", xshift=6, font=dict(color=GRIS))
+fig.update_layout(barmode="stack", template="plotly_white", height=430,
+                  xaxis_title="Lugares en el directorio", yaxis_title=None,
+                  legend=dict(orientation="h", y=1.08, x=0),
+                  margin=dict(l=10, r=40, t=40, b=40))
+fig.show()
+```
+
+Más de un tercio de los lugares de salud son ópticas, y casi 7 de cada 10 ópticas son de alguna cadena. Las tres más grandes son Devlyn, +Visión y Ópticas Lux. Cuando una cadena firma un convenio con el INAPAM, cada sucursal aparece en el directorio, así que unas cuantas empresas llenan muchas páginas.
+
+```{python}
+#| code-summary: "Ver las cadenas más grandes"
+(cadenas.head(6)[["CADENA", "lugares", "estados", "descuento"]]
+ .rename(columns={"CADENA": "Cadena", "lugares": "Sucursales",
+                  "estados": "Estados", "descuento": "Descuento"})
+ .style.hide(axis="index"))
+```
+
+En el otro extremo están los servicios que casi no aparecen:
+
+```{python}
+#| code-summary: "Ver el código de los servicios menos frecuentes"
+raros = ["Psicología", "Ortopedia y podología", "Aparatos auditivos"]
+(tipos[tipos.SUB.isin(raros)]
+ .assign(sin=lambda d: 32 - d.estados_con_alguno)
+ [["SUB", "lugares", "estados_con_alguno", "sin"]]
+ .rename(columns={"SUB": "Tipo", "lugares": "Lugares en todo el país",
+                  "estados_con_alguno": "Estados con al menos uno",
+                  "sin": "Estados sin ninguno"})
+ .style.hide(axis="index"))
+```
+
+Hay 51 lugares de psicología para todo el país y 12 estados no tienen ninguno. De los 93 lugares de aparatos auditivos, 35 están en la Ciudad de México y 16 estados no tienen ninguno. Veracruz tiene más de un millón de personas de 60 años o más y no aparece ningún lugar de psicología ni de aparatos auditivos.
+
+<!-- PAOLA: si quieres decir por qué estos servicios importan para las personas mayores
+     (pérdida auditiva, salud mental), necesitamos una fuente con datos de México. -->
+
+## Paso 3: ¿cuánto descuento dan?
+
+```{python}
+#| code-summary: "Ver el código de la tabla de descuentos"
+(tipos.assign(rango=lambda d: d.q1_pct.map("{:.0f}".format) + "% a " + d.q3_pct.map("{:.0f}".format) + "%")
+ [["SUB", "mediana_pct", "rango", "pct_50_o_mas", "pct_varios_porcentajes"]]
+ .rename(columns={"SUB": "Tipo", "mediana_pct": "Mediana", "rango": "La mitad de los lugares da entre",
+                  "pct_50_o_mas": "% que da 50% o más",
+                  "pct_varios_porcentajes": "% con varios porcentajes"})
+ .style.hide(axis="index")
+ .format({"Mediana": "{:.0f}%", "% que da 50% o más": "{:.0f}%",
+          "% con varios porcentajes": "{:.0f}%"}))
+```
+
+El descuento típico es de 20%. Solo 1 de cada 10 lugares de salud da 50% o más, y los que más lo hacen son los consultorios de psicología, los médicos y la ortopedia.
+
+La última columna importa. Casi 1 de cada 5 lugares no da un solo porcentaje sino varios, como el "40%, 20% Ó 10%" de +Visión. En la tabla y en el buscador uso el más alto, pero en la tienda puede tocarte el más bajo. En las ópticas esto pasa en casi un tercio de los lugares, así que su "hasta 40%" hay que leerlo con cuidado. El directorio no dice de qué depende cada porcentaje; para eso hay que preguntar en el lugar.
+
+## Paso 4: ¿dónde están?
+
+Contar lugares por estado no dice mucho por sí solo: el Estado de México tiene más lugares que nadie, pero también más personas mayores que nadie. Para comparar, dividí entre la población de 60 años o más de cada estado según el Censo 2020 del INEGI.
+
+```{python}
+#| code-summary: "Ver el código de la gráfica por estado"
+#| fig-height: 9
+e = estados.sort_values("SALUD_POR_1000")
+resaltar = e.EST.isin(["Estado de México", "Ciudad de México"])
+fig = go.Figure(go.Bar(
+    y=e.EST, x=e.SALUD_POR_1000, orientation="h",
+    marker=dict(color=[GOLD if r else TEAL for r in resaltar],
+                line=dict(color="white", width=2)),
+    customdata=e[["TOTAL_SALUD", "POB_60_MAS", "PERSONAS_POR_LUGAR"]],
+    hovertemplate=("<b>%{y}</b><br>%{x:.2f} lugares por cada 1,000 personas de 60+<br>"
+                   "%{customdata[0]:,} lugares · %{customdata[1]:,} personas de 60+<br>"
+                   "1 lugar por cada %{customdata[2]:,.0f} personas<extra></extra>")))
+nacional = total / pob * 1000
+fig.add_vline(x=nacional, line=dict(color=GRIS, dash="dash", width=1.5))
+fig.add_annotation(x=nacional, y=1.01, yref="paper", text=f"Nacional: {nacional:.2f}",
+                   showarrow=False, xanchor="left", xshift=4, font=dict(color=GRIS))
+fig.update_layout(template="plotly_white", height=760, showlegend=False,
+                  xaxis_title="Lugares de salud por cada 1,000 personas de 60 años o más",
+                  yaxis_title=None, margin=dict(l=10, r=20, t=30, b=40))
+fig.show()
+```
+
+En todo el país hay un lugar de salud con descuento por cada 3,300 personas de 60 años o más. Entre estados la diferencia es grande: en Campeche hay uno por cada 930 personas y en Baja California uno por cada 8,250, casi 9 veces menos. En dorado están el Estado de México y la Ciudad de México, donde vive más de 1 de cada 5 personas mayores del país. Ahí hay un lugar por cada 3,450 personas, cerca del promedio nacional.
+
+Hay otra cosa que no se ve en la gráfica: 1 de cada 5 lugares de salud no tiene teléfono en el directorio. En las farmacias le falta al 34%. Si la recomendación es "llama antes de ir", un teléfono que falta es un lugar que no puedes usar.
+
+## Lo que estos datos no dicen
+
+- **Mide el directorio, no los servicios que existen.** Que Baja California salga baja puede significar que hay pocos convenios, o que pocos negocios se registraron en el INAPAM. Con estos datos no puedo distinguir una cosa de la otra.
+- **Tampoco dice si la gente lo usa.** No hay datos de cuántas personas usan su credencial ni dónde.
+- **Cada sucursal cuenta como un lugar.** Un estado con muchas sucursales de una cadena de ópticas sube, aunque eso no ayude a quien busca un psicólogo.
+- **Los años no coinciden.** La población es de 2020 y el directorio de 2026. Hoy hay más personas mayores, así que los lugares por persona son un poco menos de lo que muestra la gráfica.
+- **La clasificación es automática.** Revisé muestras de cada tipo, pero con 4,536 nombres seguro hay errores.
+
+## Qué sigue
+
+Me gusta pensar que todos podemos hacer algo bueno en el mundo, desde nuestra trinchera, como diría mi papá. Este es mi intento de usar lo que sé hacer para darle más visibilidad a los beneficios que pueden aprovechar todos los papás, tíos y abuelos que no tienen a alguien que les facilite el acceso. Ojalá ayude aunque sea un poquito.
+
+También quiero seguir investigando y analizando datos públicos, del INEGI, del Banco de México y de lo que esté disponible. Estos beneficios existen y muchos son buenos. En la Ciudad de México, las personas de 60 años o más viajan gratis en el Metro, el Cablebús, la RTP, el Trolebús y el Tren Ligero, y en el Metrobús a partir de los 70. En el Estado de México, el Mexibús y el Mexicable son gratis desde los 60. Con la credencial se entra gratis a los museos y zonas arqueológicas del INAH. Y el directorio incluye un 15% en Aeroméxico, que a quienes tenemos a la familia lejos nos importa mucho.
+
+Aun así, los números se pueden contar de formas que engañan. Decir que hay casi 10 mil lugares con descuento suena a mucho, pero 1 de cada 4 es la sucursal de alguna cadena, cada una en su propia línea, y en las ópticas son 7 de cada 10. Otras veces el descuento existe pero no queda claro cómo usarlo. El de Smart Fit, por ejemplo, solo aplica a usuarios nuevos o a quienes cancelaron hace más de 120 días. Hasta Aeroméxico aparece en el directorio como "AEREOMÉXICO".
+
+Esa capa no la puedo quitar desde mi trinchera. Pero espero que, con la información que ya existe ordenada en un solo lugar, sea más fácil para nuestros seres queridos llamar, preguntar y acercarse a lo que necesitan, para cuidar su salud y también para divertirse, ¿por qué no?
+
+Si encuentras un lugar que ya no da descuento, un error en el buscador o tienes alguna idea, escríbeme a [pao.arguello.pascualli@gmail.com](mailto:pao.arguello.pascualli@gmail.com).
+## Fuentes
+
+- Directorio de Beneficios con Credencial INAPAM, octubre de 2026: [gob.mx/inapam](https://www.gob.mx/inapam).
+- Población de 60 años o más por entidad y grupo de edad: INEGI, [Censo de Población y Vivienda 2020](https://www.inegi.org.mx/programas/ccpv/2020/).
+- Entrada gratuita a museos y zonas arqueológicas con credencial INAPAM: INAH, [Boletín 6, enero de 2025](https://inah.gob.mx/images/boletines/2025/6/Boletin%206.pdf).
+- Metro gratis desde los 60 (artículo 167 de la Ley de Movilidad de la Ciudad de México) y Metrobús desde los 70: [N+](https://www.nmas.com.mx/ciudad-de-mexico/cdmx-quienes-no-pagan-metro-y-metrobus/).
+- Cablebús, RTP, Trolebús y Tren Ligero desde los 60: [ADN40, agosto de 2026](https://www.adn40.mx/mexico/2026-08-27/metrobus-cdmx-gratis-en-septiembre-2026-el-grupo-de-adultos-mayores-con-o-sin-credencial-inapam-que-puede-aplicar-al-beneficio-y-requisitos/).
+- Mexibús y Mexicable gratis desde los 60, desde el 1 de julio de 2024: [Chilango](https://www.chilango.com/noticias/transporte/quienes-pueden-entrar-gratis-en-el-mexicable-y-mexibus-edomex-subsidia-183-mdp-en-viajes-gratuitos/) y [La Crónica, julio de 2026](https://www.cronica.com.mx/metropoli/2026/07/01/supera-65-millones-programa-de-viajes-gratuitos-en-transporte-mexiquense/).
+- Datos, código y tablas de este post: repo [inapam-descuentos](https://github.com/paola-arguello/inapam-descuentos). Las tablas que usa esta página están en la carpeta `data/` del [post en GitHub](https://github.com/paola-arguello/paola-arguello.github.io/tree/main/crosswalk/posts/inapam-salud).
